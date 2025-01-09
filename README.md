@@ -33,7 +33,7 @@ This proect is implemented for Pepper robot (Softbank Robotics) and uses Choreog
 Follow below steps to run the Pepper robot with context identification and presence modulation (speech & behaviour):
 1. Complete installation
 2. Connect to physical Pepper in Choreographe
-3. Open "pepper_presence_modulation.py"
+3. Open "presence_modulation.py"
 4. Add ip address and port for physical Pepper
 5. Include relevant paths for CNN model (model.h5), NB model (NB_model.joblib).
 6. Add whisper API key
