@@ -20,66 +20,126 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import numpy as np
+#import numpy as np
 import random
+from presence_modulation import listen_and_process 
+import json
 
 # Initialize Q-table
 states = ["Social", "Alarmed"]
+gaze = ["Gaze", "No Gaze"]
 actions = {
     "Social": ["GestureA", "GestureB", "GestureC"],
     "Alarmed": ["ActionA", "ActionB", "ActionC"]
-}
+} # GestureA -> More social, GestureB -> Neutral, GestureC -> Silent //// ActionA -> More alarmed, ActionB -> Neutral, ActionC -> Silent
 q_table = {state: {action: 0 for action in actions[state]} for state in states}
 
-# Hyperparameters
 alpha = 0.1  # Learning rate
-gamma = 0.9  # Discount factor
-epsilon = 0.1  # Exploration rate
+gamma = 0.9  # Discount 
+epsilon = 0.1  # Exploration 
+episodes = 1000 # No of episodes
 
-# Mock reward function
-def mock_reward(state, action):
-    if state == "Social":
+# Reward function #Add the Gaze function here
+def reward(state, gaze, action):
+    if state == "Social" and gaze == "No Gaze":
         if action == "GestureA": return 1
         elif action == "GestureB": return 0
         else: return -1
-    elif state == "Alarmed":
+    elif state == "Alarmed" and gaze == "Gaze":
         if action == "ActionA": return 1
         elif action == "ActionB": return 0
         else: return -1
 
-# Simulate one Q-learning episode
-for episode in range(100):
-    state = random.choice(states)  # Get current state from context module
-    if state not in states:
-        continue  # Ignore other states
+# Training q-learning
+def train_q_learning():
+    global q_table
+    
+    for episode in range(episodes):
+        
+        state = random.choice(states)
 
-    # Select action (epsilon-greedy)
-    if random.uniform(0, 1) < epsilon:
-        action = random.choice(actions[state])  # Explore
-    else:
-        action = max(q_table[state], key=q_table[state].get)  # Exploit
+        # Select action (epsilon-greedy)
+        if random.uniform(0, 1) < epsilon:
+            action = random.choice(actions[state])  # Explore
+        else:
+            action = max(q_table[state], key=q_table[state].get)  # Exploit
 
-    # Get mock reward
-    reward = mock_reward(state, action)
+        # Get reward
+        reward = reward(state, action)
 
-    # Update Q-value
-    max_future_q = max(q_table[state].values())
-    q_table[state][action] = q_table[state][action] + alpha * (reward + gamma * max_future_q - q_table[state][action])
+        # Update Q-value
+        max_future_q = max(q_table[state].values())
+        q_table[state][action] = q_table[state][action] + alpha * (reward + gamma * max_future_q - q_table[state][action])
 
-    # Print Q-table after updates
-    print(f"Episode {episode+1} Q-table:")
-    print(q_table)
+        # Print Q-table after updates
+        print(f"Episode {episode+1} Q-table:")
+        print(q_table)
+    
+    # Save the trained Q-table
+    save_q_table()
 
-# Speech generation (mock integration)
+# Save Q-table
+def save_q_table(filename="q_table.json"):
+    with open(filename, "w") as f:
+        json.dump(q_table, f)
+    print("Q-table saved to", filename)
+
+# Load Q-table
+def load_q_table(filename="q_table.json"):
+    global q_table
+    try:
+        with open(filename, "r") as f:
+            q_table = json.load(f)
+        print("Q-table loaded from", filename)
+    except FileNotFoundError:
+        print("No saved Q-table found. Starting fresh.")
+        
+# Speech generation (integration)
 def generate_speech(state):
     if state == "Social":
         return "Generate a more engaging social response."
     elif state == "Alarmed":
         return "Generate a more authoritative and urgent evacuation message."
 
-# Action and speech integration
-current_state = "Social"  # Example
-best_action = max(q_table[current_state], key=q_table[current_state].get)
-speech = generate_speech(current_state)
-print(f"Best action for {current_state}: {best_action}")
-print(f"Generated speech: {speech}")
+# Real-time Q-learning integration
+def q_learning_pipeline(final_label):
+    if final_label not in states:
+        print(f"State '{final_label}' ignored (not part of learning states).")
+        return
+
+    # Select action (epsilon-greedy)
+    if random.uniform(0, 1) < epsilon:
+        action = random.choice(actions[final_label])  # Explore
+    else:
+        action = max(q_table[final_label], key=q_table[final_label].get)  # Exploit
+
+    # Reward for real-time demonstration
+    reward = reward(final_label, action)
+
+    # Simulate transition to next state (mock, replace with real logic)
+    next_state = random.choice(states)
+
+    # Update Q-value
+    max_future_q = max(q_table[next_state].values())
+    q_table[final_label][action] = q_table[final_label][action] + alpha * (reward + gamma * max_future_q - q_table[final_label][action])
+
+    # Perform the chosen action (mock, replace with actual Pepper behavior)
+    print(f"Performing action '{action}' for state '{final_label}'.")
+
+    # Save updated Q-table 
+    save_q_table()
+
+# Run real-time integration
+def run_real_time_q_learning():
+    load_q_table()  # Load existing Q-table 
+    while True:
+
+        _, final_label = listen_and_process()  
+
+        # Use Q-learning pipeline
+        q_learning_pipeline(final_label)
+
+        # exit condition
+        user_input = input("Press 'q' to quit or any other key to continue: ").lower()
+        if user_input == 'q':
+            break
