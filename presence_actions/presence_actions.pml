@@ -7,6 +7,12 @@
         <BehaviorDescription name="behavior" src="Passive" xar="behavior.xar" />
         <BehaviorDescription name="behavior" src="Alert" xar="behavior.xar" />
         <BehaviorDescription name="behavior" src="Disengaged" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="GestureA" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="GestureB" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="GestureC" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="ActionA" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="ActionB" xar="behavior.xar" />
+        <BehaviorDescription name="behavior" src="ActionC" xar="behavior.xar" />
     </BehaviorDescriptions>
     <Dialogs />
     <Resources>
