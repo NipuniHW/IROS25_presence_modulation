@@ -253,11 +253,11 @@ def classify_context(ambient_confidence, keyword_confidence, sentiment_confidenc
     elif context_label == 'Disengaged' and 0 < prob < 0.79:
         final_label = 'Passive'
     elif context_label == 'Social' and 0.8 < prob < 1.1:
-        final_label = 'Social' #should be Social
+        final_label = 'Social' 
     elif context_label == 'Social' and 0 < prob < 0.79:
         final_label = 'Passive'
     elif context_label == 'Alarmed' and 0.8 < prob < 1.1:
-        final_label = 'Alarmed' #should be Alert
+        final_label = 'Alarmed' 
     elif context_label == 'Alarmed' and 0 < prob < 0.79:
         final_label = 'Alert'
 

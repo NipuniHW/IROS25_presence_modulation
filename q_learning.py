@@ -1,79 +1,124 @@
+import numpy as np
 import random
-import json
+from gaze import main
+import json 
+from pepper_modulation import movement
 
-states = ["Social", "Alarmed"]
-gaze_states = ["Gaze", "No Gaze"]
-actions = {
-    "Social": ["GestureA", "GestureB", "GestureC"],
-    "Alarmed": ["ActionA", "ActionB", "ActionC"]
-} 
-# GestureA -> More social, GestureB -> Neutral, GestureC -> Silent
-# ActionA -> More alarmed, ActionB -> Neutral, ActionC -> Silent
-q_table = {
-    (state, gaze): {action: 0 for action in actions[state]} 
-    for state in states 
-    for gaze in gaze_states
+# Import
+main()
+
+# Parameters
+contexts = ["Disengaged", "Social", "Alarmed"]
+expected_ranges = {
+    "Disengaged": (0, 30),
+    "Social": (31, 60),
+    "Alarmed": (61, 100)
 }
 
+behaviors = ["Lights", "Movements", "Volume"]
+behavior_levels = list(range(11))  # Levels from 0 to 10
 
-alpha = 0.1
-gamma = 0.9 
-epsilon = 0.1
-episodes = 10000 
+# Q-Table Initialization
+q_table = {}
+for context in contexts:
+    for light in behavior_levels:
+        for movement in behavior_levels:
+            for volume in behavior_levels:
+                state = (context, light, movement, volume)
+                q_table[state] = {action: 0 for action in behaviors}
 
-def reward(state, gaze, action):
-    if state == "Social" and gaze == "No Gaze":
-        return 1 if action == "GestureA" else 0 if action == "GestureB" else -1
-    elif state == "Social" and gaze == "Gaze":
-        return 1 if action == "GestureB" else 0 if action == "GestureA" else -1 
-    elif state == "Alarmed" and gaze == "Gaze":
-        return 1 if action == "ActionA" else 0 if action == "ActionB" else -1
-    elif state == "Alarmed" and gaze == "No Gaze":
-        return 1 if action == "ActionB" else 0 if action == "ActionA" else -1
+# Parameters for Q-learning
+alpha = 0.1  # Learning rate
+gamma = 0.9  # Discount factor
+epsilon = 0.9  # Initial exploration rate
+epsilon_decay = 0.99
+min_epsilon = 0.1
+
+def get_reward(context, gaze_score):
+    expected_min, expected_max = expected_ranges[context]
+    expected_center = (expected_min + expected_max) / 2
+    expected_range_width = expected_max - expected_min
+    reward = -((abs(gaze_score - expected_center) / (expected_range_width / 2)) ** 2)
+    return reward
+
+def select_action(state):
+    if random.uniform(0, 1) < epsilon:
+        return random.choice(behaviors)  # Explore
     else:
-        return -1
+        return max(q_table[state], key=q_table[state].get)  # Exploit
 
+def update_behavior(state, action, adjustment):
+    context, light, movement, volume = state
+    if action == "Lights":
+        light = max(0, min(10, light + adjustment))
+    elif action == "Movements":
+        movement = max(0, min(10, movement + adjustment))
+    elif action == "Volume":
+        volume = max(0, min(10, volume + adjustment))
+    return (context, light, movement, volume)
+
+def q_learning_episode(context, gaze_score, state):
+    global epsilon
+
+    action = select_action(state)
+    
+    expected_min, expected_max = expected_ranges[context]
+    
+    # Determine adjustment based on gaze score
+    if gaze_score > expected_max:
+        adjustment = -1  # Reduce behavior level
+    elif gaze_score < expected_min:
+        adjustment = 1  # Increase behavior level
+    else:
+        adjustment = 0  # Keep behavior level unchanged
+        
+    new_state = update_behavior(state, action, adjustment)
+
+#    new_gaze_score = simulate_gaze_feedback(new_state) 
+    reward = get_reward(context, gaze_score)
+
+    # Q-value update
+    max_future_q = max(q_table[new_state].values())
+    q_table[state][action] += alpha * (reward + gamma * max_future_q - q_table[state][action])
+
+    # Update epsilon
+    epsilon = max(min_epsilon, epsilon * epsilon_decay)
+
+    return new_state, gaze_score
+
+# Q-learning training function
 def train_q_learning():
     global q_table
 
-    for episode in range(episodes):
-        
-        state = random.choice(states)
-        gaze = random.choice(gaze_states)
+    # Training Loop
+    for episode in range(1000): 
+        context = random.choice(contexts)
+        gaze_score = gaze_score
+        state = (context, 5, 5, 5)  
 
-        if random.uniform(0, 1) < epsilon:
-            action = random.choice(actions[state])
-        else:
-            action = max(q_table[(state, gaze)], key=q_table[(state, gaze)].get)
+        for step in range(10):  # Limit steps per episode
+            state, gaze_score = q_learning_episode(context, gaze_score, state)
 
-        r = reward(state, gaze, action)
-
-        next_state = random.choice(states)
-        next_gaze = random.choice(gaze_states)
-
-        max_future_q = max(q_table[(next_state, next_gaze)].values())
-        q_table[(state, gaze)][action] += alpha * (r + gamma * max_future_q - q_table[(state, gaze)][action])
-
-        if (episode + 1) % 100 == 0:
-            print(f"Episode {episode + 1}/{episodes} completed.")
+    print("Q-Learning Training Complete.")
 
     save_q_table()
-
+    
+# Save Q-table
 def save_q_table(filename="q_table.json"):
+
     string_keyed_q_table = {str(key): value for key, value in q_table.items()}
     with open(filename, "w") as f:
         json.dump(string_keyed_q_table, f)
     print(f"Q-table saved to {filename}")
 
+# Load Q-table
 def load_q_table(filename="q_table.json"):
     global q_table
     try:
         with open(filename, "r") as f:
             string_keyed_q_table = json.load(f)
+
         q_table = {eval(key): value for key, value in string_keyed_q_table.items()}
         print(f"Q-table loaded from {filename}")
     except FileNotFoundError:
         print("No saved Q-table found. Starting fresh.")
-
-if __name__ == "__main__":
-    train_q_learning()

@@ -4,7 +4,7 @@ tf-keras==2.17.0
 tensorrt
 transformers==4.45.1
 librosa==0.10.2.post1
-openai==0.28
+openai==1.50.2
 python-dotenv
 qi==3.1.5
 pyaudio==0.2.14
