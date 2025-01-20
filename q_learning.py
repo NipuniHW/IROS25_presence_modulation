@@ -2,12 +2,11 @@ import numpy as np
 import random
 from gaze import main
 import json 
-from pepper_modulation import movement
+#from pepper_modulation import movement
 
 # Import
-main()
+#main()
 
-# Parameters
 contexts = ["Disengaged", "Social", "Alarmed"]
 expected_ranges = {
     "Disengaged": (0, 30),
@@ -16,9 +15,9 @@ expected_ranges = {
 }
 
 behaviors = ["Lights", "Movements", "Volume"]
-behavior_levels = list(range(11))  # Levels from 0 to 10
+behavior_levels = list(range(11)) 
 
-# Q-Table Initialization
+# Q-Table initialization
 q_table = {}
 for context in contexts:
     for light in behavior_levels:
@@ -28,9 +27,9 @@ for context in contexts:
                 q_table[state] = {action: 0 for action in behaviors}
 
 # Parameters for Q-learning
-alpha = 0.1  # Learning rate
-gamma = 0.9  # Discount factor
-epsilon = 0.9  # Initial exploration rate
+alpha = 0.1  
+gamma = 0.9  
+epsilon = 0.9  
 epsilon_decay = 0.99
 min_epsilon = 0.1
 
@@ -43,9 +42,9 @@ def get_reward(context, gaze_score):
 
 def select_action(state):
     if random.uniform(0, 1) < epsilon:
-        return random.choice(behaviors)  # Explore
+        return random.choice(behaviors)  
     else:
-        return max(q_table[state], key=q_table[state].get)  # Exploit
+        return max(q_table[state], key=q_table[state].get)  
 
 def update_behavior(state, action, adjustment):
     context, light, movement, volume = state
@@ -63,14 +62,13 @@ def q_learning_episode(context, gaze_score, state):
     action = select_action(state)
     
     expected_min, expected_max = expected_ranges[context]
-    
-    # Determine adjustment based on gaze score
+
     if gaze_score > expected_max:
-        adjustment = -1  # Reduce behavior level
+        adjustment = -1  # reduce
     elif gaze_score < expected_min:
-        adjustment = 1  # Increase behavior level
+        adjustment = 1  # increase 
     else:
-        adjustment = 0  # Keep behavior level unchanged
+        adjustment = 0  # same
         
     new_state = update_behavior(state, action, adjustment)
 
@@ -81,7 +79,6 @@ def q_learning_episode(context, gaze_score, state):
     max_future_q = max(q_table[new_state].values())
     q_table[state][action] += alpha * (reward + gamma * max_future_q - q_table[state][action])
 
-    # Update epsilon
     epsilon = max(min_epsilon, epsilon * epsilon_decay)
 
     return new_state, gaze_score
