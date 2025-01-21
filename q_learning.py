@@ -63,9 +63,9 @@ actions = [
 ]
 
 #behaviors = ["Lights", "Movements", "Volume"]
-behavior_levels = list(range(11))  # Levels from 0 to 10
+behavior_levels = list(range(11)) 
 
-# Q-Table Initialization
+# Q-Table initialization
 q_table = {}
 for context in contexts:
     for gaze in gaze_ranges:
@@ -75,7 +75,7 @@ for context in contexts:
                         state = (context, gaze, light, movement, volume)        # State space: (context, gaze_score, lights, movements, volume)
                         q_table[state] = {action: 0 for action in actions}
                     
-# Parameters for Q-learning
+# Parameters
 alpha = 0.1  # Learning rate
 gamma = 0.9  # Discount factor
 epsilon = 0.9  # Initial exploration rate
@@ -105,7 +105,6 @@ def generate_gpt_prompt(final_label, transcription):
     elif final_label == "Disengaged":
         messages = 'Use 0 words.'
       
-    # Call the OpenAI API to generate the appropriate response
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
@@ -113,8 +112,7 @@ def generate_gpt_prompt(final_label, transcription):
             {"role": "user", "content": transcription}
         ]
     )
-    
-    # Extract the GPT-generated response
+
     generated_prompt = response.choices[0].message.content
     print(f"GPT-generated prompt: {generated_prompt}")
     
@@ -161,14 +159,13 @@ def q_learning_episode(context, gaze_score, transcription, state):
     action = select_action(state)
     
     expected_min, expected_max = expected_ranges[context]
-    
-    # Determine adjustment based on gaze score
+   
     if gaze_score > expected_max:
-        adjustment = -1  # Reduce behavior level
+        adjustment = -1  # Reduce 
     elif gaze_score < expected_min:
-        adjustment = 1  # Increase behavior level
+        adjustment = 1  # Increase 
     else:
-        adjustment = 0  # Keep behavior level unchanged
+        adjustment = 0  # Keep the same
     
     prompt_text = generate_gpt_prompt(context, transcription)    
     new_state = update_behavior(state, action, adjustment, prompt_text)
@@ -176,11 +173,9 @@ def q_learning_episode(context, gaze_score, transcription, state):
 #    new_gaze_score = simulate_gaze_feedback(new_state) 
     reward = get_reward(context, gaze_score)
 
-    # Q-value update
     max_future_q = max(q_table[new_state].values())
     q_table[state][action] += alpha * (reward + gamma * max_future_q - q_table[state][action])
 
-    # Update epsilon
     epsilon = max(min_epsilon, epsilon * epsilon_decay)
 
     return new_state, gaze_score
@@ -192,7 +187,7 @@ def train_q_learning():
     
     # Training Loop
     print("Starting Q-learning training...")
-    main_generator = main()  # Initialize the generator from the main function
+    main_generator = main() 
 
     previous_state = None
     
@@ -201,15 +196,15 @@ def train_q_learning():
         gaze_score, context, transcription = next(main_generator)
         print(f"Received gaze score: {gaze_score}, Context: {context}, Trasncription : {transcription}")
 
-        # Initialize the state if it's the first episode
+        # Initialize the state 
         if previous_state is None:
-            state = (context, gaze_score, 5, 5, 5)  # Assuming initial behavior levels as 5 for light, movement, and volume
+            state = (context, gaze_score, 5, 5, 5)  
         else:
             state = previous_state
 
         print(f"State at learning: {state}")
         
-        for step in range(10):  # Limit steps per episode
+        for step in range(10): 
             try:
                 # Perform a Q-learning episode step
                 state = q_learning_episode(context, gaze_score, transcription, state)
@@ -219,7 +214,7 @@ def train_q_learning():
                 
             except Exception as e:
                 print(f"Error during Q-learning episode: {e}")
-                break  # Exit step loop safely if an error occurs
+                break  
 
         # Save progress every few episodes
         if episode % 10 == 0:
