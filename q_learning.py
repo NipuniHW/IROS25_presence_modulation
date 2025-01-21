@@ -10,7 +10,7 @@ import os
 
 # Connect Pepper robot
 pepper = Connection()
-session = pepper.connect('localhost', '33699')
+session = pepper.connect('localhost', '38965')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
@@ -32,7 +32,6 @@ expected_ranges = {
     "Alarmed": (61, 100)
 }
 
-# Action space
 actions = [
     ("Increase L", "Increase M", "Increase V"),
     ("Increase L", "Increase M", "Keep V"),
@@ -76,7 +75,7 @@ for context in contexts:
                         state = (context, gaze, light, movement, volume)        # State space: (context, gaze_score, lights, movements, volume)
                         q_table[state] = {action: 0 for action in actions}
                     
-# Parameters 
+# Parameters for Q-learning
 alpha = 0.1  # Learning rate
 gamma = 0.9  # Discount factor
 epsilon = 0.9  # Initial exploration rate
@@ -84,7 +83,6 @@ epsilon_decay = 0.99
 min_epsilon = 0.1
 num_episodes = 1000
 
-#Reward function
 def get_reward(context, gaze_score):
     expected_min, expected_max = expected_ranges[context]
     expected_center = (expected_min + expected_max) / 2
@@ -92,14 +90,13 @@ def get_reward(context, gaze_score):
     reward = -((abs(gaze_score - expected_center) / (expected_range_width / 2)) ** 2)
     return reward
 
-# Select how to perform the action
 def select_action(state):
     if random.uniform(0, 1) < epsilon:
-        return random.choice(actions)  
+        return random.choice(actions)  # Explore
     else:
-        return max(q_table[state], key=q_table[state].get)  
+        return max(q_table[state], key=q_table[state].get)  # Exploit
 
-# Prompt for Pepper
+# Function to generate the prompt for Pepper
 def generate_gpt_prompt(final_label, transcription):
     if final_label == "Alarmed":
         messages = 'You are Pepper, an interactive agent who will inform on an emegency situation. Generate a clear and firm response for an emergency scenario. Maintain authority while providing reassurance and instructions to help users act safely. You use short sentences. You use maximum of 2 sentences.'
@@ -107,7 +104,8 @@ def generate_gpt_prompt(final_label, transcription):
         messages = 'You are Pepper, an interactive friendly agent who is chatty and loves to engage in casual conversations. Do not say who you are except for the name. Do not say "as an AI". You use short sentences. You use maximum of 2 sentences. Keep it engaging but balanced, showing interest and attentiveness without being overbearing.'
     elif final_label == "Disengaged":
         messages = 'Use 0 words.'
-
+      
+    # Call the OpenAI API to generate the appropriate response
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
@@ -116,12 +114,12 @@ def generate_gpt_prompt(final_label, transcription):
         ]
     )
     
+    # Extract the GPT-generated response
     generated_prompt = response.choices[0].message.content
     print(f"GPT-generated prompt: {generated_prompt}")
     
     return generated_prompt
 
-# Update actions from action space
 def update_behavior(state, action, adjustment, prompt_text):
     context, gaze, light, movement, volume = state
     l_action, m_action, v_action = action
@@ -163,13 +161,14 @@ def q_learning_episode(context, gaze_score, transcription, state):
     action = select_action(state)
     
     expected_min, expected_max = expected_ranges[context]
-  
+    
+    # Determine adjustment based on gaze score
     if gaze_score > expected_max:
-        adjustment = -1  # Reduce 
+        adjustment = -1  # Reduce behavior level
     elif gaze_score < expected_min:
-        adjustment = 1  # Increase 
+        adjustment = 1  # Increase behavior level
     else:
-        adjustment = 0  # Keep the same
+        adjustment = 0  # Keep behavior level unchanged
     
     prompt_text = generate_gpt_prompt(context, transcription)    
     new_state = update_behavior(state, action, adjustment, prompt_text)
@@ -177,20 +176,23 @@ def q_learning_episode(context, gaze_score, transcription, state):
 #    new_gaze_score = simulate_gaze_feedback(new_state) 
     reward = get_reward(context, gaze_score)
 
+    # Q-value update
     max_future_q = max(q_table[new_state].values())
     q_table[state][action] += alpha * (reward + gamma * max_future_q - q_table[state][action])
 
+    # Update epsilon
     epsilon = max(min_epsilon, epsilon * epsilon_decay)
 
     return new_state, gaze_score
 
-# Training function   
+# Q-learning training function   
 def train_q_learning():
     global q_table
     load_q_table()
-
+    
+    # Training Loop
     print("Starting Q-learning training...")
-    main_generator = main()  
+    main_generator = main()  # Initialize the generator from the main function
 
     previous_state = None
     
@@ -199,21 +201,27 @@ def train_q_learning():
         gaze_score, context, transcription = next(main_generator)
         print(f"Received gaze score: {gaze_score}, Context: {context}, Trasncription : {transcription}")
 
-        state = previous_state
+        # Initialize the state if it's the first episode
+        if previous_state is None:
+            state = (context, gaze_score, 5, 5, 5)  # Assuming initial behavior levels as 5 for light, movement, and volume
+        else:
+            state = previous_state
 
         print(f"State at learning: {state}")
         
-        for step in range(10):  
+        for step in range(10):  # Limit steps per episode
             try:
-
+                # Perform a Q-learning episode step
                 state = q_learning_episode(context, gaze_score, transcription, state)
+                
+                # Update the previous state
                 previous_state = state
                 
             except Exception as e:
                 print(f"Error during Q-learning episode: {e}")
-                break 
+                break  # Exit step loop safely if an error occurs
 
-        # Save progress 
+        # Save progress every few episodes
         if episode % 10 == 0:
             print(f"Saving Q-table at episode {episode}")
             save_q_table() 
@@ -242,3 +250,6 @@ def load_q_table(filename="q_table.json"):
         print(f"Q-table loaded from {filename}")
     except FileNotFoundError:
         print("No saved Q-table found. Starting fresh.")
+        
+if __name__ == "__main__":
+    train_q_learning()
