@@ -7,10 +7,13 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import qi
 import os
+import time
+import pickle
+import pandas as pd
 
 # Connect Pepper robot
 pepper = Connection()
-session = pepper.connect('localhost', '33699')
+session = pepper.connect('localhost', '36123')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
@@ -30,23 +33,25 @@ expected_ranges = {
     "Social": (31, 60),
     "Alarmed": (61, 100)
 }
-
+gaze_bins = list(range(1, 11))
 behaviors = ["Lights", "Movements", "Volume"]
-behavior_levels = list(range(11))  # Levels from 0 to 10
+behavior_levels = list(range(11)) 
+num_bins = 10
+ep_num = 1000
 
-# Q-Table Initialization
+# Q-Table initialization
 q_table = {}
-for context in contexts:
-    for light in behavior_levels:
-        for movement in behavior_levels:
-            for volume in behavior_levels:
-                state = (context, light, movement, volume)
-                q_table[state] = {action: 0 for action in behaviors}
 
-# Parameters for Q-learning
-alpha = 0.1  # Learning rate
-gamma = 0.9  # Discount factor
-epsilon = 0.9  # Initial exploration rate
+for context in contexts:
+    for gaze_bin in gaze_bins:
+        q_table[(context, gaze_bin)] = {
+            (l, m, v): 0 for l in behavior_levels for m in behavior_levels for v in behavior_levels
+        }
+                    
+# Parameters
+alpha = 0.1  
+gamma = 0.9  
+epsilon = 0.9  
 epsilon_decay = 0.99
 min_epsilon = 0.1
 
@@ -54,14 +59,37 @@ def get_reward(context, gaze_score):
     expected_min, expected_max = expected_ranges[context]
     expected_center = (expected_min + expected_max) / 2
     expected_range_width = expected_max - expected_min
-    reward = -((abs(gaze_score - expected_center) / (expected_range_width / 2)) ** 2)
+    reward = 1 - (abs(gaze_score - expected_center) / (expected_range_width / 2)) ** 2
+
     return reward
 
 def select_action(state):
+    context, gaze_bin, light, movement, volume = state
+    best_action = None
+    max_q_value = float('-inf')
+
     if random.uniform(0, 1) < epsilon:
-        return random.choice(behaviors)  # Explore
+        # Exploration
+        best_action = (
+            random.choice(behavior_levels),
+            random.choice(behavior_levels), 
+            random.choice(behavior_levels),
+        )
     else:
-        return max(q_table[state], key=q_table[state].get)  # Exploit
+        # Exploitation
+        for l in behavior_levels:
+            for m in behavior_levels:
+                for v in behavior_levels:
+                    possible_state = (context, gaze_bin, l, m, v)
+                    q_value = q_table[(context, gaze_bin)].get((l, m, v), 0) 
+                    print(f"q_value: {q_value}, max_q_value: {max_q_value}")
+                    if isinstance(q_value, dict):
+                        raise ValueError(f"q_table.get returned a dict! Possible state: {possible_state}")
+                    if q_value > max_q_value:
+                        max_q_value = q_value
+                        best_action = (l, m, v)
+    
+    return best_action
 
 # Function to generate the prompt for Pepper
 def generate_gpt_prompt(final_label, transcription):
@@ -87,94 +115,178 @@ def generate_gpt_prompt(final_label, transcription):
     
     return generated_prompt
 
-def update_behavior(state, action, adjustment, prompt_text):
-    context, light, movement, volume = state
-    if action == "Lights":
-        light = max(0, min(10, light + adjustment))
-        light_n = light/10
-        leds.setIntensity("Face/Led/Blue/Left/225Deg/Actuator/Value", light_n)
-        leds.setIntensity("Face/Led/Blue/Left/270Deg/Actuator/Value", light_n)            
-        leds.setIntensity("Face/Led/Green/Left/225Deg/Actuator/Value", light_n)
-        leds.setIntensity("Face/Led/Green/Left/270Deg/Actuator/Value", light_n)
-        leds.setIntensity("Face/Led/Red/Left/270Deg/Actuator/Value", light_n)
-    elif action == "Movements":
-        movement = max(0, min(10, movement + adjustment))
-        behavior_mng_service.stopAllBehaviors()
-        behavior_mng_service.startBehavior("modulated_actions/" + movement) 
-    elif action == "Volume":
-        volume = max(0, min(10, volume + adjustment))
-        volume_n = volume/10
-        tts.setVolume(volume_n)
-        tts.say(prompt_text)
-    return (context, light, movement, volume)
-
-def q_learning_episode(context, gaze_score, state):
-    global epsilon
-
-    action = select_action(state)
+def update_behavior(state, action, prompt_text):
+    context, gaze_bin, light, movement, volume = state
+    UL, UM, UV = action
     
-    expected_min, expected_max = expected_ranges[context]
-    
-    # Determine adjustment based on gaze score
-    if gaze_score > expected_max:
-        adjustment = -1  # Reduce behavior level
-    elif gaze_score < expected_min:
-        adjustment = 1  # Increase behavior level
-    else:
-        adjustment = 0  # Keep behavior level unchanged
+    UL = int(UL)
+    UM = int(UM)
+    UV = int(UV)
         
-    new_state = update_behavior(state, action, adjustment)
+    light = max(0, min(10, UL))
+    if light == 0:
+        light_n = 0.1
+    else:
+        light_n = round(max(0, light/10), 1)
+    print(f"Light_n: {light, light_n}")
+    leds.setIntensity("Face/Led/Blue/Left/225Deg/Actuator/Value", light_n)
+    leds.setIntensity("Face/Led/Blue/Left/270Deg/Actuator/Value", light_n)            
+    leds.setIntensity("Face/Led/Green/Left/225Deg/Actuator/Value", light_n)
+    leds.setIntensity("Face/Led/Green/Left/270Deg/Actuator/Value", light_n)
+    leds.setIntensity("Face/Led/Red/Left/270Deg/Actuator/Value", light_n)
+    
+    movement = max(0, min(10, UM))
+    behavior_mng_service.stopAllBehaviors()
+    behavior_mng_service.startBehavior("modulated_actions/" + str(movement)) 
+    
+    volume = max(0, min(10, UV))
+    volume_n = round(max(0, volume/10), 1)
+    print(f"Volume_n: {volume, volume_n}")
+    tts.setVolume(volume_n)
+    tts.say(prompt_text)
+    
+    return (context, gaze_bin, light, movement, volume)
 
-#    new_gaze_score = simulate_gaze_feedback(new_state) 
+def q_learning_episode(context, gaze_score, transcription, state):
+    global epsilon
+    print(f"Current state at episode: {state}\n")
+    gaze_bin = assign_gaze_bin(gaze_score)
+
+    if (context, gaze_bin) not in q_table:
+        q_table[(context, gaze_bin)] = {}
+
+    if state not in q_table[(context, gaze_bin)]:
+        q_table[(context, gaze_bin)][state] = {
+            (l, m, v): 0 for l in behavior_levels for m in behavior_levels for v in behavior_levels
+        }        
+    action = select_action(state)
+    print(f"Action selected at episode: {action} \n")
+        
+    expected_min, expected_max = expected_ranges[context]
+    print(f"Expected min/ max: {expected_min}, {expected_max} \n")
+
     reward = get_reward(context, gaze_score)
+    
+    prompt_text = generate_gpt_prompt(context, transcription)    
+    new_state = update_behavior(state, action, prompt_text)
+    print(f"New state at episode: {new_state}\n")
+    
+    if (context, gaze_bin) not in q_table:
+        q_table[(context, gaze_bin)] = {}
 
-    # Q-value update
-    max_future_q = max(q_table[new_state].values())
-    q_table[state][action] += alpha * (reward + gamma * max_future_q - q_table[state][action])
+    if new_state not in q_table[(context, gaze_bin)]:
+        q_table[(context, gaze_bin)][new_state] = {
+            (l, m, v): 0 for l in behavior_levels for m in behavior_levels for v in behavior_levels
+        }   
 
-    # Update epsilon
+    max_future_q = max(q_table[(context, gaze_bin)].get(new_state, {}).values(), default=0)
+    current_q_value = q_table[(context, gaze_bin)].get(state, {}).get(action, 0)
+    q_table[(context, gaze_bin)][state][action] += alpha * (reward + gamma * max_future_q - current_q_value)
+
     epsilon = max(min_epsilon, epsilon * epsilon_decay)
 
-    return new_state, gaze_score
+    return new_state
 
-# Q-learning training function
+def assign_gaze_bin(gaze_score, num_bins=10):
+    if not 0 <= gaze_score <= 100:
+        raise ValueError("Gaze score must be between 0 and 100.")
+    bin_size = 100 / num_bins
+    gaze_bin = int(gaze_score // bin_size)
+    if gaze_bin == num_bins:
+        gaze_bin = num_bins - 1
+
+    return gaze_bin
+
 def train_q_learning():
     global q_table
-    load_q_table()
+    print("Starting Q-learning training...")    
+    main_generator = main()  
+    L, M, V = 2, 2, 2  # Initial behavior levels
+    previous_state = None
+    episode_data = []
     
-    # Training Loop
-    for episode in range(1000): 
-        gaze_score, context = main()
-        state = (context, 5, 5, 5)  
+    for episode in range(ep_num):
+        print(f"Episode {episode + 1}/1000")
+        try:
+            # Get the latest gaze score and context from the main generator
+            gaze_score, context = next(main_generator)
+            transcription = "Hi Pepper"
+            print(f"Received gaze score: {gaze_score}, Context: {context}, Transcription: {transcription}")
 
-        for step in range(10):  # Limit steps per episode
-            try:
-                state, gaze_score = q_learning_episode(context, gaze_score, state)
-            except Exception as e:
-                print(f"Error during Q-learning episode: {e}")
-                break  # Safely exit step loop if an error occurs
+            gaze_bin = assign_gaze_bin(gaze_score)
+            print(f"Assigned Gaze Bin: {gaze_bin}")
 
+            if previous_state is None:
+                state = (context, gaze_bin, L, M, V)
+            else:
+                c, g, prev_L, prev_M, prev_V = previous_state
+                state = (context, gaze_bin, prev_L, prev_M, prev_V)
+
+            print(f"State at learning: {state}")
+        
+            next_state = q_learning_episode(context, gaze_score, transcription, state)
+            
+            previous_state = next_state
+            cn, gb, L, M, V = next_state
+            print(f"Next state at learning: {next_state}")
+                
+            step_data = {
+                    "state": state,
+                    "action": (L, M, V),
+                    "reward": get_reward(context, gaze_score),  
+                    "next_state": next_state,
+                    "gaze_score": gaze_score,
+                    "gaze_bin": gaze_bin,
+                    "context": context,
+            }
+            episode_data.append(step_data)
+                
+            # Save Q-table at each episode
+            save_q_table_episode(q_table, episode)
+
+            # Save training data at each episode
+            save_training_data(step_data, episode)
+
+            # Periodically save Q-table
+            if (episode + 1) % 10 == 0:
+                save_q_table_full(q_table)
+
+        except Exception as e:
+            print(f"Error in episode {episode}: {e}")
+            break 
+
+    # Save final Q-table and training data after the loop
     print("Q-Learning Training Complete.")
-    save_q_table()
-    
-# Save Q-table
-def save_q_table(filename="q_table.json"):
+    save_q_table_full(q_table)
+    save_training_data(episode_data, ep_num)  # Save all data from the final episode
+
+def save_q_table_full(q_table, filename="q_table_full.pkl"):
     try:
-        string_keyed_q_table = {str(key): value for key, value in q_table.items()}
-        with open(filename, "w") as f:
-            json.dump(string_keyed_q_table, f, indent=4)
-        print(f"Q-table saved to {filename}")
+        with open(filename, 'wb') as f:
+            pickle.dump(q_table, f)
+        print(f"Full Q-table saved to {filename}.")
     except Exception as e:
-            print(f"Error saving Q-table: {e}")
+        print(f"Error saving full Q-table: {e}")
+        raise
 
-# Load Q-table
-def load_q_table(filename="q_table.json"):
-    global q_table
+def save_q_table_episode(q_table, episode, filename_template="q_table_episode_{episode}.pkl"):
     try:
-        with open(filename, "r") as f:
-            string_keyed_q_table = json.load(f)
+        filename = filename_template.format(episode=episode)
+        with open(filename, 'wb') as f:
+            pickle.dump(q_table, f)
+        print(f"Q-table for episode {episode} saved to {filename}.")
+    except Exception as e:
+        print(f"Error saving Q-table for episode {episode}: {e}")
+        raise
 
-        q_table = {eval(key): value for key, value in string_keyed_q_table.items()}
-        print(f"Q-table loaded from {filename}")
-    except FileNotFoundError:
-        print("No saved Q-table found. Starting fresh.")
+def save_training_data(training_data, episode):
+    try:
+        filename = f"training_data_episode_{episode}.pkl"  
+        with open(filename, 'wb') as f:
+            pickle.dump(training_data, f)
+        print(f"Training data for episode {episode} saved.")
+    except Exception as e:
+        print(f"Error saving training data for episode {episode}: {e}")
+      
+if __name__ == "__main__":
+    train_q_learning()
