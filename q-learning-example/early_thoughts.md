@@ -30,4 +30,35 @@ Possible state configurations discussed include:
 
 ## Proposed Reward Structure
 
-- Notes from my end incoming... still studying the reward function right now.
+- Reward Function broad description follows the following function
+```python
+contexts = ["Disengaged", "Social", "Alarmed"]
+expected_ranges = {
+    "Disengaged": (0, 30),
+    "Social": (31, 60),
+    "Alarmed": (61, 100)
+}
+
+def get_reward(context, gaze_score):
+    # will get the ranges for the desired context
+    expected_min, expected_max = expected_ranges[context]
+
+    # Gets the center of the range
+    expected_center = (expected_min + expected_max) / 2
+
+    # Gets the range of the current expect value
+    expected_range_width = expected_max - expected_min
+
+    # in this context, I lack the the understanding of gaze score and how it related to the expected center, in reading this value, I would expect to a gaze score to ideally be a value between 0 and 100, and where it matches to the 'expected centre, i.e. if it's 15 in disengaged, that's the ideal score, 45 for social etc.' I'll need elaboration here 
+    reward = 1 - (abs(gaze_score - expected_center) / (expected_range_width / 2)) ** 2
+
+    return reward
+```
+
+- The first thought that strikes me is that we can probably simplify the reward function, i.e. if the gaze score is not in the range, simply give -1, if its roughly in the gaze range but not ideal, give 4, and if its in the ideal range for the situation give 15.
+- I'll need to check this point in discussions.
+
+## Request to examine gaze.py and context_identification.py
+
+- Request to examine the way the gaze_score and context is correct or not.
+- So I took a look through the code, truthfully without visualisation or test cases it's hard to determine the cause, will discuss at next meeting.
