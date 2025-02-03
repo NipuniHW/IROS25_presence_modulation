@@ -30,7 +30,7 @@ import joblib
 import os
 
 # Load the dataset (data.csv)
-data = pd.read_csv(Add the dataset path)
+data = pd.read_csv(Add the dataset path)                    
 
 def NB(new_data):
     # Extract features and labels

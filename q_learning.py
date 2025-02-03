@@ -9,7 +9,6 @@ import qi
 import os
 import time
 import pickle
-import pandas as pd
 
 # Connect Pepper robot
 pepper = Connection()

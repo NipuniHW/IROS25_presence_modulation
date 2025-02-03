@@ -23,12 +23,12 @@ def low_gaze_reward(gaze, action_vector, gaze_threshold=[0.0, 30.0]):
         #  The action extimator says we'll keep the agent within the threshold
         if gaze_threshold[0] <= new_gaze <= gaze_threshold[1]:
             desired_gaze = sum(gaze_threshold) / 2
-            return 5+(desired_gaze - abs(desired_gaze - new_gaze))*5
+            return 5 + (desired_gaze - abs(desired_gaze - new_gaze))*5
             # return abs(distance_to_goal_state + action_sum_gaze_alter)
         else:
             return -1
     else:
-        return -abs(distance_to_goal_state + action_sum_gaze_alter)
+        return -abs(distance_to_goal_after_action)
     
 def high_gaze_reward(gaze, gaze_threshold):
     if gaze > gaze_threshold:
@@ -87,8 +87,8 @@ if __name__=="__main__":
 
      #test case 5
     gaze = 100
-    action_vector = [-1, -1, -1]
-    expected_reward = 5
+    action_vector = [1, 1, 1]
+    expected_reward = -100
     reward = low_gaze_reward(gaze, action_vector)
     result = reward == expected_reward
     assert reward == expected_reward, f"Test case {testnum} failed: {reward} != {expected_reward}"
