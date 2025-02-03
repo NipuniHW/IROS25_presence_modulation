@@ -1,3 +1,4 @@
+from mdp_formulation import GazeFormulationBaseClass, low_gaze_config, high_gaze_config, medium_gaze_config
 '''
 if 0 <= gaze_score <= 30:
         reward = 50
@@ -12,6 +13,7 @@ if 0 <= gaze_score <= 30:
 '''
 gaze will be 0.0 - 100.0, threshold will be 0.0 - 30.0
 '''
+
 def low_gaze_reward(gaze, action_vector, gaze_threshold=[0.0, 30.0]):
     distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
     action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
@@ -30,17 +32,41 @@ def low_gaze_reward(gaze, action_vector, gaze_threshold=[0.0, 30.0]):
     else:
         return -abs(distance_to_goal_after_action)
     
-def high_gaze_reward(gaze, gaze_threshold):
-    if gaze > gaze_threshold:
-        return 1
+def medium_gaze_reward(gaze, action_vector, gaze_threshold=[31.0, 60.0]):
+    distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
+    action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
+    distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)
+    new_gaze = gaze + distance_to_goal_after_action
+
+    #if currently within threshold before action
+    if gaze_threshold[0] <= gaze <= gaze_threshold[1]:
+        #  The action extimator says we'll keep the agent within the threshold
+        if gaze_threshold[0] <= new_gaze <= gaze_threshold[1]:
+            desired_gaze = sum(gaze_threshold) / 2
+            return 5 + (desired_gaze - abs(desired_gaze - new_gaze))*5
+            # return abs(distance_to_goal_state + action_sum_gaze_alter)
+        else:
+            return -1
     else:
-        return 0
+        return -abs(distance_to_goal_after_action)
     
-def medium_gaze_reward(gaze, gaze_threshold):
-    if gaze < gaze_threshold - 0.1 or gaze > gaze_threshold + 0.1:
-        return 1
+def high_gaze_reward(gaze, action_vector, gaze_threshold=[61.0, 100.0]):
+    distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
+    action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
+    distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)
+    new_gaze = gaze + distance_to_goal_after_action
+
+    #if currently within threshold before action
+    if gaze_threshold[0] <= gaze <= gaze_threshold[1]:
+        #  The action extimator says we'll keep the agent within the threshold
+        if gaze_threshold[0] <= new_gaze <= gaze_threshold[1]:
+            desired_gaze = sum(gaze_threshold) / 2
+            return 5 + (desired_gaze - abs(desired_gaze - new_gaze))*5
+            # return abs(distance_to_goal_state + action_sum_gaze_alter)
+        else:
+            return -1
     else:
-        return 0
+        return -abs(distance_to_goal_after_action)
     
 # write main function to test the rewards
 if __name__=="__main__":

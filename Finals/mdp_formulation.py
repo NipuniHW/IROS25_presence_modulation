@@ -110,8 +110,6 @@ low_gaze_config = GazeFormulationBaseClass({
     'gaze_threshold': [0.0, 30.0]
 })
 
-#endregion
-
 medium_gaze_config = GazeFormulationBaseClass({
     'learning_rate': 0.1,
     'discount_factor': 0.9,
@@ -139,3 +137,5 @@ high_gaze_config = GazeFormulationBaseClass({
     'states': states_gaze_score,
     'gaze_threshold': [61.0, 100.0]
 })
+
+#endregion
