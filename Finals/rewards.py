@@ -50,9 +50,9 @@ def low_gaze_reward(gaze, action_vector, gaze_threshold=[0, 3]):
     else:
         return -abs(distance_to_goal_after_action)
     
-def medium_gaze_reward(gaze, action_vector, gaze_threshold=[31.0, 60.0]):
+def medium_gaze_reward(gaze, action_vector, gaze_threshold=[4, 6]):
     distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
-    action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
+    action_sum_gaze_alter = sum(action_vector)*0.5 # = -3 - 3
     distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)
     new_gaze = gaze + distance_to_goal_after_action
 
@@ -61,14 +61,14 @@ def medium_gaze_reward(gaze, action_vector, gaze_threshold=[31.0, 60.0]):
         #  The action extimator says we'll keep the agent within the threshold
         if gaze_threshold[0] <= new_gaze <= gaze_threshold[1]:
             desired_gaze = sum(gaze_threshold) / 2
-            return 5 + (desired_gaze - abs(desired_gaze - new_gaze))*5
+            return 0.5 + (desired_gaze - abs(desired_gaze - new_gaze))*0.5
             # return abs(distance_to_goal_state + action_sum_gaze_alter)
         else:
             return -1
     else:
         return -abs(distance_to_goal_after_action)
     
-def high_gaze_reward(gaze, action_vector, gaze_threshold=[61.0, 100.0]):
+def high_gaze_reward(gaze, action_vector, gaze_threshold=[7, 10]):
     distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
     action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
     distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)

@@ -2,15 +2,16 @@ import numpy as np
 import time
 #from pepper_modulation import update_lights, update_volume, update_movements
 import pandas as pd
-from mdp_formulation import low_gaze_config
+from mdp_formulation import low_gaze_config, medium_gaze_config, high_gaze_config
 from gaze import main
 from connection import Connection
 import qi
 
 # Connect Pepper robot
 pepper = Connection()
-session = pepper.connect('pepper.local', '9559')
+# session = pepper.connect('pepper.local', '9559')
 # session = pepper.connect('127.0.0.1', '39603')
+session = pepper.connect('localhost', '35501')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
@@ -18,13 +19,20 @@ tts = session.service("ALTextToSpeech")
 leds = session.service("ALLeds")
     
 # Load the trained Q-table
-q_table = pd.read_csv("/home/nipuni/Documents/IROS25_presence_modulation/Finals/table111992.csv")
+q_table = pd.read_csv("/home/nipuni/Documents/IROS25_presence_modulation/Finals/table_high.csv")
 
 # Ensure the first column is treated as the state index
 # Ensure the index is treated as integers (in case they were read as strings)
 q_table.index = q_table.index.astype(int)
 q_table.set_index(q_table.columns[0], inplace=True)
 q_table.index.name = "State"  
+
+
+config = high_gaze_config
+
+# Define the state and action space
+state_space = config.states
+action_space = config.actions  
 
 # To update lights
 def update_lights(light):
@@ -51,12 +59,6 @@ def update_volume(volume):
 def update_movements(movement):
     behavior_mng_service.stopAllBehaviors()
     behavior_mng_service.startBehavior("attention_actions/" + str(movement)) 
-
-config = low_gaze_config
-
-# Define the state and action space
-state_space = config.states
-action_space = config.actions  
 
 def get_gaze_bin(gaze_score):
     if gaze_score < 0.0 or gaze_score > 100.0:
@@ -125,7 +127,7 @@ def update_behavior(action, light, movement, volume):
 # Main testing loop
 def test_q_learning():
     gaze_generator = main()   
-    light, movement, volume = 5, 5, 5  # Default values 
+    light, movement, volume = 0, 0, 0  # Default values 
         
     for _ in range(100):  # Test for 100 steps
         gaze_score = next(gaze_generator)

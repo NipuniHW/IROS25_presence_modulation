@@ -1,5 +1,5 @@
 import argparse
-from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config
+from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
 import pdb
 import random
 import json 
@@ -34,7 +34,7 @@ def save_q_table_to_csv(q_table, filename):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Q-Learning Configuration')
-    parser.add_argument('--config', type=str, choices=['low_gaze_config_with_L_M_V', 'low_gaze_config'], required=True, help='Choose the configuration')
+    parser.add_argument('--config', type=str, choices=['low_gaze_config_with_L_M_V', 'low_gaze_config', 'medium_gaze_config', 'high_gaze_config'], required=True, help='Choose the configuration')
     parser.add_argument('--csv', type=str, required=True, help='CSV file name to save the Q-table')
     args = parser.parse_args()
 
@@ -43,6 +43,10 @@ if __name__=="__main__":
         config = low_gaze_config_with_L_M_V
     elif args.config == 'low_gaze_config':
         config = low_gaze_config
+    elif args.config == 'medium_gaze_config':
+        config = medium_gaze_config
+    elif args.config == 'high_gaze_config':
+        config = high_gaze_config
 
     ## Training routine
     # Build the Q-Table

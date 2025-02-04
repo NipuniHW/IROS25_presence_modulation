@@ -144,32 +144,32 @@ low_gaze_config_with_L_M_V = GazeFormulationBaseClass({
     'gaze_threshold': [0, 3]
 })
 
-# medium_gaze_config = GazeFormulationBaseClass({
-#     'learning_rate': 0.1,
-#     'discount_factor': 0.9,
-#     'exploration_rate': 0.1,
-#     'episodes': 10000,
-#     'epsilon': 0.9,
-#     'epislon_decay': 0.99,
-#     'gamma': 0.9,
-#     'reward_function': medium_gaze_reward,
-#     'actions': actions_incremental,
-#     'states': states_gaze_score,
-#     'gaze_threshold': [31.0, 60.0]
-# })
+medium_gaze_config = GazeFormulationBaseClass({
+    'learning_rate': 0.1,
+    'discount_factor': 0.9,
+    'exploration_rate': 0.1,
+    'episodes': 10000,
+    'epsilon': 0.9,
+    'epislon_decay': 0.99,
+    'gamma': 0.9,
+    'reward_function': medium_gaze_reward,
+    'actions': actions_incremental,
+    'states': states_gaze_score,
+    'gaze_threshold': [4, 6]
+})
 
-# high_gaze_config = GazeFormulationBaseClass({
-#     'learning_rate': 0.1,
-#     'discount_factor': 0.9,
-#     'exploration_rate': 0.1,
-#     'episodes': 10000,
-#     'epsilon': 0.9,
-#     'epislon_decay': 0.99,
-#     'gamma': 0.9,
-#     'reward_function': high_gaze_reward,
-#     'actions': actions_incremental,
-#     'states': states_gaze_score,
-#     'gaze_threshold': [61.0, 100.0]
-# })
+high_gaze_config = GazeFormulationBaseClass({
+    'learning_rate': 0.1,
+    'discount_factor': 0.9,
+    'exploration_rate': 0.1,
+    'episodes': 10000,
+    'epsilon': 0.9,
+    'epislon_decay': 0.99,
+    'gamma': 0.9,
+    'reward_function': high_gaze_reward,
+    'actions': actions_incremental,
+    'states': states_gaze_score,
+    'gaze_threshold': [7, 10]
+})
 
 #endregion

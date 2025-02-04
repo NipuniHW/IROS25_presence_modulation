@@ -1,4 +1,4 @@
-from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V,low_gaze_config
+from mdp_formulation import GazeFormulationBaseClass, medium_gaze_config
 import pdb
 import random
 import json 
@@ -32,7 +32,7 @@ if __name__=="__main__":
     ## Training routine
     # Build the Q-Table
     ## TODO:: Generalise to arguments
-    config = low_gaze_config_with_L_M_V
+    config = medium_gaze_config
     q_table = {}
     for state_key in config.states.keys():
         q_table[state_key] = {}
@@ -52,4 +52,4 @@ if __name__=="__main__":
                 q_table[state_key][action_key] = q_value
     
     # Save the Q-table to a CSV file
-    save_q_table_to_csv(q_table, 'q_table.csv')
+    save_q_table_to_csv(q_table, 'q_table_medium.csv')
