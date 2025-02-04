@@ -399,26 +399,6 @@ def calculate_gaze_score(output_queue, metrics, interval_duration=3.0):
     gaze_score = min(max(raw_score * 100, 0), 100)
     output_queue.put(gaze_score)
 
-# def sync_context(output_queue):
-#     sr = 16000 
-#     while True:              
-#         # Step 1: Record and classify ambient sound
-#         ambient_class, ambient_conf, ambient_label = classify_real_time_audio(model, input_shape, sr=sr)
-
-#         # Step 2: Process speech-to-text and sentiment analysis
-#         speech_class, sentiment_conf, keyword_conf, speech_label, transcription_text = process_speech_to_text_and_sentiment()
-
-#         # Step 3: Combine results using Naive Bayes
-#         context_label, final_label = classify_context(ambient_conf, keyword_conf, sentiment_conf)
-
-#         # Display the results
-#         print(f"Ambient: {ambient_label} (Conf: {ambient_conf:.2f}), Speech: {speech_label} (Keyword Conf: {keyword_conf:.2f}) (Sentiment Conf: {sentiment_conf: .2f})")
-#         print(f"Final Context: {final_label}\n")
-        
-#         # Yield the final label every 3 seconds
-#         output_queue.put(final_label)
-#       #  output_queue2.put(transcription_text)
-
 def main():
     global gaze_score
     

@@ -1,9 +1,4 @@
 from connection import Connection
-import qi
-
-# Connect Pepper robot
-pepper = Connection()
-session = pepper.connect('localhost', '36383')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
@@ -34,4 +29,4 @@ def update_volume(volume):
 # To update movements
 def update_movements(movement):
     behavior_mng_service.stopAllBehaviors()
-    behavior_mng_service.startBehavior("modulated_actions/" + str(movement)) 
+    behavior_mng_service.startBehavior("attention_actions/" + str(movement)) 

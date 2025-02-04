@@ -1,4 +1,5 @@
-from rewards import low_gaze_reward, high_gaze_reward, medium_gaze_reward
+import pdb
+from rewards import low_gaze_reward, high_gaze_reward, medium_gaze_reward, low_gaze_reward_LVM
 
 #region mdp state and actions spaces
 
@@ -46,6 +47,18 @@ states_gaze_score = {
     "10": 10
 }
 
+def generate_states_gaze_score_with_L_M_V():
+    states_gaze_score_with_L_M_V = {}
+    for g in range(11):  # Assuming G can be 0 or 1
+        for l in range(11):  # Assuming L can be 0
+            for m in range(11):  # Assuming M can be 0
+                for v in range(11):  # Assuming V can be 0
+                    key = f"G{g}, L{l}, M{m}, V{v}"
+                    value = [g, l, m, v]
+                    states_gaze_score_with_L_M_V[key] = value
+    return states_gaze_score_with_L_M_V
+
+    
 #endregion
 
 #region Learning Configurations
@@ -62,6 +75,12 @@ class GazeFormulationBaseClass:
     def __init__(self, config_dict):
         for key, val in config_dict.items():
             self.__setattr__(key, val)
+            
+        if 'states_generator' not in config_dict:
+            self.states_generator = None
+        else:
+            self.states_generator = config_dict['states_generator']
+            self.states = self.states_generator()
 
     def copy(self, new_config_dict={}):
         """
@@ -110,7 +129,8 @@ low_gaze_config = GazeFormulationBaseClass({
     'gaze_threshold': [0.0, 30.0]
 })
 
-medium_gaze_config = GazeFormulationBaseClass({
+low_gaze_config_with_L_M_V = GazeFormulationBaseClass({
+    'states_generator': generate_states_gaze_score_with_L_M_V,
     'learning_rate': 0.1,
     'discount_factor': 0.9,
     'exploration_rate': 0.1,
@@ -118,24 +138,38 @@ medium_gaze_config = GazeFormulationBaseClass({
     'epsilon': 0.9,
     'epislon_decay': 0.99,
     'gamma': 0.9,
-    'reward_function': medium_gaze_reward,
+    'reward_function': low_gaze_reward_LVM,
     'actions': actions_incremental,
     'states': states_gaze_score,
-    'gaze_threshold': [31.0, 60.0]
+    'gaze_threshold': [0, 3]
 })
 
-high_gaze_config = GazeFormulationBaseClass({
-    'learning_rate': 0.1,
-    'discount_factor': 0.9,
-    'exploration_rate': 0.1,
-    'episodes': 10000,
-    'epsilon': 0.9,
-    'epislon_decay': 0.99,
-    'gamma': 0.9,
-    'reward_function': high_gaze_reward,
-    'actions': actions_incremental,
-    'states': states_gaze_score,
-    'gaze_threshold': [61.0, 100.0]
-})
+# medium_gaze_config = GazeFormulationBaseClass({
+#     'learning_rate': 0.1,
+#     'discount_factor': 0.9,
+#     'exploration_rate': 0.1,
+#     'episodes': 10000,
+#     'epsilon': 0.9,
+#     'epislon_decay': 0.99,
+#     'gamma': 0.9,
+#     'reward_function': medium_gaze_reward,
+#     'actions': actions_incremental,
+#     'states': states_gaze_score,
+#     'gaze_threshold': [31.0, 60.0]
+# })
+
+# high_gaze_config = GazeFormulationBaseClass({
+#     'learning_rate': 0.1,
+#     'discount_factor': 0.9,
+#     'exploration_rate': 0.1,
+#     'episodes': 10000,
+#     'epsilon': 0.9,
+#     'epislon_decay': 0.99,
+#     'gamma': 0.9,
+#     'reward_function': high_gaze_reward,
+#     'actions': actions_incremental,
+#     'states': states_gaze_score,
+#     'gaze_threshold': [61.0, 100.0]
+# })
 
 #endregion

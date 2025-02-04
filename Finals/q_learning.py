@@ -1,4 +1,4 @@
-from mdp_formulation import GazeFormulationBaseClass, low_gaze_config
+from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V
 import pdb
 import random
 import json 
@@ -79,7 +79,7 @@ def train_q_learning(q_table, states, actions, reward_function, episodes=1000, e
             reward = reward_function(states[current_state], actions[current_action])
 
             # Update Q-value
-            calculate_q_value(q_table, current_state, current_action, reward, next_state_key, low_gaze_config)
+            calculate_q_value(q_table, current_state, current_action, reward, next_state_key, low_gaze_config_with_L_M_V)
 
             # Track visits
             state_visits[current_state] += 1
@@ -88,12 +88,21 @@ def train_q_learning(q_table, states, actions, reward_function, episodes=1000, e
             current_state = next_state_key
 
     print("State Visit Counts:", state_visits)
-    
+
+# A function to print the highest q_table value for each state
+def print_highest_q_values(q_table):
+    for state_key, state in q_table.items():
+        highest_q_value = max(state.values())
+        #get key of highest q value
+        highest_q_value_key = max(state, key=state.get)
+        print(f"State: {state_key}, Highest Q-value Key: {highest_q_value_key}, Highest Q-value: {highest_q_value}")
+            
 if __name__=="__main__":
     ## Training routine
     # Build the Q-Table
     ## TODO:: Generalise to arguments
-    config = low_gaze_config
+    config = low_gaze_config_with_L_M_V
+    # pdb.set_trace()
     q_table = {}
     for state_key in config.states.keys():
         q_table[state_key] = {}
@@ -102,6 +111,9 @@ if __name__=="__main__":
     
     train_q_learning(q_table, config.states, config.actions, low_gaze_reward, config.episodes, config.epsilon)
 
+    print("Q-table after training:")
+    print_highest_q_values(q_table)
+    
     # Save the Q-table to a CSV file
     save_q_table_to_csv(q_table, 'q_table.csv')
     
