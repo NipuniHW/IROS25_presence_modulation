@@ -1,38 +1,26 @@
 import numpy as np
 import time
-#from pepper_modulation import update_lights, update_volume, update_movements
 import pandas as pd
-from mdp_formulation import low_gaze_config, medium_gaze_config, high_gaze_config
+import argparse
 from gaze import main
 from connection import Connection
 import qi
-
+ 
 # Connect Pepper robot
 pepper = Connection()
-# session = pepper.connect('pepper.local', '9559')
-# session = pepper.connect('127.0.0.1', '39603')
-session = pepper.connect('localhost', '35501')
+session = pepper.connect('localhost', '40051')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
 tts = session.service("ALTextToSpeech")
 leds = session.service("ALLeds")
-    
-# Load the trained Q-table
-q_table = pd.read_csv("/home/nipuni/Documents/IROS25_presence_modulation/Finals/table_high.csv")
 
-# Ensure the first column is treated as the state index
-# Ensure the index is treated as integers (in case they were read as strings)
-q_table.index = q_table.index.astype(int)
-q_table.set_index(q_table.columns[0], inplace=True)
-q_table.index.name = "State"  
-
-
-config = high_gaze_config
-
-# Define the state and action space
-state_space = config.states
-action_space = config.actions  
+def load_q_table(file_path):
+    q_table = pd.read_csv(file_path)
+    q_table.index = q_table.index.astype(int)
+    q_table.set_index(q_table.columns[0], inplace=True)
+    q_table.index.name = "State"
+    return q_table
 
 # To update lights
 def update_lights(light):
@@ -41,7 +29,6 @@ def update_lights(light):
     else:
         light_n = round(max(0, light/10), 1)
         
-    # print(f"Light_n: {light, light_n}")
     leds.setIntensity("Face/Led/Blue/Left/225Deg/Actuator/Value", light_n)
     leds.setIntensity("Face/Led/Blue/Left/270Deg/Actuator/Value", light_n)            
     leds.setIntensity("Face/Led/Green/Left/225Deg/Actuator/Value", light_n)
@@ -91,7 +78,6 @@ def choose_action(state, q_table):
     # Ensure the chosen action is split into a list of three components
     return chosen_action.split(", ")  # Split by ", " to separate the values
 
-
 def update_behavior(action, light, movement, volume):
     l_action, m_action, v_action = action
     
@@ -125,7 +111,8 @@ def update_behavior(action, light, movement, volume):
     return light, movement, volume
 
 # Main testing loop
-def test_q_learning():
+def test_q_learning(q_table_path):
+    q_table = load_q_table(q_table_path)
     gaze_generator = main()   
     light, movement, volume = 0, 0, 0  # Default values 
         
@@ -138,8 +125,12 @@ def test_q_learning():
         print(f"Chosen action: {action}")
         light, movement, volume = update_behavior(action, light, movement, volume)
 
-        time.sleep(0.1)
+        # time.sleep(0.1)
     print("Test completed")
 
 if __name__ == "__main__":
-    test_q_learning()
+    parser = argparse.ArgumentParser(description='Q-Learning Testing')
+    parser.add_argument('--q_table', type=str, required=True, help='Path to the Q-table CSV file')
+    args = parser.parse_args()
+
+    test_q_learning(args.q_table)

@@ -169,7 +169,7 @@ high_gaze_config = GazeFormulationBaseClass({
     'reward_function': high_gaze_reward,
     'actions': actions_incremental,
     'states': states_gaze_score,
-    'gaze_threshold': [7, 10]
+    'gaze_threshold': [5, 6]
 })
 
 #endregion

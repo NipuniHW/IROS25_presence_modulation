@@ -7,7 +7,7 @@ from collections import deque
 # from Others.context import classify_real_time_audio, process_speech_to_text_and_sentiment, classify_context
 import threading
 import queue
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 
 # Load the CNN model for ambient sound detection
 # model = load_model(r"/home/nipuni/Documents/Codes/q-learning/emergency_model.h5")
@@ -300,19 +300,27 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     
     # Calculate continuous gaze time for robot
     continuous_gaze_time = 0.0
-    start_time = None
-    for i, (timestamp, attention) in enumerate(filtered_window):
-        if attention:
-            if start_time is None:
-                start_time = timestamp
-            elif i == len(filtered_window) - 1 or not filtered_window[i + 1][1]:
-                # If attention ends or this is the last frame, calculate duration
-                duration = timestamp - start_time
-                if duration >= interval_duration:
-                    continuous_gaze_time += duration
-                start_time = None
-        else:
-            start_time = None  # Reset if attention breaks
+    continuous_gaze_time = sum(
+        timestamp - start_time
+        for start_time, timestamp in zip(
+            [t for t, a in filtered_window if a],
+            [t for t, a in filtered_window[1:] if a]
+        )
+    ) if filtered_window and filtered_window[0][1] else 0.0
+
+    # start_time = None
+    # for i, (timestamp, attention) in enumerate(filtered_window):
+    #     if attention:
+    #         if start_time is None:
+    #             start_time = timestamp
+    #         elif i == len(filtered_window) - 1 or not filtered_window[i + 1][1]:
+    #             # If attention ends or this is the last frame, calculate duration
+    #             duration = timestamp - start_time
+    #             if duration >= interval_duration:
+    #                 continuous_gaze_time += duration
+    #             start_time = None
+    #     else:
+    #         start_time = None  # Reset if attention breaks
 
     #print(f"Debug: continous gaze_time is {continuous_gaze_time}")  
     
@@ -400,7 +408,7 @@ def calculate_gaze_score(output_queue, metrics, interval_duration=3.0):
     output_queue.put(gaze_score)
 
 def main():
-    global gaze_score
+    # global gaze_score
     
     # First run calibration
     print("Starting calibration process...")
@@ -417,7 +425,6 @@ def main():
     
     # Create an output queue to store results from threads
     output_queue = queue.Queue()
-   # output_queue2 = queue.Queue()
     
     # Initialize attention window
     attention_window = []
@@ -444,28 +451,20 @@ def main():
         
         # Start threads
         gaze_thread_obj = threading.Thread(target=calculate_gaze_score, args=(output_queue, metrics, 3.0), daemon=True)
-    #    audio_context_thread_obj = threading.Thread(target=sync_context, args=(output_queue, ), daemon=True)
-    #   speech_thread_obj = threading.Thread(target=sync_context, args=(output_queue, output_queue2), daemon=True)
-        
         gaze_thread_obj.start()
-        # audio_context_thread_obj.start()
-    #   speech_thread_obj.start()
-        
-        # Timing mechanism for 3-second interval
-        last_time = time()
-        
-        # Calculate gaze score (only if 3 seconds have passed)
-        # if current_time - last_time >= 3:
-        #     calculate_gaze_score(output_queue, metrics, 3.0)
-        #     last_time = current_time
-        
-        # # Get gaze score and final label from the output queue
+        gaze_thread_obj.join()  # Wait for thread to finish before moving forward
+
+         # # Get gaze score from the output queue
         if not output_queue.empty():
             gaze_score = output_queue.get()
-        #     final_label = output_queue.get()
-        #    transcription = output_queue2.get()
-
-            yield gaze_score #, final_label#, transcription
+            # print(f"Gaze: {gaze_score}")
+            yield gaze_score
+            
+        # while not output_queue.empty():
+        #     output_queue.get()  # Remove all old values
+        
+        # gaze_score = output_queue.get()
+        # yield gaze_score
         
         # Display the frame
         if face_found:
@@ -492,8 +491,7 @@ def main():
     
     cap.release()
     cv2.destroyAllWindows()
-    print(f"Gaze: {gaze_score}, Context: {final_label}")#, Transcription: {transcription}")
-#    return gaze_score, final_label
+    # print(f"Gaze: {gaze_score}")
 
 if __name__ == "__main__":
     main()

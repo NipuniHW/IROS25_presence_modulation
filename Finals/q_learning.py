@@ -115,7 +115,7 @@ if __name__=="__main__":
     print_highest_q_values(q_table)
     
     # Save the Q-table to a CSV file
-    save_q_table_to_csv(q_table, 'q_table.csv')
+    save_q_table_to_csv(q_table, 'q_table_check.csv')
     
     # # run through the q-table
     # for episode in range(config.episodes):

@@ -68,7 +68,7 @@ def medium_gaze_reward(gaze, action_vector, gaze_threshold=[4, 6]):
     else:
         return -abs(distance_to_goal_after_action)
     
-def high_gaze_reward(gaze, action_vector, gaze_threshold=[7, 10]):
+def high_gaze_reward(gaze, action_vector, gaze_threshold=[5, 6]):
     distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
     action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
     distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)
