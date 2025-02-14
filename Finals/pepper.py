@@ -60,13 +60,3 @@ class Pepper:
         self.posture_service.goToPosture("StandInit", 1.0)
         
         self.behavior_mng_service = self.session.service("ALBehaviorManager")
-
-
-# Create a proxy to access Pepper's camera
-
-
-# Camera Settings
-
-
-
-            

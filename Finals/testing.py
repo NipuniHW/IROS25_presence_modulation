@@ -6,7 +6,8 @@ import time
 import pandas as pd
 import argparse
 from pepper import Pepper
-from gaze import main
+# from gaze import main
+from gaze_interface_controller import main
 from connection import Connection
 import qi
 import threading
@@ -177,7 +178,7 @@ if __name__ == "__main__":
     global LeRobot
     LeRobot = Pepper()
     try:
-        LeRobot.connect("localhost", 35393)
+        LeRobot.connect("pepper.local", 9559)
         if not LeRobot.is_connected:
             sys.exit(1)
             
