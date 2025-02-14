@@ -624,7 +624,7 @@ def update_behavior(action, light, movement, volume):
         light = max(0, light - 1)
         
     if m_action == "Increase M":
-        movement = min(10, movement + 1)
+        movement = min(5, movement + 1)
     elif m_action == "Decrease M":
         movement = max(0, movement - 1)
             
@@ -684,8 +684,8 @@ def update_volume(volume):
 # To update movements
 def update_movements(movement):
     global LeRobot
-    LeRobot.behavior_mng_service.stopAllBehaviors()
-    LeRobot.behavior_mng_service.startBehavior("attention_actions/" + str(movement)) 
+    # LeRobot.behavior_mng_service.stopAllBehaviors()
+    LeRobot.behavior_mng_service.startBehavior("attention_actions_2/" + str(movement)) 
  
 # To update lights
 def update_lights(light):

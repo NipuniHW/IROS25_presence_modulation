@@ -314,7 +314,7 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     
 def calibration_main():
     """Run the calibration process"""
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     detector = AttentionDetector()
     calibrator = AttentionCalibrator()
     attention = AttentionCalibrator(detector)
@@ -387,8 +387,6 @@ def calculate_gaze_score(output_queue, metrics, interval_duration=3.0):
     output_queue.put(gaze_score)
 
 def main():
-    # global gaze_score
-    
     # First run calibration
     print("Starting calibration process...")
     calibrator = calibration_main()
@@ -399,7 +397,7 @@ def main():
     
     # Initialize camera and detector with calibration
     print("\nStarting attention detection with calibrated values...")
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     # cap.set(cv2.CAP_PROP_FPS, 10)
     detector = CalibratedAttentionDetector(calibrator)
     
@@ -465,8 +463,6 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
-
-
     
 if __name__ == "__main__":
     main()
