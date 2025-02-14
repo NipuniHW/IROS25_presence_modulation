@@ -5,7 +5,6 @@ import json
 from connection import Connection
 from openai import OpenAI
 from dotenv import load_dotenv
-import qi
 import os
 import time
 import pickle

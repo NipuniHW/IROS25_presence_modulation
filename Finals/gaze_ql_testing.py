@@ -1,30 +1,21 @@
-import numpy as np
-import time
-import pandas as pd
-import argparse
-from mdp_formulation import low_gaze_config, medium_gaze_config, high_gaze_config
-from gaze import main
-from connection import Connection
-import qi
 import math
+import pdb
 import cv2
 import mediapipe as mp
 import numpy as np
 from time import time, sleep
 from collections import deque
-# from Others.context import classify_real_time_audio, process_speech_to_text_and_sentiment, classify_context
+# from connection import Connection
 import threading
 import queue
-from tensorflow.keras.models import load_model
-
-# Connect Pepper robot
-pepper = Connection()
-session = pepper.connect('localhost', '41923')
-
-# Create a proxy to the AL services
-behavior_mng_service = session.service("ALBehaviorManager")
-tts = session.service("ALTextToSpeech")
-leds = session.service("ALLeds")
+import pandas as pd
+import sys
+import os
+# import vision_definitions
+from mdp_formulation import low_gaze_config
+from pepper import Pepper
+import random
+# from testing import load_q_table, update_lights, update_movements, update_volume, set_all_leds, get_gaze_bin
 
 class AttentionDetector:
     def __init__(self, 
@@ -283,8 +274,7 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
             'frames_in_interval': 0,
             'robot_looks': 0,
             'non_robot_looks': 0
-        }
-        
+        }        
 
     # Get current time and filter window to only include last interval_duration seconds
     current_time = attention_window[-1][0]  # Latest timestamp
@@ -313,22 +303,14 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     
     # Calculate continuous gaze time for robot
     continuous_gaze_time = 0.0
-    start_time = None
-    for i, (timestamp, attention) in enumerate(filtered_window):
-        if attention:
-            if start_time is None:
-                start_time = timestamp
-            elif i == len(filtered_window) - 1 or not filtered_window[i + 1][1]:
-                # If attention ends or this is the last frame, calculate duration
-                duration = timestamp - start_time
-                if duration >= interval_duration:
-                    continuous_gaze_time += duration
-                start_time = None
-        else:
-            start_time = None  # Reset if attention breaks
+    continuous_gaze_time = sum(
+        timestamp - start_time
+        for start_time, timestamp in zip(
+            [t for t, a in filtered_window if a],
+            [t for t, a in filtered_window[1:] if a]
+        )
+    ) if filtered_window and filtered_window[0][1] else 0.0
 
-    #print(f"Debug: continous gaze_time is {continuous_gaze_time}")  
-    
     return {
         'gaze_time': continuous_gaze_time,
         'attention_ratio': attention_ratio,
@@ -339,8 +321,10 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     }
     
 def calibration_main():
+    global LeRobot
     """Run the calibration process"""
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FPS, 10)
     detector = AttentionDetector()
     calibrator = AttentionCalibrator()
     attention = AttentionCalibrator(detector)
@@ -348,11 +332,22 @@ def calibration_main():
     # Start calibration
     calibrator.start_calibration()
     
-    while cap.isOpened():
-        success, frame = cap.read()
-        if not success:
-            break
-            
+    # while cap.isOpened():
+    #     success, frame = cap.read()
+    #     if not success:
+    #         break
+    
+    execute_action(0, 11, 7)
+    
+    while True:
+        # Get the latest frame from Pepper’s camera
+        image_container = LeRobot.video_proxy.getImageRemote(LeRobot.subscriber_id)
+        if not image_container:
+            continue  # Skip if no image is received
+        
+        width, height = image_container[0], image_container[1]
+        frame = np.frombuffer(image_container[6], dtype=np.uint8).reshape((height, width, 3))
+        
         # Process frame using existing detector
         frame, attention, sustained, angles, face_found = detector.process_frame(frame)
         
@@ -412,30 +407,188 @@ def calculate_gaze_score(output_queue, metrics, interval_duration=3.0):
     gaze_score = min(max(raw_score * 100, 0), 100)
     output_queue.put(gaze_score)
 
-# To update lights
-def update_lights(light):
-    if light == 0:
-        light_n = 0.1
-    else:
-        light_n = round(max(0, light/10), 1)
-        
-    leds.setIntensity("Face/Led/Blue/Left/225Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Blue/Left/270Deg/Actuator/Value", light_n)            
-    leds.setIntensity("Face/Led/Green/Left/225Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Green/Left/270Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Red/Left/270Deg/Actuator/Value", light_n)
+def main():
+    # global gaze_score
+    global LeRobot
     
-# To update volume
-def update_volume(volume):    
-    volume_n = round(max(0, volume/10), 1)
-    print(f"Volume_n: {volume, volume_n}")
-    tts.setVolume(volume_n)
-    tts.say("Beep boop beep boop")
+    # Start by setting all behaviors to default values
+    execute_action(0, 11, 7)
+    
+    # First run calibration
+    print("Starting calibration process...")
+    calibrator = calibration_main()
+    
+    if not calibrator.is_calibrated:
+        print("Calibration failed or was interrupted.")
+        return
+    
+    # Initialize camera and detector with calibration
+    print("\nStarting attention detection with calibrated values...")
+    cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FPS, 10)
+    detector = CalibratedAttentionDetector(calibrator)
+    
+    # Create an output queue to store results from threads
+    output_queue = queue.Queue()
+    
+    # Initialize attention window
+    attention_window = []
+    
+    attention = AttentionDetector()
+    
+    while True:
+        # Get the latest frame from Pepper’s camera
+        image_container = LeRobot.video_proxy.getImageRemote(LeRobot.subscriber_id)
+        if not image_container:
+            continue  # Skip if no image is received
+        
+        width, height = image_container[0], image_container[1]
+        frame = np.frombuffer(image_container[6], dtype=np.uint8).reshape((height, width, 3))
+    
+        # Process frame
+        frame, attention, sustained, angles, face_found = detector.process_frame(frame)
+        
+        # Update attention window
+        current_time = time()
+        attention_window.append((current_time, attention))
+    
+        # Remove old entries from attention window (older than 3 seconds)
+        attention_window = [(t, a) for t, a in attention_window if t > current_time - 3]
+        
+        # Calculate metrics
+        metrics = calculate_attention_metrics(attention_window)
+        
+        # Start threads
+        gaze_thread_obj = threading.Thread(target=calculate_gaze_score, args=(output_queue, metrics, 3.0), daemon=True)
+        gaze_thread_obj.start()
+        gaze_thread_obj.join()  # Wait for thread to finish before moving forward
 
-# To update movements
-def update_movements(movement):
-    behavior_mng_service.stopAllBehaviors()
-    behavior_mng_service.startBehavior("attention_actions/" + str(movement)) 
+         # # Get gaze score from the output queue
+        if not output_queue.empty():
+            gaze_score = output_queue.get()
+            # print(f"Gaze: {gaze_score}")
+            yield gaze_score
+
+        # Display the frame
+        if face_found:
+            h, w, _ = frame.shape
+            # Add calibration values
+            cv2.putText(frame, f'Baseline Pitch: {calibrator.baseline_pitch:.1f}', 
+                      (20, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+            cv2.putText(frame, f'Baseline Yaw: {calibrator.baseline_yaw:.1f}', 
+                      (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+            
+            # Add metrics
+            cv2.putText(frame, f'Attention Ratio: {metrics["attention_ratio"]:.2f}', 
+                      (20, h - 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+            cv2.putText(frame, f'Gaze Entropy: {metrics["gaze_entropy"]:.2f}', 
+                      (20, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+            cv2.putText(frame, f'Frames in Window: {metrics["frames_in_interval"]}', 
+                      (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
+        
+        cv2.imshow('Calibrated HRI Attention Detection', frame)
+        
+        # Break loop on 'ESC'
+        if cv2.waitKey(5) & 0xFF == 27:
+            break
+        
+    # cap.release()
+    LeRobot.video_proxy.unsubscribe(LeRobot.subscriber_id)
+    cv2.destroyAllWindows()
+    # print(f"Gaze: {gaze_score}")
+
+def load_q_table(file_path):
+    q_table = pd.read_csv(file_path)
+    q_table.index = q_table.index.astype(int)
+    q_table.set_index(q_table.columns[0], inplace=True)
+    q_table.index.name = "State"
+    return q_table
+
+# Main testing loop
+def test_q_learning(q_table_path, duration_minutes=2):
+    q_table = load_q_table(q_table_path)
+    gaze_generator = main()   
+    light, movement, volume = 0, 0, 0  # Default values 
+
+    def process_q_learning(gaze_score):
+        state = get_gaze_bin(gaze_score)
+        print(f"Current state: {state}")
+        action = choose_action(state, q_table)
+        print(f"Chosen action: {action}")
+        nonlocal light, movement, volume
+        light, movement, volume = update_behavior(action, light, movement, volume)
+
+    start_time = time()
+    interval = 2  # Interval in seconds
+    end_time = start_time + duration_minutes * 60  # Calculate end time
+    gaze_score_average_vector = []
+    
+    while time() < end_time:
+        gaze_score = next(gaze_generator)
+        gaze_score_average_vector.append(gaze_score)
+        print("added the number ", gaze_score) 
+        
+        current_time = time()
+        
+        if current_time - start_time >= interval:
+            gaze_score_average = sum(gaze_score_average_vector) / len(gaze_score_average_vector)
+            process_q_learning(gaze_score_average)
+            gaze_score_average_vector = []
+            print("########average gaze score ", gaze_score_average)
+            print("########updated the behavior")
+            # process_q_learning(gaze_score)
+            start_time = current_time  # Reset the timer
+
+        # process_q_learning(gaze_score)
+        
+        # Delay the loop by 180ms
+        sleep(0.18)
+
+    print("Test completed")
+'''
+def test_q_learning(q_table_path, iterations=1000):
+    q_table = load_q_table(q_table_path)
+    gaze_generator = main()   
+    light, movement, volume = 0, 0, 0  # Default values 
+    frame_skip = 6  # Process every 6th frame
+    frame_count = 0
+
+    def process_q_learning(gaze_score):
+        state = get_gaze_bin(gaze_score)
+        print(f"Current state: {state}")
+        action = choose_action(state, q_table)
+        print(f"Chosen action: {action}")
+        nonlocal light, movement, volume
+        light, movement, volume = update_behavior(action, light, movement, volume)
+
+    start_time = time()
+    interval = 2  # Interval in seconds
+    
+    for _ in range(iterations):  # Test for 100 steps
+        gaze_score = next(gaze_generator)
+        
+        current_time = time()
+        
+        if current_time - start_time >= interval:
+            process_q_learning(gaze_score)
+            start_time = current_time  # Reset the timer
+
+        frame_count += 1
+        #print(f"Current gaze score: {gaze_score}")
+        
+        process_q_learning(gaze_score)
+        
+        # if frame_count % frame_skip == 0:
+            # process_q_learning(gaze_score)
+            # q_learning_thread = threading.Thread(target=process_q_learning, args=(gaze_score,))
+            # q_learning_thread.start()
+            # q_learning_thread.join()  # Wait for the thread to finish
+
+        frame_count += 1
+
+    print("Test completed")
+    '''
+
 
 def get_gaze_bin(gaze_score):
     if gaze_score < 0.0 or gaze_score > 100.0:
@@ -447,12 +600,6 @@ def get_gaze_bin(gaze_score):
         return int(4 + ((gaze_score - 31.0) / 29.0) * 2)  # Scale 31-60 to 4-6
     else:
         return int(7 + ((gaze_score - 61.0) / 39.0) * 3)  # Scale 61-100 to 7-10
-
-# Function to execute an action (this is an example, modify as needed)
-def execute_action(light, movement, volume):
-    update_lights(light)
-    update_movements(movement)
-    update_volume(volume) 
 
 # Function to choose an action based on the current state
 def choose_action(state, q_table):
@@ -500,113 +647,76 @@ def update_behavior(action, light, movement, volume):
     execute_action(light, movement, volume)
     return light, movement, volume
 
-def load_q_table(file_path):
-    q_table = pd.read_csv(file_path)
-    q_table.index = q_table.index.astype(int)
-    q_table.set_index(q_table.columns[0], inplace=True)
-    q_table.index.name = "State"
-    return q_table
-
-def test_q_learning(q_table_path):
-    # global gaze_score
+# Function to execute an action (this is an example, modify as needed)
+def execute_action(light, movement, volume):
+    update_lights(light)
+    update_movements(movement)
+    update_volume(volume)   
     
-    # First run calibration
-    print("Starting calibration process...")
-    calibrator = calibration_main()
+# To update volume
+def update_volume(volume):    
+    global LeRobot
+    volume_n = round(max(0, volume/10), 1)
+    # print(f"Volume_n: {volume, volume_n}")
+    LeRobot.tts.setVolume(volume_n)
     
-    if not calibrator.is_calibrated:
-        print("Calibration failed or was interrupted.")
-        return
+    # List of random greetings or catchphrases
+    greetings = [
+        "Hello there!",
+        "How's it going?",
+        "Nice to see you!",
+        "What's up?",
+        "Greetings!",
+        "Hey, how are you?",
+        "Good day!",
+        "Hi there!",
+        "Howdy!",
+        "Welcome!",
+        "beep boop beep",
+        "I am here!",
+        "Hello, human!",
+        "beep beep beep" # just for Damith
+    ]    
+    # Randomly pick a greeting
+    random_greeting = random.choice(greetings)
+    LeRobot.tts.say(random_greeting)
     
-    # Initialize camera and detector with calibration
-    print("\nStarting attention detection with calibrated values...")
-    cap = cv2.VideoCapture(0)
-    detector = CalibratedAttentionDetector(calibrator)
+# To update movements
+def update_movements(movement):
+    global LeRobot
+    LeRobot.behavior_mng_service.stopAllBehaviors()
+    LeRobot.behavior_mng_service.startBehavior("attention_actions/" + str(movement)) 
+ 
+# To update lights
+def update_lights(light):
+    global LeRobot
+    if light == 0:
+        light_n = 0.1
+    else:
+        light_n = round(max(0, light/10), 1)
+    set_all_leds(LeRobot.leds, light_n)    
     
-    # Create an output queue to store results from threads
-    output_queue = queue.Queue()
-    
-    # Initialize attention window
-    attention_window = []
-    
-    attention = AttentionDetector()
-    
-    q_table = load_q_table(q_table_path)
-    light, movement, volume = 0, 0, 0  # Default values 
-    
-    while cap.isOpened():
-        success, frame = cap.read()
-        if not success:
-            break
+def set_all_leds(leds, light_n):
+    for led in low_gaze_config.led_actuators:
+        leds.setIntensity(led, light_n)
         
-        # Process frame
-        frame, attention, sustained, angles, face_found = detector.process_frame(frame)
-        
-        # Update attention window
-        current_time = time()
-        attention_window.append((current_time, attention))
-
-        # Remove old entries from attention window (older than 3 seconds)
-        attention_window = [(t, a) for t, a in attention_window if t > current_time - 3]
-        
-        # Calculate metrics
-        metrics = calculate_attention_metrics(attention_window)
-        
-        # Start threads
-        gaze_thread_obj = threading.Thread(target=calculate_gaze_score, args=(output_queue, metrics, 3.0), daemon=True)
-        gaze_thread_obj.start()
-        gaze_thread_obj.join()  # Wait for thread to finish before moving forward
-        
-        while not output_queue.empty():
-            output_queue.get()  # Remove all old values
-        
-        gaze_score = output_queue.get()
-        yield gaze_score
-        
-        # Display the frame
-        if face_found:
-            h, w, _ = frame.shape
-            # Add calibration values
-            cv2.putText(frame, f'Baseline Pitch: {calibrator.baseline_pitch:.1f}', 
-                      (20, 110), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
-            cv2.putText(frame, f'Baseline Yaw: {calibrator.baseline_yaw:.1f}', 
-                      (20, 140), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
-            
-            # Add metrics
-            cv2.putText(frame, f'Attention Ratio: {metrics["attention_ratio"]:.2f}', 
-                      (20, h - 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
-            cv2.putText(frame, f'Gaze Entropy: {metrics["gaze_entropy"]:.2f}', 
-                      (20, h - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
-            cv2.putText(frame, f'Frames in Window: {metrics["frames_in_interval"]}', 
-                      (20, h - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 165, 0), 2)
-        
-        cv2.imshow('Calibrated HRI Attention Detection', frame)
-        
-        # Break loop on 'ESC'
-        if cv2.waitKey(5) & 0xFF == 27:
-            break
-        
-        # sleep(0.1)
-    
-    for _ in range(100):  # Test for 100 steps
-        print(f"Current gaze score: {gaze_score}")
-        state = get_gaze_bin(gaze_score)
-        print(f"Current state: {state}")
-        action = choose_action(state, q_table)
-        print(f"Chosen action: {action}")
-        light, movement, volume = update_behavior(action, light, movement, volume)
-
-        # time.sleep(0.1)
-        print("Test completed")
-        
-    cap.release()
-    cv2.destroyAllWindows()
-    print(f"Gaze: {gaze_score}")
-
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(description='Q-Learning Testing')
-    parser.add_argument('--q_table', type=str, required=True, help='Path to the Q-table CSV file')
-    args = parser.parse_args()
-
-    test_q_learning(args.q_table)
+    # parser = argparse.ArgumentParser(description='Q-Learning Testing')
+    # parser.add_argument('--q_table', type=str, required=True, help='Path to the Q-table CSV file')
+    # args = parser.parse_args()
+    global LeRobot
+    LeRobot = Pepper()
+    try:
+        LeRobot.connect("pepper.local", 9559)
+        if not LeRobot.is_connected:
+            sys.exit(1)
+            
+        # test_q_learning(args.q_table)
+        q_table = "/home/nipuni/Documents/IROS25_presence_modulation/Finals/table_high_ql.csv"
+        test_q_learning(q_table)
+        del LeRobot 
+    except KeyboardInterrupt:
+        print("Keyboard interrupt detected. Cleaning up...")
+        del LeRobot   
+        cv2.destroyAllWindows()
+        sys.exit(0)

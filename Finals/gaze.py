@@ -7,11 +7,6 @@ from collections import deque
 # from Others.context import classify_real_time_audio, process_speech_to_text_and_sentiment, classify_context
 import threading
 import queue
-# from tensorflow.keras.models import load_model
-
-# Load the CNN model for ambient sound detection
-# model = load_model(r"/home/nipuni/Documents/Codes/q-learning/emergency_model.h5")
-# input_shape = model.input_shape[1:] 
 
 class AttentionDetector:
     def __init__(self, 
@@ -308,22 +303,6 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
         )
     ) if filtered_window and filtered_window[0][1] else 0.0
 
-    # start_time = None
-    # for i, (timestamp, attention) in enumerate(filtered_window):
-    #     if attention:
-    #         if start_time is None:
-    #             start_time = timestamp
-    #         elif i == len(filtered_window) - 1 or not filtered_window[i + 1][1]:
-    #             # If attention ends or this is the last frame, calculate duration
-    #             duration = timestamp - start_time
-    #             if duration >= interval_duration:
-    #                 continuous_gaze_time += duration
-    #             start_time = None
-    #     else:
-    #         start_time = None  # Reset if attention breaks
-
-    #print(f"Debug: continous gaze_time is {continuous_gaze_time}")  
-    
     return {
         'gaze_time': continuous_gaze_time,
         'attention_ratio': attention_ratio,
@@ -421,6 +400,7 @@ def main():
     # Initialize camera and detector with calibration
     print("\nStarting attention detection with calibrated values...")
     cap = cv2.VideoCapture(0)
+    # cap.set(cv2.CAP_PROP_FPS, 10)
     detector = CalibratedAttentionDetector(calibrator)
     
     # Create an output queue to store results from threads
@@ -430,7 +410,7 @@ def main():
     attention_window = []
     
     attention = AttentionDetector()
-    
+
     while cap.isOpened():
         success, frame = cap.read()
         if not success:
@@ -442,7 +422,7 @@ def main():
         # Update attention window
         current_time = time()
         attention_window.append((current_time, attention))
-
+    
         # Remove old entries from attention window (older than 3 seconds)
         attention_window = [(t, a) for t, a in attention_window if t > current_time - 3]
         
@@ -459,13 +439,7 @@ def main():
             gaze_score = output_queue.get()
             # print(f"Gaze: {gaze_score}")
             yield gaze_score
-            
-        # while not output_queue.empty():
-        #     output_queue.get()  # Remove all old values
-        
-        # gaze_score = output_queue.get()
-        # yield gaze_score
-        
+
         # Display the frame
         if face_found:
             h, w, _ = frame.shape
@@ -488,10 +462,11 @@ def main():
         # Break loop on 'ESC'
         if cv2.waitKey(5) & 0xFF == 27:
             break
-    
+
     cap.release()
     cv2.destroyAllWindows()
-    # print(f"Gaze: {gaze_score}")
 
+
+    
 if __name__ == "__main__":
     main()

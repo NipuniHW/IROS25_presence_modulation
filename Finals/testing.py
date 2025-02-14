@@ -5,10 +5,13 @@ import argparse
 from gaze import main
 from connection import Connection
 import qi
+import threading
+from mdp_formulation import low_gaze_config
  
 # Connect Pepper robot
 pepper = Connection()
-session = pepper.connect('localhost', '40051')
+# session = pepper.connect('pepper.local', '9559')
+session = pepper.connect('localhost', '37605')
 
 # Create a proxy to the AL services
 behavior_mng_service = session.service("ALBehaviorManager")
@@ -28,12 +31,13 @@ def update_lights(light):
         light_n = 0.1
     else:
         light_n = round(max(0, light/10), 1)
-        
-    leds.setIntensity("Face/Led/Blue/Left/225Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Blue/Left/270Deg/Actuator/Value", light_n)            
-    leds.setIntensity("Face/Led/Green/Left/225Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Green/Left/270Deg/Actuator/Value", light_n)
-    leds.setIntensity("Face/Led/Red/Left/270Deg/Actuator/Value", light_n)
+    set_all_leds(leds, light_n)    
+    
+def set_all_leds(leds, light_n):
+    # led_actuators = low_gaze_config.led_actuators
+
+    for led in low_gaze_config.led_actuators:
+        leds.setIntensity(led, light_n)
     
 # To update volume
 def update_volume(volume):    
@@ -110,22 +114,51 @@ def update_behavior(action, light, movement, volume):
     execute_action(light, movement, volume)
     return light, movement, volume
 
+# # Main testing loop
+# def test_q_learning(q_table_path):
+#     q_table = load_q_table(q_table_path)
+#     gaze_generator = main()   
+#     light, movement, volume = 0, 0, 0  # Default values 
+        
+#     for _ in range(100):  # Test for 100 steps
+#         gaze_score = next(gaze_generator)
+#         print(f"Current gaze score: {gaze_score}")
+#         state = get_gaze_bin(gaze_score)
+#         print(f"Current state: {state}")
+#         action = choose_action(state, q_table)
+#         print(f"Chosen action: {action}")
+#         light, movement, volume = update_behavior(action, light, movement, volume)
+
+#         # time.sleep(0.1)
+#     print("Test completed")
+
 # Main testing loop
 def test_q_learning(q_table_path):
     q_table = load_q_table(q_table_path)
     gaze_generator = main()   
     light, movement, volume = 0, 0, 0  # Default values 
-        
-    for _ in range(100):  # Test for 100 steps
-        gaze_score = next(gaze_generator)
-        print(f"Current gaze score: {gaze_score}")
+    frame_skip = 6  # Process every 6th frame
+    frame_count = 0
+
+    def process_q_learning(gaze_score):
         state = get_gaze_bin(gaze_score)
         print(f"Current state: {state}")
         action = choose_action(state, q_table)
         print(f"Chosen action: {action}")
+        nonlocal light, movement, volume
         light, movement, volume = update_behavior(action, light, movement, volume)
 
-        # time.sleep(0.1)
+    for _ in range(1000):  # Test for 1000 steps
+        gaze_score = next(gaze_generator)
+        #print(f"Current gaze score: {gaze_score}")
+        
+        if frame_count % frame_skip == 0:
+            q_learning_thread = threading.Thread(target=process_q_learning, args=(gaze_score,))
+            q_learning_thread.start()
+            q_learning_thread.join()  # Wait for the thread to finish
+
+        frame_count += 1
+
     print("Test completed")
 
 if __name__ == "__main__":
