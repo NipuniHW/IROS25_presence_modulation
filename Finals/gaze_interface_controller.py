@@ -301,41 +301,19 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
             gaze_entropy -= p_non_robot * math.log2(p_non_robot)
     
     ### Cacluations for gaze score on pepper
+
+    # Compute gaze score using the new formula
+    # # High gc Low entrophy: gaze score high 
+    # # High gc High entropy: gaze score low
+    # # low gc high entrophy: gaze score low
+    # # low gc low entrophy: gaze score low
+
+    if gaze_entropy == 1.0 or (robot_looks > 30 and 1.0 > gaze_entropy > 0.7):
+        gaze_score = 100 * attention_ratio
+    else:
+        gaze_score = 100 * (attention_ratio * (1 - gaze_entropy))
     
-    # Calculate continuous gaze time for robot
-    # continuous_gaze_time = 0.0
-    continuous_gaze_time = sum(
-        timestamp - start_time
-        for start_time, timestamp in zip(
-            [t for t, a in filtered_window if a],
-            [t for t, a in filtered_window[1:] if a]
-        )
-    ) if filtered_window and filtered_window[0][1] else 0.0
-    
-    # Normalize the continuous gaze time
-    normalized_gaze_time = min(continuous_gaze_time / interval_duration, 1.0)
-    
-    # Normalize the gaze entropy (lower entropy is better for focused attention)
-    normalized_entropy = 1.0 - min(gaze_entropy, 1.0)  # Invert to reward focus
-    
-    # Define weights for each metric
-    weight_gaze_time = 0.5  # Highest weight for continuous gaze
-    weight_attention_ratio = 0.3  # Moderate weight for overall attention ratio
-    weight_entropy = 0.2  # Lowest weight for entropy
-    
-    # Apply non-linear scaling to emphasize sustained gaze and high attention ratios
-    normalized_gaze_time = normalized_gaze_time ** 1.5
-    attention_ratio = attention_ratio ** 1.2
-    
-    # Calculate raw gaze score (weighted sum of metrics)
-    raw_score = (
-        weight_gaze_time * normalized_gaze_time +
-        weight_attention_ratio * attention_ratio +
-        weight_entropy * normalized_entropy
-    )
-    
-    # Scale raw score to 0–100 and clamp it
-    gaze_score = min(max(raw_score * 100, 0), 100)
+    gaze_score = max(0, min(100, gaze_score))  # Ensure score is within 0-100
     
     ### End additional calculations
     
@@ -358,11 +336,27 @@ class GazeInterfaceController:
         self.gaze_score = 0.0
         self.gaze_score_lock = Lock()
         self.attention_thread = Thread(target=self.attention_detection_loop)
+        self.robot_looks_lock = Lock()
+        self.robot_looks = 0
+        self.gaze_entropy_lock = Lock()
+        self.gaze_entropy = 0.0
         
     def get_gaze_score(self):
         self.gaze_score_lock.acquire()
         score = self.gaze_score
         self.gaze_score_lock.release()
+        return score
+    
+    def get_robot_looks(self):
+        self.robot_looks_lock.acquire()
+        score = self.robot_looks
+        self.robot_looks_lock.release()
+        return score
+    
+    def get_gaze_entropy(self):
+        self.gaze_entropy_lock.acquire()
+        score = self.gaze_entropy
+        self.gaze_entropy_lock.release()
         return score
     
     def get_visualisation_frame(self):
@@ -464,6 +458,13 @@ class GazeInterfaceController:
             self.gaze_score = metrics["gaze_score"]
             self.gaze_score_lock.release()
             
+            self.robot_looks_lock.acquire()
+            self.robot_looks = metrics["robot_looks"]
+            self.robot_looks_lock.release()
+            
+            self.gaze_entropy_lock.acquire()
+            self.gaze_entropy = metrics["gaze_entropy"]
+            self.gaze_entropy_lock.release()
             
             # Add metrics and calibration values to display
             if face_found:
@@ -511,7 +512,9 @@ if __name__=="__main__":
             # Print the gaze score every 3 seconds
             current_time = time()
             if current_time >= next_print_time:
-                print(f"Gaze Score: {controller.get_gaze_score()}")
+                print(f"####### Gaze Score: {controller.get_gaze_score()}")
+                print(f"Robot looks: {controller.get_robot_looks()}")
+                print(f"Gaze entropy: {controller.get_gaze_entropy()}")
                 next_print_time = current_time + interval
             
             frame = controller.get_visualisation_frame()
