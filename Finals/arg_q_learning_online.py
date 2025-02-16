@@ -20,15 +20,6 @@ Online Q-Learning Documentation:
 Assumptions: All MDP state transition steps occur at a rate of 3 seconds, if this needs to change we may want to reconsider some implementation details
 
 '''
-def choose_action(q_table, current_state, config):
-    # Choose an action
-    if random.uniform(0, 1) < config.exploration_rate:
-        # Explore
-        action = random.choice(list(config.actions.keys()))
-    else:
-        # Exploit
-        action = max(q_table[current_state], key=q_table[current_state].get)
-    return action
 
 def calculate_q_value(q_table, current_state, current_action, reward, config):
     # Calculate the Q-value
