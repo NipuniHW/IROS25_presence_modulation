@@ -4,6 +4,16 @@ from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V
 import random
 import json
 
+def choose_action(q_table, current_state, config):
+    # Choose an action
+    if random.uniform(0, 1) < config.exploration_rate:
+        # Explore
+        action = random.choice(list(config.actions.keys()))
+    else:
+        # Exploit
+        action = max(q_table[current_state], key=q_table[current_state].get)
+    return action
+
 def save_training_state_after_episode(q_table, episode, training_run_name):
     q_table_name = f'{training_run_name}/{training_run_name}_episode_{episode}.csv'
     # write the q_table_name and episode count to a yaml file

@@ -333,8 +333,9 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     }
 
 class GazeInterfaceController:
-    def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+    def __init__(self, camera_id=0):
+        self.camera_id = camera_id
+        self.cap = cv2.VideoCapture(self.camera_id)
         self.detector = AttentionDetector()
         self.calibrator = AttentionCalibrator()
         self.is_in_attention_detection_mode = False
@@ -433,7 +434,7 @@ class GazeInterfaceController:
         
         
     def attention_detection_loop(self):
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(self.camera_id)
         
         # Initialize camera and detector with calibration
         self.detector = CalibratedAttentionDetector(self.calibrator)
@@ -504,7 +505,7 @@ class GazeInterfaceController:
         # cv2.destroyAllWindows()
         
 if __name__=="__main__":
-    controller = GazeInterfaceController()
+    controller = GazeInterfaceController(camera_id=2)
     controller.calibration_exe()
     controller.start_detecting_attention()
     
