@@ -155,6 +155,8 @@ low_gaze_config = GazeFormulationBaseClass({
     'led_actuators': led_actuators
 })
 
+### QUERY by David: Discount factor is the same as Gamma is it not? If so, we should fix this by removing one of them from the configs
+
 low_gaze_config_with_L_M_V = GazeFormulationBaseClass({
     'states_generator': generate_states_gaze_score_with_L_M_V,
     'learning_rate': 0.1,
