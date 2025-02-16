@@ -39,7 +39,7 @@ def calculate_q_value(q_table, current_state, current_action, reward, config):
         return q_new
     
 def run_training_episode(q_table, config, episode_count, online_episode_duration):
-    controller = GazeInterfaceController()
+    controller = GazeInterfaceController(camera_id=2)
     # ask the user to press enter to start a calibration
     input('Press Enter to start the calibration')
     controller.calibration_exe()
