@@ -307,11 +307,17 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     # # High gc High entropy: gaze score low
     # # low gc high entrophy: gaze score low
     # # low gc low entrophy: gaze score low
+    
+    # Normalize the attention ratio
+    normalized_attention_ratio = min(attention_ratio, 1.0)
+    
+    # Normalize the gaze entropy (lower entropy is better for focused attention)
+    normalized_entropy = 1.0 - min(gaze_entropy, 1.0)
 
     if gaze_entropy == 1.0 or (robot_looks > 30 and 1.0 > gaze_entropy > 0.7):
-        gaze_score = 100 * attention_ratio
+        gaze_score = 100 * normalized_attention_ratio
     else:
-        gaze_score = 100 * (attention_ratio * (1 - gaze_entropy))
+        gaze_score = 100 * (normalized_attention_ratio * normalized_entropy)
     
     gaze_score = max(0, min(100, gaze_score))  # Ensure score is within 0-100
     
