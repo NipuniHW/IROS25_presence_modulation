@@ -4,22 +4,40 @@ from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V
 import random
 import json
 
-def choose_action(q_table, current_state, config):
-    # Choose an action
-    if random.uniform(0, 1) < config.exploration_rate:
-        # Explore
-        action = random.choice(list(config.actions.keys()))
-    else:
-        # Exploit
-        action = max(q_table[current_state], key=q_table[current_state].get)
-    return action
+# def choose_action(q_table, current_state, config):
+#     # Choose an action
+#     if random.uniform(0, 1) < config.exploration_rate:
+#         # Explore
+#         action = random.choice(list(config.actions.keys()))
+#     else:
+#         # Exploit
+#         action = max(q_table[current_state], key=q_table[current_state].get)
+#     return action.split(", ")
 
-def save_training_state_after_episode(q_table, episode, training_run_name):
+def get_gaze_bin(gaze_score):
+    if gaze_score < 0.0 or gaze_score > 100.0:
+        raise ValueError("Raw gaze score must be between 0.0 and 100.0")
+
+    if gaze_score <= 30.0:
+        return int((gaze_score / 30.0) * 3)  # Scale 0-30 to 0-3
+    elif gaze_score <= 60.0:
+        return int(4 + ((gaze_score - 31.0) / 29.0) * 2)  # Scale 31-60 to 4-6
+    else:
+        return int(7 + ((gaze_score - 61.0) / 39.0) * 3)  # Scale 61-100 to 7-10
+
+def save_trajectory_ep_to_yaml(episode, training_run_name, training_dict):
+    save_path = f'{training_run_name}/{training_run_name}_episode_{episode}_trajectory.yaml'
+    with open(save_path, 'w') as file:
+        yaml.dump(training_dict, file)
+    return
+
+def save_training_state_after_episode(q_table, episode, training_run_name, epsilon):
     q_table_name = f'{training_run_name}/{training_run_name}_episode_{episode}.csv'
     # write the q_table_name and episode count to a yaml file
     training_state = {
         'q_table_name': q_table_name,
-        'episode': episode
+        'episode': episode,
+        'epsilon': epsilon
     }
     with open(f'{training_run_name}/{training_run_name}_training_state.yaml', 'w') as file:
         yaml.dump(training_state, file)

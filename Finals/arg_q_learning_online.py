@@ -1,5 +1,7 @@
 import argparse
+from copy import deepcopy
 
+import cv2
 import yaml
 from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
 import pdb
@@ -11,7 +13,8 @@ from multiprocessing import Process, Queue
 import time
 import csv
 from gaze_interface_controller import GazeInterfaceController
-from online_training_functions import save_q_table_to_csv, load_q_table_from_csv, create_empty_q_table, save_training_state_after_episode, load_training_state
+from online_training_functions import *
+from pepper import *
 
 '''
 Online Q-Learning Documentation:
@@ -21,51 +24,113 @@ Assumptions: All MDP state transition steps occur at a rate of 3 seconds, if thi
 
 '''
 
-def calculate_q_value(q_table, current_state, current_action, reward, config):
-    # Calculate the Q-value
-    for state1_key, state1 in q_table.items():
-        next_state = config.states[state1_key]       
-        # Get the reward for this transition
-        # Calculate the Q-value
-        max_future_q = max(q_table[state1_key].values())
-        # q_current = q_table.get(str(current_state), {}).get(current_action, 0.0)
-        q_current = q_table[current_state][current_action]
-        # pdb.set_trace() 
-        # Q-learning update rule
-        q_new = q_current + config.learning_rate * (reward + config.gamma * max_future_q - q_current)
-        q_table[current_state][current_action] = q_new  
-        
-        # q_value = reward + config.discount_factor * max(q_table[state1_key].values())
-        return q_new
+def calculate_q_value(q_table, previous_state, action, next_state, reward, config):
     
-def run_training_episode(q_table, config, episode_count, online_episode_duration):
-    controller = GazeInterfaceController(camera_id=2)
+    # Get the reward for this transition
+    # Calculate the Q-value
+    # convert next state into string
+    str_next_state = str(next_state)
+    str_prev_state = str(previous_state)
+    max_future_q = max(q_table[str_next_state].values())
+    # q_current = q_table.get(str(current_state), {}).get(current_action, 0.0)
+    q_current = q_table[str_prev_state][action]
+    # pdb.set_trace() 
+    # Q-learning update rule
+    q_new = q_current + config.learning_rate * (reward + config.gamma * max_future_q - q_current)
+    q_table[str_prev_state][action] = q_new  
+        
+    # q_value = reward + config.discount_factor * max(q_table[state1_key].values())
+    return q_new
+    
+def run_training_episode(q_table, config, episode_count, online_episode_duration, pepper, epsilon, training_rname):
+    # Change the camera ID to 2 if using external usb webcam, 0 if using the laptop webcam
+    controller = GazeInterfaceController(camera_id=0)
+    time.sleep(1)
     # ask the user to press enter to start a calibration
-    input('Press Enter to start the calibration')
+    print('Press Enter to start the calibration')
+    input()
     controller.calibration_exe()
     controller.start_detecting_attention()
     # print('Calibration complete')
     # ask the user to press enter to start the training
-    input('Press Enter to start the training')
+    time.sleep(1)
+    print('Press Enter to start the training')
+    input()
     # start the training
     current_time = time.time()
-    while time.time() - current_time < online_episode_duration:
-        # Get the current gaze score
-        gaze_score = controller.get_gaze_score()
-        # Get the current state
-        current_state = config.states_generator(gaze_score)
-        # Choose an action
-        action = choose_action(q_table, current_state, config)
-        # Get the reward
-        reward = config.reward_function(current_state, action)
-        # Calculate the Q-value
-        q_value = calculate_q_value(q_table, current_state, action, reward, config)
-        # Update the Q-table
-        q_table[current_state][action] = q_value
+    light, movement, volume = 0, 0, 0  # Default values 
+    #Convert to minutes
+    online_episode_duration_seconds = online_episode_duration
+    online_episodes_duration_minutes = online_episode_duration*60
+    time_step_count = 0
+    save_dictionary = {}
+    
+    start_time_inner_loop = time.time()
+    
+    while time.time() - current_time < online_episodes_duration_minutes:
+        frame = controller.get_visualisation_frame()
+        if frame is not None:
+            f = deepcopy(frame)
+            # print("the type of frame is ", type(f))
+            cv2.imshow('Calibrated HRI Attention Detection', f)
+            if cv2.waitKey(5) & 0xFF == 27:
+                break
+        if time.time() - start_time_inner_loop >= 3:
+            start_time_inner_loop = time.time()
+            # Get the current gaze score
+            gaze_score = controller.get_gaze_score()
+            # Get the current state -- Todo: Convert the gaze score to a state
+            previous_state = get_gaze_bin(gaze_score)
+            #TODO Choose an action - Integrate
+            action, epsilon = choose_action(q_table, previous_state, config, epsilon)
+            # TODO:: Send pepper actions here...
+            # Update the behavior
+            light, movement, volume = pepper.update_behavior(action, light, movement, volume)
+            # Get the current gaze score
+            gaze_score = controller.get_gaze_score()
+            next_state = get_gaze_bin(gaze_score)
+            
+            # Get the reward
+            reward = config.reward_function(previous_state, action, next_state)
+            # Calculate the Q-value
+            q_value = calculate_q_value(q_table, previous_state, action, next_state, reward, config)
+            
+            save_dictionary['previousstate_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = previous_state
+            save_dictionary['nextstate_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = next_state
+            save_dictionary['action_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = action
+            time_step_count+=1
+            
+            # Update the Q-table
+            str_prev_state = str(previous_state)
+            q_table[str_prev_state][action] = q_value
+        
+    save_trajectory_ep_to_yaml(episode_count, training_rname, save_dictionary)
+    
     
     print('Training episode complete')
-    return q_table
+    controller.kill_attention_thread()
+    
+    return q_table, epsilon
 
+def choose_action(q_table, current_state, config, epsilon):
+    # Choose an action
+    action_selection_rand = random.uniform(0, 1) 
+    c_state = str(current_state)
+    if action_selection_rand < epsilon:
+        # Explore
+        action = random.choice(list(config.actions.keys()))
+    else:
+        # pdb.set_trace()
+        # action = max(q_table[c_state], key=lambda k: q_table[c_state][k])
+        max_value = -1.0
+        action = None
+        for k, v in q_table[c_state].items():
+            if v > max_value:
+                max_value = v
+                action = k
+    epsilon*=config.epsilon_decay
+    return action, epsilon
+   
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Q-Learning Configuration')
     parser.add_argument('--config', type=str, 
@@ -92,7 +157,7 @@ if __name__=="__main__":
 
     # set training information
     epsilon = config.epsilon
-    epsilon_decay = config.epislon_decay
+    epsilon_decay = config.epsilon_decay
     learning_rate = config.learning_rate
     discount_factor = config.discount_factor
     exploration_rate = config.exploration_rate
@@ -121,37 +186,29 @@ if __name__=="__main__":
     else:
         raise Exception('An invalid arrangment of configurations and training data was provided. Please check the configurations/Arguements and try again')
 
-
+    # TODO :: Instanciate Pepper here
+    # Initiate Pepper
+    pepper = Pepper()
+    # pepper.connect("pepper.local", 9559)
+    pepper.connect("localhost", 41813)
+    
     print('Starting training loop')
 
     while True:
         # Run an episode
-        
 
-        # After episode, save the Q-table to a CSV file
-        save_training_state_after_episode(q_table, episode_count, args.training_runname)
 
         # Increment the episode count
         episode_count += 1
         # Get the user input asking if they want to continue training
         user_input = input('Would you like to continue training for another episode? (Y/N): ')
-        if user_input.lower() == 'Y' or user_input.lower() == 'y':
-            continue
+        if user_input.lower() == 'y' or user_input.lower() == 'Y':
+            # Run the next episode
+            q_table, epsilon = run_training_episode(q_table, config, episode_count, online_episode_duration, pepper, epsilon,args.training_runname)
+            # After episode, save the Q-table to a CSV file
+            save_training_state_after_episode(q_table, episode_count, args.training_runname, epsilon)
         else:
             print('Your input was not Y/y. Exiting training')
             break
-
-    # run through the q-table
-    for episode in range(config.episodes):
-        print(f"Episode: {episode}")
-        for state_key, state in q_table.items():
-            for action_key, action in state.items():                
-                current_state = config.states[state_key]
-                current_action = config.actions[action_key]
-                reward = config.reward_function(current_state, current_action)
-                # Calculate the Q-value
-                q_value = calculate_q_value(q_table, state_key, action_key, reward, config)
-                q_table[state_key][action_key] = q_value
     
-    # Save the Q-table to a CSV file
-    save_q_table_to_csv(q_table, args.csv)
+    print('finished mental abuse, yay!!!')

@@ -9,19 +9,7 @@ from mdp_formulation import low_gaze_config
 # tts = session.service("ALTextToSpeech")
 # leds = session.service("ALLeds")
 
-# Function to choose an action based on the current state
-def choose_action(state, q_table):
-    if state not in q_table.index:
-        raise ValueError(f"State {state} is not in the Q-table. Available states: {q_table.index.tolist()}")
 
-    action_values = q_table.loc[state]
-    max_q_value = action_values.max()
-    best_actions = action_values[action_values == max_q_value].index.tolist()
-
-    chosen_action = np.random.choice(best_actions)  # Randomly select among best actions if tie
-
-    # Ensure the chosen action is split into a list of three components
-    return chosen_action.split(", ")  # Split by ", " to separate the values
 
 def update_behavior(action, light, movement, volume):
     l_action, m_action, v_action = action

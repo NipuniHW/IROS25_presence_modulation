@@ -146,7 +146,7 @@ low_gaze_config = GazeFormulationBaseClass({
     'exploration_rate': 0.1,
     'episodes': 10000,
     'epsilon': 0.9,
-    'epislon_decay': 0.99,
+    'epsilon_decay': 0.99,
     'gamma': 0.9,
     'reward_function': low_gaze_reward,
     'actions': actions_incremental,
@@ -164,7 +164,7 @@ low_gaze_config_with_L_M_V = GazeFormulationBaseClass({
     'exploration_rate': 0.1,
     'episodes': 10000,
     'epsilon': 0.9,
-    'epislon_decay': 0.99,
+    'epsilon_decay': 0.99,
     'gamma': 0.9,
     'reward_function': low_gaze_reward_LVM,
     'actions': actions_incremental,
@@ -178,7 +178,7 @@ medium_gaze_config = GazeFormulationBaseClass({
     'exploration_rate': 0.1,
     'episodes': 10000,
     'epsilon': 0.9,
-    'epislon_decay': 0.99,
+    'epsilon_decay': 0.99,
     'gamma': 0.9,
     'reward_function': medium_gaze_reward,
     'actions': actions_incremental,
@@ -191,13 +191,14 @@ high_gaze_config = GazeFormulationBaseClass({
     'discount_factor': 0.9,
     'exploration_rate': 0.1,
     'episodes': 10000,
-    'epsilon': 0.9,
-    'epislon_decay': 0.99,
+    'epsilon': 0.99,
+    'epsilon_decay': 0.999,
     'gamma': 0.9,
     'reward_function': high_gaze_reward,
     'actions': actions_incremental,
     'states': states_gaze_score,
-    'gaze_threshold': [5, 6]
+    'gaze_threshold': [5, 6],
+    'led_actuators': led_actuators
 })
 
 #endregion

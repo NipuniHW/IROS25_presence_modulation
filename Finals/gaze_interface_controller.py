@@ -1,5 +1,6 @@
 from copy import deepcopy
 import math
+import pdb
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -159,7 +160,7 @@ class AttentionCalibrator:
     def __init__(self, 
                  calibration_time=10.0,    # Time in seconds needed for calibration
                  samples_needed=300,        # Number of samples to collect
-                 angle_tolerance=15.0):     # Tolerance for angle variation during calibration
+                 angle_tolerance=15.0):     # Tolerance for angle variation during calibration -- DEFAULT 15.0
         
         self.calibration_time = calibration_time
         self.samples_needed = samples_needed
@@ -372,7 +373,7 @@ class GazeInterfaceController:
         self.gaze_score_lock.release()
         return frame
     
-    def kill(self):
+    def kill_attention_thread(self):
         self.is_in_attention_detection_mode = False
         if self.cap.isOpened():
             self.cap.release()
@@ -383,8 +384,14 @@ class GazeInterfaceController:
         
     def calibration_exe(self):        
         # Start calibration
+        print("Running Calibration function in Gaze Controller")
+
         self.calibrator.start_calibration()
         is_complete = False
+        
+        if not self.cap.isOpened():
+            self.cap = cv2.VideoCapture(self.camera_id)
+        
         while self.cap.isOpened():
             success, frame = self.cap.read()
             if not success:
@@ -418,6 +425,7 @@ class GazeInterfaceController:
                 break
         
         if not is_complete:
+            pdb.set_trace()
             print("Calibration interrupted or failed.")
             raise ValueError("Calibration failed")
         
@@ -434,7 +442,8 @@ class GazeInterfaceController:
         
         
     def attention_detection_loop(self):
-        self.cap = cv2.VideoCapture(self.camera_id)
+        if not self.cap.isOpened():
+            self.cap = cv2.VideoCapture(self.camera_id)
         
         # Initialize camera and detector with calibration
         self.detector = CalibratedAttentionDetector(self.calibrator)
@@ -494,6 +503,9 @@ class GazeInterfaceController:
                 self.visualisation_frame = frame
                 self.gaze_score_lock.release()
                 
+        self.cap.release()
+        cv2.destroyAllWindows()
+                
             # Display the frame
             # cv2.imshow('Calibrated HRI Attention Detection', frame)
             
@@ -501,8 +513,6 @@ class GazeInterfaceController:
             # if cv2.waitKey(5) & 0xFF == 27:
             #     break
         
-        # cap.release()
-        # cv2.destroyAllWindows()
         
 if __name__=="__main__":
     controller = GazeInterfaceController(camera_id=2)
@@ -536,10 +546,10 @@ if __name__=="__main__":
             sleep(0.05)
         
         cv2.destroyAllWindows()
-        controller.kill()
+        controller.kill_attention_thread()
         exit(0)
     except KeyboardInterrupt:
-        controller.kill()
+        controller.kill_attention_thread()
         exit(0)
     
     print("Attention detection completed.")
