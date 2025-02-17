@@ -42,7 +42,13 @@ def calculate_q_value(q_table, previous_state, action, next_state, reward, confi
     # q_value = reward + config.discount_factor * max(q_table[state1_key].values())
     return q_new
     
-def run_training_episode(q_table, config, episode_count, online_episode_duration, pepper, epsilon, training_rname):
+def run_training_episode(q_table, config, episode_count, online_episode_duration, epsilon, training_rname):
+    print('connecting a session to pepper')
+    
+    pepper = Pepper()
+    pepper.connect("pepper.local", 9559)
+    
+    # pepper.connect("localhost", 41813)
     # Change the camera ID to 2 if using external usb webcam, 0 if using the laptop webcam
     controller = GazeInterfaceController(camera_id=2)
     time.sleep(1)
@@ -58,7 +64,9 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
     input()
     # start the training
     current_time = time.time()
-    light, movement, volume = 0, 0, 0  # Default values 
+    
+    random_number = random.choice([1, 3, 5, 7, 9])
+    light, movement, volume = random_number, random_number, random_number  # Default values 
     #Convert to minutes
     online_episode_duration_seconds = online_episode_duration
     online_episodes_duration_minutes = online_episode_duration*60
@@ -79,6 +87,7 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
             start_time_inner_loop = time.time()
             # Get the current gaze score
             gaze_score = controller.get_gaze_score()
+            print(f"Current gaze score: {gaze_score}")
             # Get the current state -- Todo: Convert the gaze score to a state
             previous_state = get_gaze_bin(gaze_score)
             #TODO Choose an action - Integrate
@@ -103,6 +112,7 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
             # Update the Q-table
             str_prev_state = str(previous_state)
             q_table[str_prev_state][action] = q_value
+            print(f"Next gaze score: {gaze_score}")
         
     save_trajectory_ep_to_yaml(episode_count, training_rname, save_dictionary)
     
@@ -110,6 +120,7 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
     print('Training episode complete')
     controller.kill_attention_thread()
     
+    del pepper
     return q_table, epsilon
 
 def choose_action(q_table, current_state, config, epsilon):
@@ -122,15 +133,16 @@ def choose_action(q_table, current_state, config, epsilon):
     else:
         # pdb.set_trace()
         # action = max(q_table[c_state], key=lambda k: q_table[c_state][k])
-        max_value = -1.0
-        action = None
-        for k, v in q_table[c_state].items():
-            if v > max_value:
-                max_value = v
-                action = k
+        # max_value = -1.0
+        # action = None
+        # for k, v in q_table[c_state].items():
+        #     if v > max_value:
+        #         max_value = v
+        #         action = k
+        action = max(q_table[c_state], key=q_table[c_state].get) 
     epsilon*=config.epsilon_decay
     return action, epsilon
-   
+    
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Q-Learning Configuration')
     parser.add_argument('--config', type=str, 
@@ -140,7 +152,7 @@ if __name__=="__main__":
                                              'high_gaze_config'], 
                                              required=True, 
                                              help='Choose the configuration')
-    parser.add_argument('--load_training_dir', type=bool, required=False, default=False, help='If you wish to continue training from a saved Q-table, set to true')
+    parser.add_argument('--load_training_dir', type=bool, required=True, default=False, help='If you wish to continue training from a saved Q-table, set to true')
     parser.add_argument('--training_runname', type=str, required=True, help='CSV file name to save the Q-table')
     parser.add_argument('--online_episode_duration', type=int, required=True, help='length of a gaze training episode')
     args = parser.parse_args()
@@ -164,6 +176,20 @@ if __name__=="__main__":
     episode_count = 0
     online_episode_duration = args.online_episode_duration
 
+    # # Check if we need to load training data
+    # if args.load_training_dir:
+    #     try:
+    #         load_training_state(args.training_run_name)
+    #         print(f'Loaded training data from {args.load_training_dir}')
+    #     except Exception as e:
+    #         print(f'Failed to load training data from {args.load_training_dir}: {e}')
+    #         raise
+    # else:
+    #     # Initialize q_table, episode_count, and epsilon if not loading from file
+    #     q_table = {}
+    #     episode_count = 0
+    #     epsilon = 1.0
+    
     # check if the training folder exists
     # if it does not exist
     if not os.path.exists(args.training_runname) and not args.load_training_dir:
@@ -185,12 +211,6 @@ if __name__=="__main__":
             raise Exception('Failed to load training data from ' + args.training_runname + '. Please check the file path and try again')
     else:
         raise Exception('An invalid arrangment of configurations and training data was provided. Please check the configurations/Arguements and try again')
-
-    # TODO :: Instanciate Pepper here
-    # Initiate Pepper
-    pepper = Pepper()
-    pepper.connect("pepper.local", 9559)
-    # pepper.connect("localhost", 41813)
     
     print('Starting training loop')
 
@@ -203,13 +223,11 @@ if __name__=="__main__":
         user_input = input('Would you like to continue training for another episode? (Y/N): ')
         if user_input.lower() == 'y' or user_input.lower() == 'Y':
             # Run the next episode
-            q_table, epsilon = run_training_episode(q_table, config, episode_count, online_episode_duration, pepper, epsilon,args.training_runname)
+            q_table, epsilon = run_training_episode(q_table, config, episode_count, online_episode_duration, epsilon,args.training_runname)
             # After episode, save the Q-table to a CSV file
             save_training_state_after_episode(q_table, episode_count, args.training_runname, epsilon)
         else:
             print('Your input was not Y/y. Exiting training')
-            del pepper
             break
-    del pepper
     
     print('finished mental abuse, yay!!!')

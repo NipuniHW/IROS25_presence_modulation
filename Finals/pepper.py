@@ -144,6 +144,7 @@ class Pepper:
         elif v_action == "Keep V":
             volume = volume
         
+        print(f"###Action###: {action}")
         print(f"Light: {light}, Movement: {movement}, Volume: {volume}")
         
         # Perform the action

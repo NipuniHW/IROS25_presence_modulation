@@ -49,8 +49,8 @@ def load_training_state(training_run_name):
     with open(f'{training_run_name}/{training_run_name}_training_state.yaml', 'r') as file:
         training_state = yaml.load(file, Loader=yaml.FullLoader)
     episode = training_state['episode']
+    epsilon = training_state['epsilon']
     q_table_name = training_state['q_table_name']
-    epsilon = training_state('epsilon')
     q_table = load_q_table_from_csv(q_table_name)
     return q_table, episode, epsilon
 
