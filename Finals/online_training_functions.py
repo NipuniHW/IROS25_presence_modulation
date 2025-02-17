@@ -50,8 +50,9 @@ def load_training_state(training_run_name):
         training_state = yaml.load(file, Loader=yaml.FullLoader)
     episode = training_state['episode']
     q_table_name = training_state['q_table_name']
+    epsilon = training_state('epsilon')
     q_table = load_q_table_from_csv(q_table_name)
-    return q_table, episode
+    return q_table, episode, epsilon
 
 def create_empty_q_table(config):
     q_table = {}

@@ -44,7 +44,7 @@ def calculate_q_value(q_table, previous_state, action, next_state, reward, confi
     
 def run_training_episode(q_table, config, episode_count, online_episode_duration, pepper, epsilon, training_rname):
     # Change the camera ID to 2 if using external usb webcam, 0 if using the laptop webcam
-    controller = GazeInterfaceController(camera_id=0)
+    controller = GazeInterfaceController(camera_id=2)
     time.sleep(1)
     # ask the user to press enter to start a calibration
     print('Press Enter to start the calibration')
@@ -178,7 +178,7 @@ if __name__=="__main__":
         # load the training data
         # Load the Q-table from the CSV file
         try:
-            q_table, episode_count = load_training_state(args.training_runname)
+            q_table, episode_count, epsilon = load_training_state(args.training_runname)
             print('loaded training data from ' + args.training_runname)
         except:
             print('failed to load training data from ' + args.training_runname)
@@ -189,14 +189,13 @@ if __name__=="__main__":
     # TODO :: Instanciate Pepper here
     # Initiate Pepper
     pepper = Pepper()
-    # pepper.connect("pepper.local", 9559)
-    pepper.connect("localhost", 41813)
+    pepper.connect("pepper.local", 9559)
+    # pepper.connect("localhost", 41813)
     
     print('Starting training loop')
 
     while True:
         # Run an episode
-
 
         # Increment the episode count
         episode_count += 1
@@ -209,6 +208,8 @@ if __name__=="__main__":
             save_training_state_after_episode(q_table, episode_count, args.training_runname, epsilon)
         else:
             print('Your input was not Y/y. Exiting training')
+            del pepper
             break
+    del pepper
     
     print('finished mental abuse, yay!!!')

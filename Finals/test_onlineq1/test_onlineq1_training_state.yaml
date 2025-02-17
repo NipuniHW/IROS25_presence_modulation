@@ -1,0 +1,3 @@
+episode: 2
+epsilon: 0.5442483909441399
+q_table_name: test_onlineq1/test_onlineq1_episode_2.csv
