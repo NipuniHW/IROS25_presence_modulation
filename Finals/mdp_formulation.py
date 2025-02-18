@@ -47,6 +47,14 @@ states_gaze_score = {
     "10": 10
 }
 
+states_gaze_score_5 = {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5
+}
+
 def generate_states_gaze_score_with_L_M_V():
     states_gaze_score_with_L_M_V = {}
     for g in range(11):  # Assuming G can be 0 or 1
@@ -197,7 +205,7 @@ high_gaze_config = GazeFormulationBaseClass({
     'reward_function': high_gaze_reward,
     'actions': actions_incremental,
     'states': states_gaze_score,
-    'gaze_threshold': [5, 6],
+    'gaze_threshold': [7, 10],
     'led_actuators': led_actuators
 })
 

@@ -1,0 +1,3 @@
+episode: 25
+epsilon: 0.08321824523780232
+q_table_name: test_data_saved/test_data_saved_episode_25.csv

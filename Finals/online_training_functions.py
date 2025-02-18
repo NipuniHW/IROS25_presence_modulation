@@ -14,16 +14,33 @@ import json
 #         action = max(q_table[current_state], key=q_table[current_state].get)
 #     return action.split(", ")
 
+# Get 0-10 gaze bins
+# def get_gaze_bin(gaze_score):
+#     if gaze_score < 0.0 or gaze_score > 100.0:
+#         raise ValueError("Raw gaze score must be between 0.0 and 100.0")
+
+#     if gaze_score <= 30.0:
+#         return int((gaze_score / 30.0) * 3)  # Scale 0-30 to 0-3
+#     elif gaze_score <= 60.0:
+#         return int(4 + ((gaze_score - 31.0) / 29.0) * 2)  # Scale 31-60 to 4-6
+#     else:
+#         return int(7 + ((gaze_score - 61.0) / 39.0) * 3)  # Scale 61-100 to 7-10
+
+# Get 1-5 gaze bins
 def get_gaze_bin(gaze_score):
     if gaze_score < 0.0 or gaze_score > 100.0:
-        raise ValueError("Raw gaze score must be between 0.0 and 100.0")
+        raise ValueError("Gaze score must be between 0 and 100")
 
-    if gaze_score <= 30.0:
-        return int((gaze_score / 30.0) * 3)  # Scale 0-30 to 0-3
+    if gaze_score <= 20.0:
+        return 1
+    elif gaze_score <= 40.0:
+        return 2
     elif gaze_score <= 60.0:
-        return int(4 + ((gaze_score - 31.0) / 29.0) * 2)  # Scale 31-60 to 4-6
+        return 3
+    elif gaze_score <= 80.0:
+        return 4
     else:
-        return int(7 + ((gaze_score - 61.0) / 39.0) * 3)  # Scale 61-100 to 7-10
+        return 5
 
 def save_trajectory_ep_to_yaml(episode, training_run_name, training_dict):
     save_path = f'{training_run_name}/{training_run_name}_episode_{episode}_trajectory.yaml'

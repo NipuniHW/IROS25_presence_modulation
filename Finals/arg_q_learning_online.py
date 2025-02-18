@@ -87,32 +87,33 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
             start_time_inner_loop = time.time()
             # Get the current gaze score
             gaze_score = controller.get_gaze_score()
-            print(f"Current gaze score: {gaze_score}")
             # Get the current state -- Todo: Convert the gaze score to a state
-            previous_state = get_gaze_bin(gaze_score)
+            previous_state = int(round(gaze_score/10))
+            print(f"Current gaze score: {gaze_score} -- giving state:{previous_state}")
             #TODO Choose an action - Integrate
             action, epsilon = choose_action(q_table, previous_state, config, epsilon)
             # TODO:: Send pepper actions here...
             # Update the behavior
             light, movement, volume = pepper.update_behavior(action, light, movement, volume)
             # Get the current gaze score
-            gaze_score = controller.get_gaze_score()
-            next_state = get_gaze_bin(gaze_score)
-            
+            gaze_score_ = controller.get_gaze_score()
+            next_state = int(round(gaze_score_/10))
             # Get the reward
-            reward = config.reward_function(previous_state, action, next_state)
+            reward = config.reward_function(previous_state, action, next_state, config.gaze_threshold)
             # Calculate the Q-value
             q_value = calculate_q_value(q_table, previous_state, action, next_state, reward, config)
             
             save_dictionary['previousstate_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = previous_state
             save_dictionary['nextstate_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = next_state
             save_dictionary['action_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = action
+            save_dictionary['reward_episode_' + str(episode_count)+'_timestep_'+str(time_step_count)] = reward
+            
             time_step_count+=1
             
             # Update the Q-table
             str_prev_state = str(previous_state)
             q_table[str_prev_state][action] = q_value
-            print(f"Next gaze score: {gaze_score}")
+            print(f"Next gaze score: {gaze_score_} -- giving state:{next_state}")
         
     save_trajectory_ep_to_yaml(episode_count, training_rname, save_dictionary)
     
@@ -175,20 +176,6 @@ if __name__=="__main__":
     exploration_rate = config.exploration_rate
     episode_count = 0
     online_episode_duration = args.online_episode_duration
-
-    # # Check if we need to load training data
-    # if args.load_training_dir:
-    #     try:
-    #         load_training_state(args.training_run_name)
-    #         print(f'Loaded training data from {args.load_training_dir}')
-    #     except Exception as e:
-    #         print(f'Failed to load training data from {args.load_training_dir}: {e}')
-    #         raise
-    # else:
-    #     # Initialize q_table, episode_count, and epsilon if not loading from file
-    #     q_table = {}
-    #     episode_count = 0
-    #     epsilon = 1.0
     
     # check if the training folder exists
     # if it does not exist

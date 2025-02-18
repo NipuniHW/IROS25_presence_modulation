@@ -7,7 +7,7 @@ import pandas as pd
 import argparse
 from pepper import Pepper
 # from gaze import main
-from gaze_interface_controller import main
+from gaze import main
 from connection import Connection
 import qi
 import threading

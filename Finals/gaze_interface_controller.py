@@ -334,11 +334,11 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     }
 
 class GazeInterfaceController:
-    def __init__(self, camera_id=0):
+    def __init__(self, camera_id=0, gaze_angle_tolerance = 30.0):
         self.camera_id = camera_id
         self.cap = cv2.VideoCapture(self.camera_id)
         self.detector = AttentionDetector()
-        self.calibrator = AttentionCalibrator()
+        self.calibrator = AttentionCalibrator(angle_tolerance=gaze_angle_tolerance)
         self.is_in_attention_detection_mode = False
         self.attention_window_lock = Lock()
         self.gaze_score = 0.0
@@ -425,7 +425,7 @@ class GazeInterfaceController:
                 break
         
         if not is_complete:
-            pdb.set_trace()
+            # pdb.set_trace()
             print("Calibration interrupted or failed.")
             raise ValueError("Calibration failed")
         
