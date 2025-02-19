@@ -98,22 +98,22 @@ class Pepper:
         self.behavior_mng_service.startBehavior("modulated_actions/" + str(movement)) 
     
     # To update lights
-    def update_lights(self, light):
-        if light == 0:
-            light_n = 0.1
-        else:
-            light_n = round(max(0, light/10), 1)
-        leds = self.leds
-        # pdb.set_trace()
-        self.set_all_leds(leds, light_n)    
+    # def update_lights(self, light):
+    #     if light == 0:
+    #         light_n = 0.1
+    #     else:
+    #         light_n = round(max(0, light/10), 1)
+    #     leds = self.leds
+    #     # pdb.set_trace()
+    #     self.set_all_leds(leds, light_n)    
         
-    def set_all_leds(self, leds, light_n):
-        for led in config.led_actuators:
-            leds.setIntensity(led, light_n)
+    # def set_all_leds(self, leds, light_n):
+    #     for led in config.led_actuators:
+    #         leds.setIntensity(led, light_n)
             
     # Function to execute an action
     def execute_action(self, light, movement, volume):
-        self.update_lights(light)
+        # self.update_lights(light)
         self.update_movements(movement)
         self.update_volume(volume)
         

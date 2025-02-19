@@ -248,7 +248,7 @@ class CalibratedAttentionDetector(AttentionDetector):
         
         return pitch_diff < self.calibrator.pitch_threshold and yaw_diff < self.calibrator.yaw_threshold
 
-def calculate_attention_metrics(attention_window, interval_duration=3.0):
+def calculate_attention_metrics(attention_window, interval_duration=5.0):
     """
     Calculate attention metrics for a given time window of attention data.
     
@@ -334,7 +334,7 @@ def calculate_attention_metrics(attention_window, interval_duration=3.0):
     }
 
 class GazeInterfaceController:
-    def __init__(self, camera_id=0, gaze_angle_tolerance = 30.0):
+    def __init__(self, camera_id=2, gaze_angle_tolerance = 30.0):
         self.camera_id = camera_id
         self.cap = cv2.VideoCapture(self.camera_id)
         self.detector = AttentionDetector()
@@ -515,18 +515,18 @@ class GazeInterfaceController:
         
         
 if __name__=="__main__":
-    controller = GazeInterfaceController(camera_id=0)
+    controller = GazeInterfaceController(camera_id=2)
     controller.calibration_exe()
     controller.start_detecting_attention()
     
     start_time = time()
     duration = 5 * 60  # 3 minutes in seconds
-    interval = 3  # Interval in seconds
+    interval = 5  # Interval in seconds
     next_print_time = start_time + interval
     try:
         
         while time() - start_time < duration:            
-            # Print the gaze score every 3 seconds
+            # Print the gaze score every 5 seconds
             current_time = time()
             if current_time >= next_print_time:
                 print(f"####### Gaze Score: {controller.get_gaze_score()}")

@@ -119,25 +119,61 @@ def high_gaze_reward(previous_gaze, action_vector, next_gaze, gaze_threshold):
             return -2
     else:
         return 5
-        
-    
-# distance_to_goal_state = gaze - (sum(gaze_threshold) / 2)
-# action_sum_gaze_alter = sum(action_vector)*5 # = -3 - 3
-# distance_to_goal_after_action = distance_to_goal_state + (action_sum_gaze_alter)
-# new_gaze = gaze + distance_to_goal_after_action
 
-# #if currently within threshold before action
-# if gaze_threshold[0] <= gaze <= gaze_threshold[1]:
-#     #  The action extimator says we'll keep the agent within the threshold
-#     if gaze_threshold[0] <= new_gaze <= gaze_threshold[1]:
-#         desired_gaze = sum(gaze_threshold) / 2
-#         return 5 + (desired_gaze - abs(desired_gaze - new_gaze))*5
-#         # return abs(distance_to_goal_state + action_sum_gaze_alter)
-#     else:
-#         return -1
-# else:
-#     return -abs(distance_to_goal_after_action)
+## CHANGED
+def low_gaze_reward_6(previous_gaze, action_vector, next_gaze, gaze_threshold):
+    # if gaze is not an integer between 0 and 10, raise an error
+    if previous_gaze not in range(6) or next_gaze not in range(6) or not all(isinstance(i, int) for i in [previous_gaze, next_gaze]):
+        raise ValueError(f"Gaze values must be integers between 0 and 5. Got {previous_gaze} and {next_gaze}")
+    # if the action vector is not a list of 3 integers, raise an error
+    # if not all(isinstance(i, str) for i in action_vector) or len(action_vector) != 3:
+    #     raise ValueError(f"Action vector must be a list of 3 integers. Got {action_vector}")
     
+    previous_distance_to_goal_state = abs(previous_gaze - (sum(gaze_threshold) / 2))
+    next_distance_to_goal_state = abs(next_gaze - (sum(gaze_threshold) / 2))
+    
+    difference = previous_distance_to_goal_state - next_distance_to_goal_state
+    # if the current state is not within the threshold
+    if not gaze_threshold[0] <= next_gaze <= gaze_threshold[1]:    
+        if previous_distance_to_goal_state < next_distance_to_goal_state:
+            # This is bad because the agent is moving away from the goal in the next step
+            return -(abs(difference))
+        elif previous_distance_to_goal_state > next_distance_to_goal_state:
+            # This is good because the agent is moving towards the goal in the next step
+            return abs(difference)
+        else:
+            # They're equal which is also bad
+            return -2
+    else:
+        return 5
+
+## CHANGED
+def high_gaze_reward_6(previous_gaze, action_vector, next_gaze, gaze_threshold):
+    # if gaze is not an integer between 0 and 10, raise an error
+    if previous_gaze not in range(6) or next_gaze not in range(6) or not all(isinstance(i, int) for i in [previous_gaze, next_gaze]):
+        raise ValueError(f"Gaze values must be integers between 0 and 10. Got {previous_gaze} and {next_gaze}")
+    # if the action vector is not a list of 3 integers, raise an error
+    # if not all(isinstance(i, str) for i in action_vector) or len(action_vector) != 3:
+    #     raise ValueError(f"Action vector must be a list of 3 integers. Got {action_vector}")
+    
+    previous_distance_to_goal_state = abs(previous_gaze - (sum(gaze_threshold) / 2))
+    next_distance_to_goal_state = abs(next_gaze - (sum(gaze_threshold) / 2))
+    
+    difference = previous_distance_to_goal_state - next_distance_to_goal_state
+    # if the current state is not within the threshold
+    if not gaze_threshold[0] <= next_gaze <= gaze_threshold[1]:    
+        if previous_distance_to_goal_state < next_distance_to_goal_state:
+            # This is bad because the agent is moving away from the goal in the next step
+            return -(abs(difference))
+        elif previous_distance_to_goal_state > next_distance_to_goal_state:
+            # This is good because the agent is moving towards the goal in the next step
+            return abs(difference)
+        else:
+            # They're equal which is also bad
+            return -2
+    else:
+        return 5
+                  
 # write main function to test the rewards
 if __name__=="__main__":
     testnum = 0

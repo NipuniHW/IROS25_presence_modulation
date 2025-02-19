@@ -1,5 +1,5 @@
 import pdb
-from rewards import low_gaze_reward, high_gaze_reward, medium_gaze_reward, low_gaze_reward_LVM
+from rewards import *
 
 #region mdp state and actions spaces
 
@@ -47,7 +47,8 @@ states_gaze_score = {
     "10": 10
 }
 
-states_gaze_score_5 = {
+states_gaze_score_6 = {
+    "0": 0,
     "1": 1,
     "2": 2,
     "3": 3,
@@ -163,6 +164,22 @@ low_gaze_config = GazeFormulationBaseClass({
     'led_actuators': led_actuators
 })
 
+## CHANGED
+low_gaze_config_6 = GazeFormulationBaseClass({
+    'learning_rate': 0.1,
+    'discount_factor': 0.9,
+    'exploration_rate': 0.1,
+    'episodes': 10000,
+    'epsilon': 0.9,
+    'epsilon_decay': 0.99,
+    'gamma': 0.9,
+    'reward_function': low_gaze_reward_6,
+    'actions': actions_incremental,
+    'states': states_gaze_score_6,
+    'gaze_threshold': [0, 1],
+    'led_actuators': led_actuators
+})
+
 ### QUERY by David: Discount factor is the same as Gamma is it not? If so, we should fix this by removing one of them from the configs
 
 low_gaze_config_with_L_M_V = GazeFormulationBaseClass({
@@ -206,6 +223,22 @@ high_gaze_config = GazeFormulationBaseClass({
     'actions': actions_incremental,
     'states': states_gaze_score,
     'gaze_threshold': [7, 10],
+    'led_actuators': led_actuators
+})
+
+## CHANGED
+high_gaze_config_6 = GazeFormulationBaseClass({
+    'learning_rate': 0.1,
+    'discount_factor': 0.9,
+    'exploration_rate': 0.1,
+    'episodes': 10000,
+    'epsilon': 0.9,
+    'epsilon_decay': 0.999,
+    'gamma': 0.9,
+    'reward_function': high_gaze_reward_6,
+    'actions': actions_incremental,
+    'states': states_gaze_score_6,
+    'gaze_threshold': [4,5],
     'led_actuators': led_actuators
 })
 

@@ -1,0 +1,3 @@
+episode: 17
+epsilon: 0.118911865
+q_table_name: test_data_high_6s/test_data_high_6s_episode_17.csv
