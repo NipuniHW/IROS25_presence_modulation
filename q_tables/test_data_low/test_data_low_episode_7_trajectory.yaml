@@ -1,0 +1,396 @@
+action_episode_7_timestep_0: Decrease L, Keep M, Increase V
+action_episode_7_timestep_1: Keep L, Keep M, Decrease V
+action_episode_7_timestep_10: Keep L, Keep M, Decrease V
+action_episode_7_timestep_11: Keep L, Keep M, Decrease V
+action_episode_7_timestep_12: Increase L, Increase M, Increase V
+action_episode_7_timestep_13: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_14: Increase L, Increase M, Increase V
+action_episode_7_timestep_15: Increase L, Increase M, Keep V
+action_episode_7_timestep_16: Increase L, Increase M, Increase V
+action_episode_7_timestep_17: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_18: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_19: Increase L, Increase M, Increase V
+action_episode_7_timestep_2: Keep L, Keep M, Decrease V
+action_episode_7_timestep_20: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_21: Keep L, Keep M, Decrease V
+action_episode_7_timestep_22: Keep L, Keep M, Decrease V
+action_episode_7_timestep_23: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_24: Keep L, Keep M, Decrease V
+action_episode_7_timestep_25: Keep L, Keep M, Decrease V
+action_episode_7_timestep_26: Increase L, Increase M, Keep V
+action_episode_7_timestep_27: Keep L, Increase M, Keep V
+action_episode_7_timestep_28: Keep L, Increase M, Keep V
+action_episode_7_timestep_29: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_3: Keep L, Increase M, Keep V
+action_episode_7_timestep_30: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_31: Keep L, Keep M, Decrease V
+action_episode_7_timestep_32: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_33: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_34: Keep L, Keep M, Decrease V
+action_episode_7_timestep_35: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_36: Keep L, Keep M, Decrease V
+action_episode_7_timestep_37: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_38: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_39: Keep L, Keep M, Decrease V
+action_episode_7_timestep_4: Increase L, Increase M, Increase V
+action_episode_7_timestep_40: Keep L, Keep M, Decrease V
+action_episode_7_timestep_41: Keep L, Keep M, Decrease V
+action_episode_7_timestep_42: Keep L, Keep M, Decrease V
+action_episode_7_timestep_43: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_44: Keep L, Keep M, Decrease V
+action_episode_7_timestep_45: Increase L, Increase M, Increase V
+action_episode_7_timestep_46: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_47: Increase L, Increase M, Increase V
+action_episode_7_timestep_48: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_49: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_5: Increase L, Increase M, Increase V
+action_episode_7_timestep_50: Keep L, Keep M, Decrease V
+action_episode_7_timestep_51: Increase L, Increase M, Increase V
+action_episode_7_timestep_52: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_53: Keep L, Keep M, Decrease V
+action_episode_7_timestep_54: Increase L, Increase M, Increase V
+action_episode_7_timestep_55: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_56: Increase L, Increase M, Increase V
+action_episode_7_timestep_57: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_58: Keep L, Keep M, Decrease V
+action_episode_7_timestep_59: Increase L, Increase M, Increase V
+action_episode_7_timestep_6: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_60: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_61: Keep L, Keep M, Decrease V
+action_episode_7_timestep_62: Increase L, Increase M, Increase V
+action_episode_7_timestep_63: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_64: Increase L, Increase M, Increase V
+action_episode_7_timestep_65: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_66: Keep L, Increase M, Keep V
+action_episode_7_timestep_67: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_68: Keep L, Increase M, Keep V
+action_episode_7_timestep_69: Increase L, Increase M, Increase V
+action_episode_7_timestep_7: Decrease L, Keep M, Increase V
+action_episode_7_timestep_70: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_71: Increase L, Increase M, Increase V
+action_episode_7_timestep_72: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_73: Increase L, Increase M, Increase V
+action_episode_7_timestep_74: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_75: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_76: Keep L, Increase M, Keep V
+action_episode_7_timestep_77: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_78: Increase L, Increase M, Increase V
+action_episode_7_timestep_79: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_8: Increase L, Increase M, Increase V
+action_episode_7_timestep_80: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_81: Keep L, Keep M, Decrease V
+action_episode_7_timestep_82: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_83: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_84: Keep L, Keep M, Decrease V
+action_episode_7_timestep_85: Increase L, Increase M, Increase V
+action_episode_7_timestep_86: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_87: Increase L, Increase M, Keep V
+action_episode_7_timestep_88: Keep L, Increase M, Keep V
+action_episode_7_timestep_89: Increase L, Increase M, Increase V
+action_episode_7_timestep_9: Keep L, Keep M, Decrease V
+action_episode_7_timestep_90: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_91: Keep L, Increase M, Keep V
+action_episode_7_timestep_92: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_93: Increase L, Decrease M, Decrease V
+action_episode_7_timestep_94: Keep L, Increase M, Keep V
+action_episode_7_timestep_95: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_96: Increase L, Increase M, Increase V
+action_episode_7_timestep_97: Decrease L, Decrease M, Decrease V
+action_episode_7_timestep_98: Increase L, Increase M, Increase V
+nextstate_episode_7_timestep_0: 6
+nextstate_episode_7_timestep_1: 0
+nextstate_episode_7_timestep_10: 0
+nextstate_episode_7_timestep_11: 0
+nextstate_episode_7_timestep_12: 6
+nextstate_episode_7_timestep_13: 5
+nextstate_episode_7_timestep_14: 6
+nextstate_episode_7_timestep_15: 4
+nextstate_episode_7_timestep_16: 8
+nextstate_episode_7_timestep_17: 10
+nextstate_episode_7_timestep_18: 5
+nextstate_episode_7_timestep_19: 6
+nextstate_episode_7_timestep_2: 0
+nextstate_episode_7_timestep_20: 10
+nextstate_episode_7_timestep_21: 0
+nextstate_episode_7_timestep_22: 6
+nextstate_episode_7_timestep_23: 0
+nextstate_episode_7_timestep_24: 0
+nextstate_episode_7_timestep_25: 0
+nextstate_episode_7_timestep_26: 7
+nextstate_episode_7_timestep_27: 9
+nextstate_episode_7_timestep_28: 7
+nextstate_episode_7_timestep_29: 10
+nextstate_episode_7_timestep_3: 10
+nextstate_episode_7_timestep_30: 5
+nextstate_episode_7_timestep_31: 6
+nextstate_episode_7_timestep_32: 6
+nextstate_episode_7_timestep_33: 5
+nextstate_episode_7_timestep_34: 6
+nextstate_episode_7_timestep_35: 0
+nextstate_episode_7_timestep_36: 0
+nextstate_episode_7_timestep_37: 0
+nextstate_episode_7_timestep_38: 5
+nextstate_episode_7_timestep_39: 0
+nextstate_episode_7_timestep_4: 8
+nextstate_episode_7_timestep_40: 0
+nextstate_episode_7_timestep_41: 0
+nextstate_episode_7_timestep_42: 0
+nextstate_episode_7_timestep_43: 6
+nextstate_episode_7_timestep_44: 0
+nextstate_episode_7_timestep_45: 6
+nextstate_episode_7_timestep_46: 9
+nextstate_episode_7_timestep_47: 6
+nextstate_episode_7_timestep_48: 9
+nextstate_episode_7_timestep_49: 5
+nextstate_episode_7_timestep_5: 6
+nextstate_episode_7_timestep_50: 0
+nextstate_episode_7_timestep_51: 7
+nextstate_episode_7_timestep_52: 7
+nextstate_episode_7_timestep_53: 6
+nextstate_episode_7_timestep_54: 6
+nextstate_episode_7_timestep_55: 10
+nextstate_episode_7_timestep_56: 6
+nextstate_episode_7_timestep_57: 10
+nextstate_episode_7_timestep_58: 0
+nextstate_episode_7_timestep_59: 6
+nextstate_episode_7_timestep_6: 0
+nextstate_episode_7_timestep_60: 6
+nextstate_episode_7_timestep_61: 0
+nextstate_episode_7_timestep_62: 6
+nextstate_episode_7_timestep_63: 10
+nextstate_episode_7_timestep_64: 6
+nextstate_episode_7_timestep_65: 10
+nextstate_episode_7_timestep_66: 6
+nextstate_episode_7_timestep_67: 10
+nextstate_episode_7_timestep_68: 7
+nextstate_episode_7_timestep_69: 8
+nextstate_episode_7_timestep_7: 0
+nextstate_episode_7_timestep_70: 7
+nextstate_episode_7_timestep_71: 6
+nextstate_episode_7_timestep_72: 10
+nextstate_episode_7_timestep_73: 6
+nextstate_episode_7_timestep_74: 5
+nextstate_episode_7_timestep_75: 5
+nextstate_episode_7_timestep_76: 7
+nextstate_episode_7_timestep_77: 9
+nextstate_episode_7_timestep_78: 7
+nextstate_episode_7_timestep_79: 7
+nextstate_episode_7_timestep_8: 0
+nextstate_episode_7_timestep_80: 0
+nextstate_episode_7_timestep_81: 0
+nextstate_episode_7_timestep_82: 0
+nextstate_episode_7_timestep_83: 5
+nextstate_episode_7_timestep_84: 0
+nextstate_episode_7_timestep_85: 3
+nextstate_episode_7_timestep_86: 10
+nextstate_episode_7_timestep_87: 4
+nextstate_episode_7_timestep_88: 6
+nextstate_episode_7_timestep_89: 10
+nextstate_episode_7_timestep_9: 5
+nextstate_episode_7_timestep_90: 9
+nextstate_episode_7_timestep_91: 7
+nextstate_episode_7_timestep_92: 8
+nextstate_episode_7_timestep_93: 5
+nextstate_episode_7_timestep_94: 7
+nextstate_episode_7_timestep_95: 10
+nextstate_episode_7_timestep_96: 7
+nextstate_episode_7_timestep_97: 10
+nextstate_episode_7_timestep_98: 6
+previousstate_episode_7_timestep_0: 1
+previousstate_episode_7_timestep_1: 0
+previousstate_episode_7_timestep_10: 0
+previousstate_episode_7_timestep_11: 0
+previousstate_episode_7_timestep_12: 6
+previousstate_episode_7_timestep_13: 5
+previousstate_episode_7_timestep_14: 6
+previousstate_episode_7_timestep_15: 4
+previousstate_episode_7_timestep_16: 6
+previousstate_episode_7_timestep_17: 10
+previousstate_episode_7_timestep_18: 5
+previousstate_episode_7_timestep_19: 6
+previousstate_episode_7_timestep_2: 0
+previousstate_episode_7_timestep_20: 10
+previousstate_episode_7_timestep_21: 0
+previousstate_episode_7_timestep_22: 0
+previousstate_episode_7_timestep_23: 5
+previousstate_episode_7_timestep_24: 0
+previousstate_episode_7_timestep_25: 0
+previousstate_episode_7_timestep_26: 4
+previousstate_episode_7_timestep_27: 7
+previousstate_episode_7_timestep_28: 7
+previousstate_episode_7_timestep_29: 10
+previousstate_episode_7_timestep_3: 7
+previousstate_episode_7_timestep_30: 5
+previousstate_episode_7_timestep_31: 0
+previousstate_episode_7_timestep_32: 10
+previousstate_episode_7_timestep_33: 5
+previousstate_episode_7_timestep_34: 0
+previousstate_episode_7_timestep_35: 5
+previousstate_episode_7_timestep_36: 0
+previousstate_episode_7_timestep_37: 5
+previousstate_episode_7_timestep_38: 5
+previousstate_episode_7_timestep_39: 0
+previousstate_episode_7_timestep_4: 8
+previousstate_episode_7_timestep_40: 0
+previousstate_episode_7_timestep_41: 0
+previousstate_episode_7_timestep_42: 0
+previousstate_episode_7_timestep_43: 5
+previousstate_episode_7_timestep_44: 0
+previousstate_episode_7_timestep_45: 6
+previousstate_episode_7_timestep_46: 10
+previousstate_episode_7_timestep_47: 6
+previousstate_episode_7_timestep_48: 10
+previousstate_episode_7_timestep_49: 5
+previousstate_episode_7_timestep_5: 6
+previousstate_episode_7_timestep_50: 0
+previousstate_episode_7_timestep_51: 6
+previousstate_episode_7_timestep_52: 10
+previousstate_episode_7_timestep_53: 0
+previousstate_episode_7_timestep_54: 6
+previousstate_episode_7_timestep_55: 10
+previousstate_episode_7_timestep_56: 6
+previousstate_episode_7_timestep_57: 10
+previousstate_episode_7_timestep_58: 0
+previousstate_episode_7_timestep_59: 6
+previousstate_episode_7_timestep_6: 5
+previousstate_episode_7_timestep_60: 10
+previousstate_episode_7_timestep_61: 0
+previousstate_episode_7_timestep_62: 6
+previousstate_episode_7_timestep_63: 10
+previousstate_episode_7_timestep_64: 6
+previousstate_episode_7_timestep_65: 10
+previousstate_episode_7_timestep_66: 7
+previousstate_episode_7_timestep_67: 10
+previousstate_episode_7_timestep_68: 7
+previousstate_episode_7_timestep_69: 8
+previousstate_episode_7_timestep_7: 1
+previousstate_episode_7_timestep_70: 10
+previousstate_episode_7_timestep_71: 6
+previousstate_episode_7_timestep_72: 10
+previousstate_episode_7_timestep_73: 6
+previousstate_episode_7_timestep_74: 10
+previousstate_episode_7_timestep_75: 5
+previousstate_episode_7_timestep_76: 7
+previousstate_episode_7_timestep_77: 10
+previousstate_episode_7_timestep_78: 6
+previousstate_episode_7_timestep_79: 10
+previousstate_episode_7_timestep_8: 6
+previousstate_episode_7_timestep_80: 5
+previousstate_episode_7_timestep_81: 0
+previousstate_episode_7_timestep_82: 5
+previousstate_episode_7_timestep_83: 5
+previousstate_episode_7_timestep_84: 0
+previousstate_episode_7_timestep_85: 6
+previousstate_episode_7_timestep_86: 10
+previousstate_episode_7_timestep_87: 4
+previousstate_episode_7_timestep_88: 7
+previousstate_episode_7_timestep_89: 6
+previousstate_episode_7_timestep_9: 0
+previousstate_episode_7_timestep_90: 10
+previousstate_episode_7_timestep_91: 7
+previousstate_episode_7_timestep_92: 10
+previousstate_episode_7_timestep_93: 5
+previousstate_episode_7_timestep_94: 7
+previousstate_episode_7_timestep_95: 10
+previousstate_episode_7_timestep_96: 6
+previousstate_episode_7_timestep_97: 10
+previousstate_episode_7_timestep_98: 6
+reward_episode_7_timestep_0: -4.0
+reward_episode_7_timestep_1: 5
+reward_episode_7_timestep_10: 5
+reward_episode_7_timestep_11: 5
+reward_episode_7_timestep_12: -2
+reward_episode_7_timestep_13: -2
+reward_episode_7_timestep_14: -2
+reward_episode_7_timestep_15: -2
+reward_episode_7_timestep_16: -2.0
+reward_episode_7_timestep_17: -2
+reward_episode_7_timestep_18: -2
+reward_episode_7_timestep_19: -2
+reward_episode_7_timestep_2: 5
+reward_episode_7_timestep_20: -2
+reward_episode_7_timestep_21: 5
+reward_episode_7_timestep_22: -3.0
+reward_episode_7_timestep_23: 5
+reward_episode_7_timestep_24: 5
+reward_episode_7_timestep_25: 5
+reward_episode_7_timestep_26: -3.0
+reward_episode_7_timestep_27: -2.0
+reward_episode_7_timestep_28: -2
+reward_episode_7_timestep_29: -2
+reward_episode_7_timestep_3: -3.0
+reward_episode_7_timestep_30: -2
+reward_episode_7_timestep_31: -3.0
+reward_episode_7_timestep_32: 4.0
+reward_episode_7_timestep_33: -2
+reward_episode_7_timestep_34: -3.0
+reward_episode_7_timestep_35: 5
+reward_episode_7_timestep_36: 5
+reward_episode_7_timestep_37: 5
+reward_episode_7_timestep_38: -2
+reward_episode_7_timestep_39: 5
+reward_episode_7_timestep_4: -2
+reward_episode_7_timestep_40: 5
+reward_episode_7_timestep_41: 5
+reward_episode_7_timestep_42: 5
+reward_episode_7_timestep_43: -1.0
+reward_episode_7_timestep_44: 5
+reward_episode_7_timestep_45: -2
+reward_episode_7_timestep_46: 1.0
+reward_episode_7_timestep_47: -2
+reward_episode_7_timestep_48: 1.0
+reward_episode_7_timestep_49: -2
+reward_episode_7_timestep_5: -2
+reward_episode_7_timestep_50: 5
+reward_episode_7_timestep_51: -1.0
+reward_episode_7_timestep_52: 3.0
+reward_episode_7_timestep_53: -3.0
+reward_episode_7_timestep_54: -2
+reward_episode_7_timestep_55: -2
+reward_episode_7_timestep_56: -2
+reward_episode_7_timestep_57: -2
+reward_episode_7_timestep_58: 5
+reward_episode_7_timestep_59: -2
+reward_episode_7_timestep_6: 5
+reward_episode_7_timestep_60: 4.0
+reward_episode_7_timestep_61: 5
+reward_episode_7_timestep_62: -2
+reward_episode_7_timestep_63: -2
+reward_episode_7_timestep_64: -2
+reward_episode_7_timestep_65: -2
+reward_episode_7_timestep_66: 1.0
+reward_episode_7_timestep_67: -2
+reward_episode_7_timestep_68: -2
+reward_episode_7_timestep_69: -2
+reward_episode_7_timestep_7: 5
+reward_episode_7_timestep_70: 3.0
+reward_episode_7_timestep_71: -2
+reward_episode_7_timestep_72: -2
+reward_episode_7_timestep_73: -2
+reward_episode_7_timestep_74: 5.0
+reward_episode_7_timestep_75: -2
+reward_episode_7_timestep_76: -2
+reward_episode_7_timestep_77: 1.0
+reward_episode_7_timestep_78: -1.0
+reward_episode_7_timestep_79: 3.0
+reward_episode_7_timestep_8: 5
+reward_episode_7_timestep_80: 5
+reward_episode_7_timestep_81: 5
+reward_episode_7_timestep_82: 5
+reward_episode_7_timestep_83: -2
+reward_episode_7_timestep_84: 5
+reward_episode_7_timestep_85: 5
+reward_episode_7_timestep_86: -2
+reward_episode_7_timestep_87: -2
+reward_episode_7_timestep_88: 1.0
+reward_episode_7_timestep_89: -4.0
+reward_episode_7_timestep_9: -2.0
+reward_episode_7_timestep_90: 1.0
+reward_episode_7_timestep_91: -2
+reward_episode_7_timestep_92: 2.0
+reward_episode_7_timestep_93: -2
+reward_episode_7_timestep_94: -2
+reward_episode_7_timestep_95: -2
+reward_episode_7_timestep_96: -1.0
+reward_episode_7_timestep_97: -2
+reward_episode_7_timestep_98: -2

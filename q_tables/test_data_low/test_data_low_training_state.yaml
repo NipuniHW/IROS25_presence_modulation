@@ -1,0 +1,3 @@
+episode: 8
+epsilon: 0.0003142799176667208
+q_table_name: test_data_low/test_data_low_episode_8.csv

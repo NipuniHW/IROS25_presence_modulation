@@ -1,0 +1,297 @@
+action_episode_23_timestep_0: Increase L, Keep M, Decrease V
+action_episode_23_timestep_1: Keep L, Decrease M, Keep V
+action_episode_23_timestep_10: Decrease L, Keep M, Increase V
+action_episode_23_timestep_11: Increase L, Increase M, Increase V
+action_episode_23_timestep_12: Decrease L, Increase M, Decrease V
+action_episode_23_timestep_13: Increase L, Keep M, Keep V
+action_episode_23_timestep_14: Keep L, Increase M, Increase V
+action_episode_23_timestep_15: Keep L, Keep M, Decrease V
+action_episode_23_timestep_16: Decrease L, Decrease M, Keep V
+action_episode_23_timestep_17: Increase L, Increase M, Keep V
+action_episode_23_timestep_18: Increase L, Increase M, Decrease V
+action_episode_23_timestep_19: Keep L, Keep M, Increase V
+action_episode_23_timestep_2: Decrease L, Decrease M, Increase V
+action_episode_23_timestep_20: Increase L, Increase M, Increase V
+action_episode_23_timestep_21: Keep L, Keep M, Decrease V
+action_episode_23_timestep_22: Decrease L, Increase M, Keep V
+action_episode_23_timestep_23: Keep L, Keep M, Decrease V
+action_episode_23_timestep_24: Increase L, Decrease M, Increase V
+action_episode_23_timestep_25: Increase L, Decrease M, Keep V
+action_episode_23_timestep_26: Decrease L, Increase M, Decrease V
+action_episode_23_timestep_27: Keep L, Decrease M, Increase V
+action_episode_23_timestep_28: Increase L, Increase M, Increase V
+action_episode_23_timestep_29: Keep L, Keep M, Decrease V
+action_episode_23_timestep_3: Increase L, Increase M, Increase V
+action_episode_23_timestep_30: Decrease L, Increase M, Increase V
+action_episode_23_timestep_31: Increase L, Keep M, Increase V
+action_episode_23_timestep_32: Keep L, Keep M, Decrease V
+action_episode_23_timestep_33: Decrease L, Keep M, Keep V
+action_episode_23_timestep_34: Decrease L, Decrease M, Decrease V
+action_episode_23_timestep_35: Keep L, Increase M, Decrease V
+action_episode_23_timestep_36: Keep L, Keep M, Keep V
+action_episode_23_timestep_37: Increase L, Increase M, Increase V
+action_episode_23_timestep_38: Increase L, Increase M, Increase V
+action_episode_23_timestep_39: Decrease L, Decrease M, Keep V
+action_episode_23_timestep_4: Keep L, Keep M, Keep V
+action_episode_23_timestep_40: Increase L, Keep M, Increase V
+action_episode_23_timestep_41: Increase L, Increase M, Increase V
+action_episode_23_timestep_42: Keep L, Keep M, Decrease V
+action_episode_23_timestep_43: Increase L, Decrease M, Decrease V
+action_episode_23_timestep_44: Increase L, Keep M, Decrease V
+action_episode_23_timestep_45: Decrease L, Keep M, Decrease V
+action_episode_23_timestep_46: Keep L, Decrease M, Keep V
+action_episode_23_timestep_47: Decrease L, Decrease M, Increase V
+action_episode_23_timestep_48: Increase L, Increase M, Increase V
+action_episode_23_timestep_49: Keep L, Keep M, Decrease V
+action_episode_23_timestep_5: Increase L, Decrease M, Keep V
+action_episode_23_timestep_50: Decrease L, Keep M, Decrease V
+action_episode_23_timestep_51: Increase L, Decrease M, Keep V
+action_episode_23_timestep_52: Keep L, Increase M, Keep V
+action_episode_23_timestep_53: Keep L, Increase M, Keep V
+action_episode_23_timestep_54: Increase L, Keep M, Keep V
+action_episode_23_timestep_55: Keep L, Increase M, Increase V
+action_episode_23_timestep_56: Increase L, Increase M, Increase V
+action_episode_23_timestep_57: Decrease L, Decrease M, Decrease V
+action_episode_23_timestep_58: Decrease L, Decrease M, Keep V
+action_episode_23_timestep_59: Increase L, Increase M, Keep V
+action_episode_23_timestep_6: Keep L, Increase M, Keep V
+action_episode_23_timestep_60: Increase L, Increase M, Decrease V
+action_episode_23_timestep_61: Increase L, Increase M, Keep V
+action_episode_23_timestep_62: Decrease L, Increase M, Keep V
+action_episode_23_timestep_63: Keep L, Decrease M, Decrease V
+action_episode_23_timestep_64: Keep L, Keep M, Decrease V
+action_episode_23_timestep_65: Increase L, Decrease M, Increase V
+action_episode_23_timestep_66: Decrease L, Increase M, Decrease V
+action_episode_23_timestep_67: Keep L, Decrease M, Increase V
+action_episode_23_timestep_68: Increase L, Increase M, Increase V
+action_episode_23_timestep_69: Keep L, Keep M, Decrease V
+action_episode_23_timestep_7: Decrease L, Keep M, Increase V
+action_episode_23_timestep_70: Increase L, Increase M, Keep V
+action_episode_23_timestep_71: Decrease L, Increase M, Increase V
+action_episode_23_timestep_72: Increase L, Increase M, Increase V
+action_episode_23_timestep_73: Keep L, Keep M, Decrease V
+action_episode_23_timestep_74: Decrease L, Keep M, Keep V
+action_episode_23_timestep_75: Decrease L, Decrease M, Decrease V
+action_episode_23_timestep_76: Keep L, Keep M, Increase V
+action_episode_23_timestep_77: Increase L, Increase M, Increase V
+action_episode_23_timestep_78: Keep L, Keep M, Decrease V
+action_episode_23_timestep_79: Keep L, Increase M, Decrease V
+action_episode_23_timestep_8: Keep L, Keep M, Increase V
+action_episode_23_timestep_80: Keep L, Keep M, Keep V
+action_episode_23_timestep_81: Increase L, Increase M, Increase V
+action_episode_23_timestep_82: Increase L, Increase M, Increase V
+action_episode_23_timestep_83: Keep L, Keep M, Decrease V
+action_episode_23_timestep_84: Increase L, Keep M, Increase V
+action_episode_23_timestep_85: Increase L, Increase M, Increase V
+action_episode_23_timestep_86: Keep L, Keep M, Increase V
+action_episode_23_timestep_87: Decrease L, Decrease M, Keep V
+action_episode_23_timestep_88: Increase L, Decrease M, Decrease V
+action_episode_23_timestep_89: Increase L, Keep M, Decrease V
+action_episode_23_timestep_9: Keep L, Keep M, Decrease V
+action_episode_23_timestep_90: Decrease L, Keep M, Increase V
+action_episode_23_timestep_91: Increase L, Increase M, Increase V
+action_episode_23_timestep_92: Keep L, Keep M, Decrease V
+action_episode_23_timestep_93: Increase L, Increase M, Keep V
+action_episode_23_timestep_94: Keep L, Decrease M, Keep V
+action_episode_23_timestep_95: Decrease L, Decrease M, Increase V
+action_episode_23_timestep_96: Increase L, Increase M, Increase V
+action_episode_23_timestep_97: Keep L, Keep M, Decrease V
+action_episode_23_timestep_98: Increase L, Decrease M, Keep V
+nextstate_episode_23_timestep_0: 1
+nextstate_episode_23_timestep_1: 1
+nextstate_episode_23_timestep_10: 1
+nextstate_episode_23_timestep_11: 5
+nextstate_episode_23_timestep_12: 5
+nextstate_episode_23_timestep_13: 1
+nextstate_episode_23_timestep_14: 1
+nextstate_episode_23_timestep_15: 4
+nextstate_episode_23_timestep_16: 1
+nextstate_episode_23_timestep_17: 1
+nextstate_episode_23_timestep_18: 1
+nextstate_episode_23_timestep_19: 1
+nextstate_episode_23_timestep_2: 1
+nextstate_episode_23_timestep_20: 3
+nextstate_episode_23_timestep_21: 3
+nextstate_episode_23_timestep_22: 1
+nextstate_episode_23_timestep_23: 1
+nextstate_episode_23_timestep_24: 1
+nextstate_episode_23_timestep_25: 4
+nextstate_episode_23_timestep_26: 1
+nextstate_episode_23_timestep_27: 1
+nextstate_episode_23_timestep_28: 4
+nextstate_episode_23_timestep_29: 3
+nextstate_episode_23_timestep_3: 5
+nextstate_episode_23_timestep_30: 1
+nextstate_episode_23_timestep_31: 5
+nextstate_episode_23_timestep_32: 3
+nextstate_episode_23_timestep_33: 1
+nextstate_episode_23_timestep_34: 1
+nextstate_episode_23_timestep_35: 1
+nextstate_episode_23_timestep_36: 1
+nextstate_episode_23_timestep_37: 1
+nextstate_episode_23_timestep_38: 5
+nextstate_episode_23_timestep_39: 3
+nextstate_episode_23_timestep_4: 5
+nextstate_episode_23_timestep_40: 1
+nextstate_episode_23_timestep_41: 5
+nextstate_episode_23_timestep_42: 5
+nextstate_episode_23_timestep_43: 1
+nextstate_episode_23_timestep_44: 1
+nextstate_episode_23_timestep_45: 1
+nextstate_episode_23_timestep_46: 1
+nextstate_episode_23_timestep_47: 1
+nextstate_episode_23_timestep_48: 5
+nextstate_episode_23_timestep_49: 2
+nextstate_episode_23_timestep_5: 1
+nextstate_episode_23_timestep_50: 1
+nextstate_episode_23_timestep_51: 1
+nextstate_episode_23_timestep_52: 1
+nextstate_episode_23_timestep_53: 1
+nextstate_episode_23_timestep_54: 1
+nextstate_episode_23_timestep_55: 1
+nextstate_episode_23_timestep_56: 4
+nextstate_episode_23_timestep_57: 5
+nextstate_episode_23_timestep_58: 1
+nextstate_episode_23_timestep_59: 1
+nextstate_episode_23_timestep_6: 1
+nextstate_episode_23_timestep_60: 1
+nextstate_episode_23_timestep_61: 1
+nextstate_episode_23_timestep_62: 1
+nextstate_episode_23_timestep_63: 1
+nextstate_episode_23_timestep_64: 1
+nextstate_episode_23_timestep_65: 1
+nextstate_episode_23_timestep_66: 1
+nextstate_episode_23_timestep_67: 1
+nextstate_episode_23_timestep_68: 5
+nextstate_episode_23_timestep_69: 5
+nextstate_episode_23_timestep_7: 1
+nextstate_episode_23_timestep_70: 1
+nextstate_episode_23_timestep_71: 1
+nextstate_episode_23_timestep_72: 5
+nextstate_episode_23_timestep_73: 2
+nextstate_episode_23_timestep_74: 1
+nextstate_episode_23_timestep_75: 1
+nextstate_episode_23_timestep_76: 1
+nextstate_episode_23_timestep_77: 5
+nextstate_episode_23_timestep_78: 5
+nextstate_episode_23_timestep_79: 1
+nextstate_episode_23_timestep_8: 5
+nextstate_episode_23_timestep_80: 1
+nextstate_episode_23_timestep_81: 1
+nextstate_episode_23_timestep_82: 2
+nextstate_episode_23_timestep_83: 4
+nextstate_episode_23_timestep_84: 1
+nextstate_episode_23_timestep_85: 5
+nextstate_episode_23_timestep_86: 5
+nextstate_episode_23_timestep_87: 2
+nextstate_episode_23_timestep_88: 1
+nextstate_episode_23_timestep_89: 1
+nextstate_episode_23_timestep_9: 2
+nextstate_episode_23_timestep_90: 1
+nextstate_episode_23_timestep_91: 4
+nextstate_episode_23_timestep_92: 5
+nextstate_episode_23_timestep_93: 1
+nextstate_episode_23_timestep_94: 1
+nextstate_episode_23_timestep_95: 1
+nextstate_episode_23_timestep_96: 4
+nextstate_episode_23_timestep_97: 2
+nextstate_episode_23_timestep_98: 1
+previousstate_episode_23_timestep_0: 1
+previousstate_episode_23_timestep_1: 1
+previousstate_episode_23_timestep_10: 1
+previousstate_episode_23_timestep_11: 4
+previousstate_episode_23_timestep_12: 5
+previousstate_episode_23_timestep_13: 1
+previousstate_episode_23_timestep_14: 1
+previousstate_episode_23_timestep_15: 4
+previousstate_episode_23_timestep_16: 1
+previousstate_episode_23_timestep_17: 1
+previousstate_episode_23_timestep_18: 1
+previousstate_episode_23_timestep_19: 1
+previousstate_episode_23_timestep_2: 1
+previousstate_episode_23_timestep_20: 4
+previousstate_episode_23_timestep_21: 5
+previousstate_episode_23_timestep_22: 1
+previousstate_episode_23_timestep_23: 1
+previousstate_episode_23_timestep_24: 1
+previousstate_episode_23_timestep_25: 4
+previousstate_episode_23_timestep_26: 1
+previousstate_episode_23_timestep_27: 1
+previousstate_episode_23_timestep_28: 4
+previousstate_episode_23_timestep_29: 5
+previousstate_episode_23_timestep_3: 4
+previousstate_episode_23_timestep_30: 1
+previousstate_episode_23_timestep_31: 4
+previousstate_episode_23_timestep_32: 5
+previousstate_episode_23_timestep_33: 1
+previousstate_episode_23_timestep_34: 1
+previousstate_episode_23_timestep_35: 1
+previousstate_episode_23_timestep_36: 1
+previousstate_episode_23_timestep_37: 1
+previousstate_episode_23_timestep_38: 4
+previousstate_episode_23_timestep_39: 5
+previousstate_episode_23_timestep_4: 5
+previousstate_episode_23_timestep_40: 1
+previousstate_episode_23_timestep_41: 4
+previousstate_episode_23_timestep_42: 5
+previousstate_episode_23_timestep_43: 1
+previousstate_episode_23_timestep_44: 1
+previousstate_episode_23_timestep_45: 1
+previousstate_episode_23_timestep_46: 1
+previousstate_episode_23_timestep_47: 1
+previousstate_episode_23_timestep_48: 4
+previousstate_episode_23_timestep_49: 5
+previousstate_episode_23_timestep_5: 1
+previousstate_episode_23_timestep_50: 1
+previousstate_episode_23_timestep_51: 1
+previousstate_episode_23_timestep_52: 1
+previousstate_episode_23_timestep_53: 1
+previousstate_episode_23_timestep_54: 1
+previousstate_episode_23_timestep_55: 1
+previousstate_episode_23_timestep_56: 4
+previousstate_episode_23_timestep_57: 5
+previousstate_episode_23_timestep_58: 1
+previousstate_episode_23_timestep_59: 1
+previousstate_episode_23_timestep_6: 1
+previousstate_episode_23_timestep_60: 1
+previousstate_episode_23_timestep_61: 1
+previousstate_episode_23_timestep_62: 1
+previousstate_episode_23_timestep_63: 1
+previousstate_episode_23_timestep_64: 1
+previousstate_episode_23_timestep_65: 1
+previousstate_episode_23_timestep_66: 1
+previousstate_episode_23_timestep_67: 1
+previousstate_episode_23_timestep_68: 4
+previousstate_episode_23_timestep_69: 5
+previousstate_episode_23_timestep_7: 1
+previousstate_episode_23_timestep_70: 3
+previousstate_episode_23_timestep_71: 1
+previousstate_episode_23_timestep_72: 4
+previousstate_episode_23_timestep_73: 5
+previousstate_episode_23_timestep_74: 1
+previousstate_episode_23_timestep_75: 1
+previousstate_episode_23_timestep_76: 1
+previousstate_episode_23_timestep_77: 4
+previousstate_episode_23_timestep_78: 5
+previousstate_episode_23_timestep_79: 1
+previousstate_episode_23_timestep_8: 4
+previousstate_episode_23_timestep_80: 1
+previousstate_episode_23_timestep_81: 1
+previousstate_episode_23_timestep_82: 4
+previousstate_episode_23_timestep_83: 5
+previousstate_episode_23_timestep_84: 1
+previousstate_episode_23_timestep_85: 4
+previousstate_episode_23_timestep_86: 5
+previousstate_episode_23_timestep_87: 2
+previousstate_episode_23_timestep_88: 1
+previousstate_episode_23_timestep_89: 1
+previousstate_episode_23_timestep_9: 5
+previousstate_episode_23_timestep_90: 1
+previousstate_episode_23_timestep_91: 4
+previousstate_episode_23_timestep_92: 5
+previousstate_episode_23_timestep_93: 3
+previousstate_episode_23_timestep_94: 1
+previousstate_episode_23_timestep_95: 1
+previousstate_episode_23_timestep_96: 4
+previousstate_episode_23_timestep_97: 5
+previousstate_episode_23_timestep_98: 1

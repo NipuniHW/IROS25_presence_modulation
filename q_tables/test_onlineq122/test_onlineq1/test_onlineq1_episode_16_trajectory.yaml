@@ -1,0 +1,57 @@
+action_episode_16_timestep_0: Keep L, Increase M, Increase V
+action_episode_16_timestep_1: Increase L, Keep M, Increase V
+action_episode_16_timestep_10: Decrease L, Keep M, Decrease V
+action_episode_16_timestep_11: Keep L, Increase M, Increase V
+action_episode_16_timestep_12: Increase L, Increase M, Keep V
+action_episode_16_timestep_13: Increase L, Keep M, Increase V
+action_episode_16_timestep_14: Increase L, Increase M, Increase V
+action_episode_16_timestep_15: Increase L, Keep M, Increase V
+action_episode_16_timestep_16: Increase L, Keep M, Keep V
+action_episode_16_timestep_17: Increase L, Decrease M, Increase V
+action_episode_16_timestep_18: Decrease L, Keep M, Increase V
+action_episode_16_timestep_2: Increase L, Keep M, Increase V
+action_episode_16_timestep_3: Increase L, Keep M, Increase V
+action_episode_16_timestep_4: Increase L, Keep M, Increase V
+action_episode_16_timestep_5: Increase L, Keep M, Increase V
+action_episode_16_timestep_6: Increase L, Keep M, Increase V
+action_episode_16_timestep_7: Increase L, Keep M, Increase V
+action_episode_16_timestep_8: Increase L, Keep M, Increase V
+action_episode_16_timestep_9: Keep L, Increase M, Keep V
+nextstate_episode_16_timestep_0: 10
+nextstate_episode_16_timestep_1: 10
+nextstate_episode_16_timestep_10: 0
+nextstate_episode_16_timestep_11: 0
+nextstate_episode_16_timestep_12: 4
+nextstate_episode_16_timestep_13: 10
+nextstate_episode_16_timestep_14: 4
+nextstate_episode_16_timestep_15: 5
+nextstate_episode_16_timestep_16: 0
+nextstate_episode_16_timestep_17: 0
+nextstate_episode_16_timestep_18: 0
+nextstate_episode_16_timestep_2: 10
+nextstate_episode_16_timestep_3: 10
+nextstate_episode_16_timestep_4: 10
+nextstate_episode_16_timestep_5: 10
+nextstate_episode_16_timestep_6: 10
+nextstate_episode_16_timestep_7: 10
+nextstate_episode_16_timestep_8: 10
+nextstate_episode_16_timestep_9: 5
+previousstate_episode_16_timestep_0: 8
+previousstate_episode_16_timestep_1: 10
+previousstate_episode_16_timestep_10: 0
+previousstate_episode_16_timestep_11: 0
+previousstate_episode_16_timestep_12: 7
+previousstate_episode_16_timestep_13: 10
+previousstate_episode_16_timestep_14: 4
+previousstate_episode_16_timestep_15: 10
+previousstate_episode_16_timestep_16: 0
+previousstate_episode_16_timestep_17: 0
+previousstate_episode_16_timestep_18: 0
+previousstate_episode_16_timestep_2: 10
+previousstate_episode_16_timestep_3: 10
+previousstate_episode_16_timestep_4: 10
+previousstate_episode_16_timestep_5: 10
+previousstate_episode_16_timestep_6: 10
+previousstate_episode_16_timestep_7: 10
+previousstate_episode_16_timestep_8: 10
+previousstate_episode_16_timestep_9: 4

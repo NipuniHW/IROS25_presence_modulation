@@ -1,0 +1,297 @@
+action_episode_27_timestep_0: Keep L, Increase M, Decrease V
+action_episode_27_timestep_1: Keep L, Keep M, Increase V
+action_episode_27_timestep_10: Increase L, Increase M, Increase V
+action_episode_27_timestep_11: Keep L, Keep M, Decrease V
+action_episode_27_timestep_12: Keep L, Keep M, Decrease V
+action_episode_27_timestep_13: Keep L, Decrease M, Keep V
+action_episode_27_timestep_14: Increase L, Decrease M, Keep V
+action_episode_27_timestep_15: Keep L, Increase M, Increase V
+action_episode_27_timestep_16: Increase L, Increase M, Keep V
+action_episode_27_timestep_17: Decrease L, Decrease M, Keep V
+action_episode_27_timestep_18: Increase L, Increase M, Decrease V
+action_episode_27_timestep_19: Decrease L, Increase M, Keep V
+action_episode_27_timestep_2: Decrease L, Keep M, Decrease V
+action_episode_27_timestep_20: Decrease L, Increase M, Decrease V
+action_episode_27_timestep_21: Keep L, Decrease M, Decrease V
+action_episode_27_timestep_22: Keep L, Keep M, Decrease V
+action_episode_27_timestep_23: Increase L, Decrease M, Increase V
+action_episode_27_timestep_24: Increase L, Keep M, Increase V
+action_episode_27_timestep_25: Increase L, Keep M, Keep V
+action_episode_27_timestep_26: Decrease L, Keep M, Keep V
+action_episode_27_timestep_27: Keep L, Decrease M, Increase V
+action_episode_27_timestep_28: Increase L, Increase M, Increase V
+action_episode_27_timestep_29: Keep L, Keep M, Decrease V
+action_episode_27_timestep_3: Keep L, Keep M, Keep V
+action_episode_27_timestep_30: Increase L, Increase M, Increase V
+action_episode_27_timestep_31: Decrease L, Increase M, Increase V
+action_episode_27_timestep_32: Keep L, Keep M, Decrease V
+action_episode_27_timestep_33: Decrease L, Increase M, Increase V
+action_episode_27_timestep_34: Decrease L, Increase M, Increase V
+action_episode_27_timestep_35: Keep L, Keep M, Decrease V
+action_episode_27_timestep_36: Decrease L, Increase M, Increase V
+action_episode_27_timestep_37: Increase L, Increase M, Increase V
+action_episode_27_timestep_38: Keep L, Keep M, Decrease V
+action_episode_27_timestep_39: Decrease L, Increase M, Increase V
+action_episode_27_timestep_4: Increase L, Increase M, Increase V
+action_episode_27_timestep_40: Increase L, Increase M, Increase V
+action_episode_27_timestep_41: Keep L, Keep M, Decrease V
+action_episode_27_timestep_42: Decrease L, Increase M, Increase V
+action_episode_27_timestep_43: Increase L, Increase M, Increase V
+action_episode_27_timestep_44: Keep L, Keep M, Decrease V
+action_episode_27_timestep_45: Decrease L, Increase M, Increase V
+action_episode_27_timestep_46: Increase L, Increase M, Increase V
+action_episode_27_timestep_47: Keep L, Keep M, Decrease V
+action_episode_27_timestep_48: Decrease L, Increase M, Increase V
+action_episode_27_timestep_49: Increase L, Increase M, Increase V
+action_episode_27_timestep_5: Increase L, Keep M, Decrease V
+action_episode_27_timestep_50: Keep L, Keep M, Decrease V
+action_episode_27_timestep_51: Decrease L, Increase M, Increase V
+action_episode_27_timestep_52: Increase L, Increase M, Increase V
+action_episode_27_timestep_53: Keep L, Keep M, Decrease V
+action_episode_27_timestep_54: Decrease L, Increase M, Increase V
+action_episode_27_timestep_55: Increase L, Increase M, Increase V
+action_episode_27_timestep_56: Keep L, Keep M, Decrease V
+action_episode_27_timestep_57: Decrease L, Increase M, Increase V
+action_episode_27_timestep_58: Decrease L, Keep M, Keep V
+action_episode_27_timestep_59: Keep L, Keep M, Decrease V
+action_episode_27_timestep_6: Increase L, Decrease M, Decrease V
+action_episode_27_timestep_60: Decrease L, Increase M, Increase V
+action_episode_27_timestep_61: Increase L, Increase M, Increase V
+action_episode_27_timestep_62: Keep L, Keep M, Decrease V
+action_episode_27_timestep_63: Decrease L, Increase M, Increase V
+action_episode_27_timestep_64: Increase L, Increase M, Increase V
+action_episode_27_timestep_65: Keep L, Keep M, Decrease V
+action_episode_27_timestep_66: Increase L, Increase M, Keep V
+action_episode_27_timestep_67: Increase L, Keep M, Keep V
+action_episode_27_timestep_68: Decrease L, Decrease M, Decrease V
+action_episode_27_timestep_69: Keep L, Increase M, Keep V
+action_episode_27_timestep_7: Decrease L, Keep M, Increase V
+action_episode_27_timestep_70: Keep L, Increase M, Decrease V
+action_episode_27_timestep_71: Keep L, Keep M, Increase V
+action_episode_27_timestep_72: Increase L, Increase M, Increase V
+action_episode_27_timestep_73: Keep L, Keep M, Decrease V
+action_episode_27_timestep_74: Decrease L, Keep M, Decrease V
+action_episode_27_timestep_75: Keep L, Keep M, Keep V
+action_episode_27_timestep_76: Increase L, Increase M, Increase V
+action_episode_27_timestep_77: Increase L, Increase M, Increase V
+action_episode_27_timestep_78: Keep L, Keep M, Decrease V
+action_episode_27_timestep_79: Increase L, Keep M, Decrease V
+action_episode_27_timestep_8: Decrease L, Decrease M, Increase V
+action_episode_27_timestep_80: Increase L, Decrease M, Decrease V
+action_episode_27_timestep_81: Decrease L, Keep M, Increase V
+action_episode_27_timestep_82: Increase L, Increase M, Increase V
+action_episode_27_timestep_83: Keep L, Keep M, Decrease V
+action_episode_27_timestep_84: Decrease L, Increase M, Decrease V
+action_episode_27_timestep_85: Decrease L, Decrease M, Increase V
+action_episode_27_timestep_86: Increase L, Increase M, Increase V
+action_episode_27_timestep_87: Keep L, Keep M, Decrease V
+action_episode_27_timestep_88: Keep L, Decrease M, Keep V
+action_episode_27_timestep_89: Increase L, Decrease M, Keep V
+action_episode_27_timestep_9: Increase L, Increase M, Increase V
+action_episode_27_timestep_90: Keep L, Increase M, Increase V
+action_episode_27_timestep_91: Increase L, Increase M, Increase V
+action_episode_27_timestep_92: Increase L, Decrease M, Keep V
+action_episode_27_timestep_93: Keep L, Keep M, Decrease V
+action_episode_27_timestep_94: Keep L, Keep M, Decrease V
+action_episode_27_timestep_95: Increase L, Increase M, Keep V
+action_episode_27_timestep_96: Decrease L, Decrease M, Keep V
+action_episode_27_timestep_97: Decrease L, Decrease M, Keep V
+action_episode_27_timestep_98: Increase L, Increase M, Decrease V
+nextstate_episode_27_timestep_0: 1
+nextstate_episode_27_timestep_1: 1
+nextstate_episode_27_timestep_10: 2
+nextstate_episode_27_timestep_11: 5
+nextstate_episode_27_timestep_12: 3
+nextstate_episode_27_timestep_13: 1
+nextstate_episode_27_timestep_14: 1
+nextstate_episode_27_timestep_15: 1
+nextstate_episode_27_timestep_16: 1
+nextstate_episode_27_timestep_17: 1
+nextstate_episode_27_timestep_18: 1
+nextstate_episode_27_timestep_19: 1
+nextstate_episode_27_timestep_2: 1
+nextstate_episode_27_timestep_20: 1
+nextstate_episode_27_timestep_21: 1
+nextstate_episode_27_timestep_22: 1
+nextstate_episode_27_timestep_23: 1
+nextstate_episode_27_timestep_24: 1
+nextstate_episode_27_timestep_25: 4
+nextstate_episode_27_timestep_26: 1
+nextstate_episode_27_timestep_27: 1
+nextstate_episode_27_timestep_28: 4
+nextstate_episode_27_timestep_29: 5
+nextstate_episode_27_timestep_3: 1
+nextstate_episode_27_timestep_30: 1
+nextstate_episode_27_timestep_31: 2
+nextstate_episode_27_timestep_32: 5
+nextstate_episode_27_timestep_33: 1
+nextstate_episode_27_timestep_34: 2
+nextstate_episode_27_timestep_35: 2
+nextstate_episode_27_timestep_36: 1
+nextstate_episode_27_timestep_37: 5
+nextstate_episode_27_timestep_38: 2
+nextstate_episode_27_timestep_39: 1
+nextstate_episode_27_timestep_4: 1
+nextstate_episode_27_timestep_40: 5
+nextstate_episode_27_timestep_41: 5
+nextstate_episode_27_timestep_42: 1
+nextstate_episode_27_timestep_43: 5
+nextstate_episode_27_timestep_44: 2
+nextstate_episode_27_timestep_45: 1
+nextstate_episode_27_timestep_46: 3
+nextstate_episode_27_timestep_47: 2
+nextstate_episode_27_timestep_48: 1
+nextstate_episode_27_timestep_49: 5
+nextstate_episode_27_timestep_5: 1
+nextstate_episode_27_timestep_50: 2
+nextstate_episode_27_timestep_51: 1
+nextstate_episode_27_timestep_52: 5
+nextstate_episode_27_timestep_53: 3
+nextstate_episode_27_timestep_54: 1
+nextstate_episode_27_timestep_55: 5
+nextstate_episode_27_timestep_56: 3
+nextstate_episode_27_timestep_57: 1
+nextstate_episode_27_timestep_58: 5
+nextstate_episode_27_timestep_59: 5
+nextstate_episode_27_timestep_6: 1
+nextstate_episode_27_timestep_60: 1
+nextstate_episode_27_timestep_61: 5
+nextstate_episode_27_timestep_62: 5
+nextstate_episode_27_timestep_63: 1
+nextstate_episode_27_timestep_64: 4
+nextstate_episode_27_timestep_65: 5
+nextstate_episode_27_timestep_66: 1
+nextstate_episode_27_timestep_67: 1
+nextstate_episode_27_timestep_68: 1
+nextstate_episode_27_timestep_69: 1
+nextstate_episode_27_timestep_7: 1
+nextstate_episode_27_timestep_70: 1
+nextstate_episode_27_timestep_71: 1
+nextstate_episode_27_timestep_72: 5
+nextstate_episode_27_timestep_73: 2
+nextstate_episode_27_timestep_74: 1
+nextstate_episode_27_timestep_75: 1
+nextstate_episode_27_timestep_76: 1
+nextstate_episode_27_timestep_77: 5
+nextstate_episode_27_timestep_78: 4
+nextstate_episode_27_timestep_79: 1
+nextstate_episode_27_timestep_8: 1
+nextstate_episode_27_timestep_80: 1
+nextstate_episode_27_timestep_81: 1
+nextstate_episode_27_timestep_82: 5
+nextstate_episode_27_timestep_83: 2
+nextstate_episode_27_timestep_84: 1
+nextstate_episode_27_timestep_85: 1
+nextstate_episode_27_timestep_86: 5
+nextstate_episode_27_timestep_87: 4
+nextstate_episode_27_timestep_88: 1
+nextstate_episode_27_timestep_89: 1
+nextstate_episode_27_timestep_9: 4
+nextstate_episode_27_timestep_90: 1
+nextstate_episode_27_timestep_91: 5
+nextstate_episode_27_timestep_92: 5
+nextstate_episode_27_timestep_93: 5
+nextstate_episode_27_timestep_94: 4
+nextstate_episode_27_timestep_95: 1
+nextstate_episode_27_timestep_96: 1
+nextstate_episode_27_timestep_97: 1
+nextstate_episode_27_timestep_98: 1
+previousstate_episode_27_timestep_0: 1
+previousstate_episode_27_timestep_1: 1
+previousstate_episode_27_timestep_10: 4
+previousstate_episode_27_timestep_11: 5
+previousstate_episode_27_timestep_12: 5
+previousstate_episode_27_timestep_13: 1
+previousstate_episode_27_timestep_14: 1
+previousstate_episode_27_timestep_15: 1
+previousstate_episode_27_timestep_16: 1
+previousstate_episode_27_timestep_17: 1
+previousstate_episode_27_timestep_18: 1
+previousstate_episode_27_timestep_19: 1
+previousstate_episode_27_timestep_2: 1
+previousstate_episode_27_timestep_20: 1
+previousstate_episode_27_timestep_21: 1
+previousstate_episode_27_timestep_22: 1
+previousstate_episode_27_timestep_23: 1
+previousstate_episode_27_timestep_24: 1
+previousstate_episode_27_timestep_25: 4
+previousstate_episode_27_timestep_26: 1
+previousstate_episode_27_timestep_27: 1
+previousstate_episode_27_timestep_28: 4
+previousstate_episode_27_timestep_29: 5
+previousstate_episode_27_timestep_3: 1
+previousstate_episode_27_timestep_30: 4
+previousstate_episode_27_timestep_31: 1
+previousstate_episode_27_timestep_32: 5
+previousstate_episode_27_timestep_33: 1
+previousstate_episode_27_timestep_34: 1
+previousstate_episode_27_timestep_35: 5
+previousstate_episode_27_timestep_36: 1
+previousstate_episode_27_timestep_37: 4
+previousstate_episode_27_timestep_38: 5
+previousstate_episode_27_timestep_39: 1
+previousstate_episode_27_timestep_4: 1
+previousstate_episode_27_timestep_40: 4
+previousstate_episode_27_timestep_41: 5
+previousstate_episode_27_timestep_42: 1
+previousstate_episode_27_timestep_43: 4
+previousstate_episode_27_timestep_44: 5
+previousstate_episode_27_timestep_45: 1
+previousstate_episode_27_timestep_46: 4
+previousstate_episode_27_timestep_47: 5
+previousstate_episode_27_timestep_48: 1
+previousstate_episode_27_timestep_49: 4
+previousstate_episode_27_timestep_5: 1
+previousstate_episode_27_timestep_50: 5
+previousstate_episode_27_timestep_51: 1
+previousstate_episode_27_timestep_52: 4
+previousstate_episode_27_timestep_53: 5
+previousstate_episode_27_timestep_54: 1
+previousstate_episode_27_timestep_55: 4
+previousstate_episode_27_timestep_56: 5
+previousstate_episode_27_timestep_57: 1
+previousstate_episode_27_timestep_58: 5
+previousstate_episode_27_timestep_59: 5
+previousstate_episode_27_timestep_6: 1
+previousstate_episode_27_timestep_60: 1
+previousstate_episode_27_timestep_61: 4
+previousstate_episode_27_timestep_62: 5
+previousstate_episode_27_timestep_63: 1
+previousstate_episode_27_timestep_64: 4
+previousstate_episode_27_timestep_65: 5
+previousstate_episode_27_timestep_66: 3
+previousstate_episode_27_timestep_67: 1
+previousstate_episode_27_timestep_68: 1
+previousstate_episode_27_timestep_69: 1
+previousstate_episode_27_timestep_7: 1
+previousstate_episode_27_timestep_70: 1
+previousstate_episode_27_timestep_71: 1
+previousstate_episode_27_timestep_72: 4
+previousstate_episode_27_timestep_73: 5
+previousstate_episode_27_timestep_74: 1
+previousstate_episode_27_timestep_75: 1
+previousstate_episode_27_timestep_76: 1
+previousstate_episode_27_timestep_77: 4
+previousstate_episode_27_timestep_78: 5
+previousstate_episode_27_timestep_79: 1
+previousstate_episode_27_timestep_8: 1
+previousstate_episode_27_timestep_80: 1
+previousstate_episode_27_timestep_81: 1
+previousstate_episode_27_timestep_82: 4
+previousstate_episode_27_timestep_83: 5
+previousstate_episode_27_timestep_84: 1
+previousstate_episode_27_timestep_85: 1
+previousstate_episode_27_timestep_86: 4
+previousstate_episode_27_timestep_87: 5
+previousstate_episode_27_timestep_88: 1
+previousstate_episode_27_timestep_89: 1
+previousstate_episode_27_timestep_9: 4
+previousstate_episode_27_timestep_90: 1
+previousstate_episode_27_timestep_91: 4
+previousstate_episode_27_timestep_92: 5
+previousstate_episode_27_timestep_93: 5
+previousstate_episode_27_timestep_94: 5
+previousstate_episode_27_timestep_95: 1
+previousstate_episode_27_timestep_96: 1
+previousstate_episode_27_timestep_97: 1
+previousstate_episode_27_timestep_98: 1
