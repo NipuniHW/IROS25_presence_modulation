@@ -71,26 +71,21 @@ class Pepper:
         # print(f"Volume_n: {volume, volume_n}")
         self.tts.setVolume(volume_n)
         
-        # List of random greetings or catchphrases
-        greetings = [
-            "Hello there!",
-            "How's it going?",
-            "Nice to see you!",
-            "What's up?",
-            "Greetings!",
-            "Hey, how are you?",
-            "Good day!",
-            "Hi there!",
-            "Howdy!",
-            "Welcome!",
-            "beep boop beep",
-            "I am here!",
-            "Hello, human!",
-            "beep beep beep" # just for Damith
-        ]    
-        # Randomly pick a greeting
-        random_greeting = random.choice(greetings)
-        self.tts.say(random_greeting)
+        messages = {
+            0: "",
+            1: "Hey",
+            2: "Hello there",
+            3: "Hello, Human!",
+            4: "Can you hear me",
+            5: "I'm talking to you!, ",
+            6: "Can you look at me",
+            7: "Stop ignoring me!,",
+            8: "Listen to me human!",
+            9: "Seriously, look at me!",
+            10: "Give me attention right now!"
+        }
+
+        self.tts.say(messages[volume])
         
     # To update movements
     def update_movements(self, movement):
@@ -98,22 +93,22 @@ class Pepper:
         self.behavior_mng_service.startBehavior("modulated_actions/" + str(movement)) 
     
     # To update lights
-    # def update_lights(self, light):
-    #     if light == 0:
-    #         light_n = 0.1
-    #     else:
-    #         light_n = round(max(0, light/10), 1)
-    #     leds = self.leds
-    #     # pdb.set_trace()
-    #     self.set_all_leds(leds, light_n)    
+    def update_lights(self, light):
+        if light == 0:
+            light_n = 0.1
+        else:
+            light_n = round(max(0, light/10), 1)
+        leds = self.leds
+        # pdb.set_trace()
+        self.set_all_leds(leds, light_n)    
         
-    # def set_all_leds(self, leds, light_n):
-    #     for led in config.led_actuators:
-    #         leds.setIntensity(led, light_n)
+    def set_all_leds(self, leds, light_n):
+        for led in config.led_actuators:
+            leds.setIntensity(led, light_n)
             
     # Function to execute an action
     def execute_action(self, light, movement, volume):
-        # self.update_lights(light)
+        self.update_lights(light)
         self.update_movements(movement)
         self.update_volume(volume)
         

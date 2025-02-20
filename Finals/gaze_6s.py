@@ -334,7 +334,7 @@ def calculate_attention_metrics(attention_window, interval_duration=5.0):
     }
 
 class GazeInterfaceController:
-    def __init__(self, camera_id=2, gaze_angle_tolerance = 30.0):
+    def __init__(self, camera_id=2, gaze_angle_tolerance = 15.0):
         self.camera_id = camera_id
         self.cap = cv2.VideoCapture(self.camera_id)
         self.detector = AttentionDetector()
