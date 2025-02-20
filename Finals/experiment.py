@@ -3,9 +3,8 @@ import cv2
 import time
 import argparse
 from pepper import Pepper
-from gaze_6s import *
-from mdp_formulation import *
-from Finals.experiment_functions import *
+from gaze_controller import *
+from experiment_functions import *
 
 def test_q_learning(q_table_path, duration_minutes, L1, M1, V1):
     pepper = Pepper()
@@ -59,12 +58,12 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1):
             # Get the current gaze score
             gaze_score = controller.get_gaze_score()
             state = int(round(gaze_score/20))
-            print(f"Current state: {state}")
+            print(f"Gaze score: {gaze_score} -- giving state: {state}")
             action = choose_action(state, q_table)
             print(f"Chosen action: {action}")
             # nonlocal light, movement, volume
             light, movement, volume = pepper.update_behavior(action, light, movement, volume)
-            print("Updated the behavior")
+            print("Updated the behavior\n")
 
         # Delay the loop by 180ms
         sleep(0.18)

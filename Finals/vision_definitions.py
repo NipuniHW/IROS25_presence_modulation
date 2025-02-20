@@ -1,3 +1,0 @@
-# vision_definitions.py
-
-

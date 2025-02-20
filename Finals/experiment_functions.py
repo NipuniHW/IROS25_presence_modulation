@@ -2,7 +2,6 @@ import csv
 import numpy as np
 import pandas as pd
 import yaml
-from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
 import random
 
 def load_q_table(file_path):

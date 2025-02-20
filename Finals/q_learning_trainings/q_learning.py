@@ -1,4 +1,4 @@
-from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V
+from Finals.mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V
 import pdb
 import random
 import json 
@@ -7,7 +7,7 @@ import pickle
 from multiprocessing import Process, Queue
 import time
 import csv
-from rewards import low_gaze_reward
+from Finals.rewards import low_gaze_reward
 
 def calculate_q_value(q_table, current_state, current_action, reward, next_state_key, config):
     # Calculate the Q-value

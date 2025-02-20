@@ -1,4 +1,4 @@
-from mdp_formulation import GazeFormulationBaseClass, medium_gaze_config
+from Finals.mdp_formulation import GazeFormulationBaseClass, medium_gaze_config
 import pdb
 import random
 import json 

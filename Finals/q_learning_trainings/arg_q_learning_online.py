@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import cv2
 import yaml
-from mdp_formulation import *
+from Finals.mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
 import pdb
 import random
 import json 
@@ -12,8 +12,8 @@ import pickle
 from multiprocessing import Process, Queue
 import time
 import csv
-from gaze_6s import GazeInterfaceController
-# from gaze_interface_controller import GazeInterfaceController
+# from gaze_6s import GazeInterfaceController
+from gaze_interface_controller import GazeInterfaceController
 from online_training_functions import *
 from pepper import *
 
@@ -21,7 +21,7 @@ from pepper import *
 Online Q-Learning Documentation:
 -Ensure you run this code in the Finals folder for convenience
 
-Assumptions: All MDP state transition steps occur at a rate of 6 seconds, if this needs to change we may want to reconsider some implementation details
+Assumptions: All MDP state transition steps occur at a rate of 3 seconds, if this needs to change we may want to reconsider some implementation details
 
 '''
 
@@ -47,9 +47,9 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
     print('connecting a session to pepper')
     
     pepper = Pepper()
-    pepper.connect("pepper.local", 9559)
+    # pepper.connect("pepper.local", 9559)
     
-    # pepper.connect("localhost", 39607)
+    pepper.connect("localhost", 39607)
     # Change the camera ID to 2 if using external usb webcam, 0 if using the laptop webcam
     controller = GazeInterfaceController(camera_id=2)
     time.sleep(1)
@@ -66,7 +66,7 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
     # start the training
     current_time = time.time()
     
-    random_number = random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9])
+    random_number = random.choice([1, 3, 5, 7, 9])
     light, movement, volume = random_number, random_number, random_number  # Default values 
     #Convert to minutes
     online_episode_duration_seconds = online_episode_duration
@@ -84,27 +84,21 @@ def run_training_episode(q_table, config, episode_count, online_episode_duration
             cv2.imshow('Calibrated HRI Attention Detection', f)
             if cv2.waitKey(5) & 0xFF == 27:
                 break
-            
-        ## CHANGED 3 ->5 BELOW
-        if time.time() - start_time_inner_loop >= 5:
+        if time.time() - start_time_inner_loop >= 3:
             start_time_inner_loop = time.time()
             # Get the current gaze score
             gaze_score = controller.get_gaze_score()
             # Get the current state -- Todo: Convert the gaze score to a state
-            ## CHANGED
-            previous_state = int(round(gaze_score/20))
+            previous_state = int(round(gaze_score/10))
             print(f"Current gaze score: {gaze_score} -- giving state:{previous_state}")
             #TODO Choose an action - Integrate
             action, epsilon = choose_action(q_table, previous_state, config, epsilon)
             # TODO:: Send pepper actions here...
             # Update the behavior
             light, movement, volume = pepper.update_behavior(action, light, movement, volume)
-            #Wait for 3s
-            time.sleep(3)
             # Get the current gaze score
             gaze_score_ = controller.get_gaze_score()
-            ## CHANGED
-            next_state = int(round(gaze_score_/20))
+            next_state = int(round(gaze_score_/10))
             # Get the reward
             reward = config.reward_function(previous_state, action, next_state, config.gaze_threshold)
             # Calculate the Q-value
@@ -139,24 +133,28 @@ def choose_action(q_table, current_state, config, epsilon):
         # Explore
         action = random.choice(list(config.actions.keys()))
     else:
+        # pdb.set_trace()
+        # action = max(q_table[c_state], key=lambda k: q_table[c_state][k])
+        # max_value = -1.0
+        # action = None
+        # for k, v in q_table[c_state].items():
+        #     if v > max_value:
+        #         max_value = v
+        #         action = k
         action = max(q_table[c_state], key=q_table[c_state].get) 
     epsilon*=config.epsilon_decay
     return action, epsilon
     
-## CHANGED CONFIGS
 if __name__=="__main__":
     parser = argparse.ArgumentParser(description='Q-Learning Configuration')
     parser.add_argument('--config', type=str, 
                                     choices=['low_gaze_config_with_L_M_V', 
                                              'low_gaze_config', 
                                              'medium_gaze_config', 
-                                             'high_gaze_config',
-                                             'low_gaze_config_6',
-                                             'high_gaze_config_6'
-                                             ], 
+                                             'high_gaze_config'], 
                                              required=True, 
                                              help='Choose the configuration')
-    parser.add_argument('--load_training_dir', type=bool, required=False, default=False, help='If you wish to continue training from a saved Q-table, set to true')
+    parser.add_argument('--load_training_dir', type=bool, required=True, default=False, help='If you wish to continue training from a saved Q-table, set to true')
     parser.add_argument('--training_runname', type=str, required=True, help='CSV file name to save the Q-table')
     parser.add_argument('--online_episode_duration', type=int, required=True, help='length of a gaze training episode')
     args = parser.parse_args()
@@ -170,10 +168,6 @@ if __name__=="__main__":
         config = medium_gaze_config
     elif args.config == 'high_gaze_config':
         config = high_gaze_config
-    elif args.config == 'low_gaze_config_6':
-        config = low_gaze_config_6
-    elif args.config == 'high_gaze_config_6':
-        config = high_gaze_config_6
 
     # set training information
     epsilon = config.epsilon

@@ -12,7 +12,7 @@ import pandas as pd
 import sys
 import os
 # import vision_definitions
-from mdp_formulation import low_gaze_config
+from Finals.mdp_formulation import low_gaze_config
 from pepper import Pepper
 import random
 # from testing import load_q_table, update_lights, update_movements, update_volume, set_all_leds, get_gaze_bin
