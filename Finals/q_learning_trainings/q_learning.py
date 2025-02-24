@@ -7,7 +7,7 @@ import pickle
 from multiprocessing import Process, Queue
 import time
 import csv
-from Finals.rewards import low_gaze_reward
+from Experiment.rewards import low_gaze_reward
 
 def calculate_q_value(q_table, current_state, current_action, reward, next_state_key, config):
     # Calculate the Q-value

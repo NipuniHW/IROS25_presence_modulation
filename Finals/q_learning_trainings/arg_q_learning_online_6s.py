@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import cv2
 import yaml
-from Finals.mdp_formulation import *
+from mdp_formulation import *
 import pdb
 import random
 import json 
@@ -12,8 +12,7 @@ import pickle
 from multiprocessing import Process, Queue
 import time
 import csv
-from Finals.gaze_controller import GazeInterfaceController
-# from gaze_interface_controller import GazeInterfaceController
+from gaze_controller import GazeInterfaceController
 from online_training_functions import *
 from pepper import *
 

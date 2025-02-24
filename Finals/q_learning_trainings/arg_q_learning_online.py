@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import cv2
 import yaml
-from Finals.mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
+from mdp_formulation import GazeFormulationBaseClass, low_gaze_config_with_L_M_V, low_gaze_config, medium_gaze_config, high_gaze_config
 import pdb
 import random
 import json 
@@ -12,7 +12,6 @@ import pickle
 from multiprocessing import Process, Queue
 import time
 import csv
-# from gaze_6s import GazeInterfaceController
 from gaze_interface_controller import GazeInterfaceController
 from online_training_functions import *
 from pepper import *

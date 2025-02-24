@@ -1,0 +1,140 @@
+action_subject_1_timestep_0: Keep L, Keep M, Keep V
+action_subject_1_timestep_1: Keep L, Keep M, Keep V
+action_subject_1_timestep_10: Keep L, Keep M, Keep V
+action_subject_1_timestep_11: Keep L, Keep M, Keep V
+action_subject_1_timestep_12: Keep L, Keep M, Keep V
+action_subject_1_timestep_13: Keep L, Keep M, Keep V
+action_subject_1_timestep_14: Keep L, Keep M, Decrease V
+action_subject_1_timestep_15: Keep L, Keep M, Decrease V
+action_subject_1_timestep_16: Keep L, Keep M, Decrease V
+action_subject_1_timestep_17: Keep L, Keep M, Keep V
+action_subject_1_timestep_18: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_19: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_2: Keep L, Keep M, Keep V
+action_subject_1_timestep_20: Keep L, Keep M, Keep V
+action_subject_1_timestep_21: Keep L, Keep M, Keep V
+action_subject_1_timestep_22: Keep L, Keep M, Keep V
+action_subject_1_timestep_23: Keep L, Keep M, Keep V
+action_subject_1_timestep_24: Keep L, Keep M, Decrease V
+action_subject_1_timestep_25: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_26: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_27: Increase L, Decrease M, Decrease V
+action_subject_1_timestep_28: Keep L, Keep M, Decrease V
+action_subject_1_timestep_29: Keep L, Keep M, Keep V
+action_subject_1_timestep_3: Keep L, Keep M, Keep V
+action_subject_1_timestep_30: Keep L, Keep M, Keep V
+action_subject_1_timestep_31: Keep L, Keep M, Keep V
+action_subject_1_timestep_32: Keep L, Keep M, Keep V
+action_subject_1_timestep_33: Keep L, Keep M, Keep V
+action_subject_1_timestep_34: Keep L, Keep M, Keep V
+action_subject_1_timestep_4: Keep L, Keep M, Keep V
+action_subject_1_timestep_5: Keep L, Keep M, Keep V
+action_subject_1_timestep_6: Increase L, Decrease M, Decrease V
+action_subject_1_timestep_7: Keep L, Keep M, Keep V
+action_subject_1_timestep_8: Keep L, Keep M, Keep V
+action_subject_1_timestep_9: Keep L, Keep M, Keep V
+nextstate_subject_1_timestep_0: 0
+nextstate_subject_1_timestep_1: 0
+nextstate_subject_1_timestep_10: 0
+nextstate_subject_1_timestep_11: 0
+nextstate_subject_1_timestep_12: 0
+nextstate_subject_1_timestep_13: 0
+nextstate_subject_1_timestep_14: 1
+nextstate_subject_1_timestep_15: 1
+nextstate_subject_1_timestep_16: 0
+nextstate_subject_1_timestep_17: 2
+nextstate_subject_1_timestep_18: 4
+nextstate_subject_1_timestep_19: 0
+nextstate_subject_1_timestep_2: 0
+nextstate_subject_1_timestep_20: 0
+nextstate_subject_1_timestep_21: 0
+nextstate_subject_1_timestep_22: 0
+nextstate_subject_1_timestep_23: 1
+nextstate_subject_1_timestep_24: 3
+nextstate_subject_1_timestep_25: 1
+nextstate_subject_1_timestep_26: 3
+nextstate_subject_1_timestep_27: 3
+nextstate_subject_1_timestep_28: 0
+nextstate_subject_1_timestep_29: 0
+nextstate_subject_1_timestep_3: 0
+nextstate_subject_1_timestep_30: 0
+nextstate_subject_1_timestep_31: 0
+nextstate_subject_1_timestep_32: 0
+nextstate_subject_1_timestep_33: 0
+nextstate_subject_1_timestep_34: 0
+nextstate_subject_1_timestep_4: 0
+nextstate_subject_1_timestep_5: 2
+nextstate_subject_1_timestep_6: 0
+nextstate_subject_1_timestep_7: 0
+nextstate_subject_1_timestep_8: 0
+nextstate_subject_1_timestep_9: 0
+previousstate_subject_1_timestep_0: 0
+previousstate_subject_1_timestep_1: 0
+previousstate_subject_1_timestep_10: 0
+previousstate_subject_1_timestep_11: 0
+previousstate_subject_1_timestep_12: 0
+previousstate_subject_1_timestep_13: 0
+previousstate_subject_1_timestep_14: 1
+previousstate_subject_1_timestep_15: 1
+previousstate_subject_1_timestep_16: 1
+previousstate_subject_1_timestep_17: 0
+previousstate_subject_1_timestep_18: 3
+previousstate_subject_1_timestep_19: 3
+previousstate_subject_1_timestep_2: 0
+previousstate_subject_1_timestep_20: 0
+previousstate_subject_1_timestep_21: 0
+previousstate_subject_1_timestep_22: 0
+previousstate_subject_1_timestep_23: 0
+previousstate_subject_1_timestep_24: 1
+previousstate_subject_1_timestep_25: 3
+previousstate_subject_1_timestep_26: 3
+previousstate_subject_1_timestep_27: 2
+previousstate_subject_1_timestep_28: 1
+previousstate_subject_1_timestep_29: 0
+previousstate_subject_1_timestep_3: 0
+previousstate_subject_1_timestep_30: 0
+previousstate_subject_1_timestep_31: 0
+previousstate_subject_1_timestep_32: 0
+previousstate_subject_1_timestep_33: 0
+previousstate_subject_1_timestep_34: 0
+previousstate_subject_1_timestep_4: 0
+previousstate_subject_1_timestep_5: 0
+previousstate_subject_1_timestep_6: 2
+previousstate_subject_1_timestep_7: 0
+previousstate_subject_1_timestep_8: 0
+previousstate_subject_1_timestep_9: 0
+reward_subject_1_timestep_0: 5
+reward_subject_1_timestep_1: 5
+reward_subject_1_timestep_10: 5
+reward_subject_1_timestep_11: 5
+reward_subject_1_timestep_12: 5
+reward_subject_1_timestep_13: 5
+reward_subject_1_timestep_14: 5
+reward_subject_1_timestep_15: 5
+reward_subject_1_timestep_16: 5
+reward_subject_1_timestep_17: -1.0
+reward_subject_1_timestep_18: -1.0
+reward_subject_1_timestep_19: 5
+reward_subject_1_timestep_2: 5
+reward_subject_1_timestep_20: 5
+reward_subject_1_timestep_21: 5
+reward_subject_1_timestep_22: 5
+reward_subject_1_timestep_23: 5
+reward_subject_1_timestep_24: -2.0
+reward_subject_1_timestep_25: 5
+reward_subject_1_timestep_26: -2
+reward_subject_1_timestep_27: -1.0
+reward_subject_1_timestep_28: 5
+reward_subject_1_timestep_29: 5
+reward_subject_1_timestep_3: 5
+reward_subject_1_timestep_30: 5
+reward_subject_1_timestep_31: 5
+reward_subject_1_timestep_32: 5
+reward_subject_1_timestep_33: 5
+reward_subject_1_timestep_34: 5
+reward_subject_1_timestep_4: 5
+reward_subject_1_timestep_5: -1.0
+reward_subject_1_timestep_6: 5
+reward_subject_1_timestep_7: 5
+reward_subject_1_timestep_8: 5
+reward_subject_1_timestep_9: 5

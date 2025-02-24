@@ -122,7 +122,7 @@ class Pepper:
             light = max(0, light - 1)
             
         if m_action == "Increase M":
-            movement = min(5, movement + 1)
+            movement = min(10, movement + 1)
         elif m_action == "Decrease M":
             movement = max(0, movement - 1)
                 
