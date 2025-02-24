@@ -11,7 +11,7 @@ from mdp_formulation import high_gaze_config_6, low_gaze_config_6
 def test_q_learning(q_table_low_path, q_table_high_path):
     pepper = Pepper()
     pepper.connect("pepper.local", 9559)
-    # pepper.connect("localhost", 41239)
+    # pepper.connect("localhost", 38975)
     
     try:
         if not pepper.is_connected:
@@ -30,6 +30,23 @@ def test_q_learning(q_table_low_path, q_table_high_path):
             controller.calibration_exe()
             controller.start_detecting_attention()
 
+            # Ask the user to press enter to test the calibration
+            sleep(1)
+            print('Press Enter to test the calibration')
+            input()
+            
+            curr_time = time()
+            
+            while time() - curr_time < 10:
+                frame = controller.get_visualisation_frame()
+                if frame is not None:
+                        f = deepcopy(frame)
+                        # print("the type of frame is ", type(f))
+                        cv2.imshow('Testing Calibrating', f)
+                        if cv2.waitKey(5) & 0xFF == 27:
+                            cv2.destroyAllWindows()
+            cv2.destroyAllWindows()    
+            
             # Ask the user to press enter to start the training
             sleep(1)
             print('Press Enter to start the testing')
