@@ -28,6 +28,18 @@ def save_trajectory_ep_to_yaml(testing_run_name, subject_count, training_dict):
         yaml.dump(training_dict, file)
     return
 
+def save_trajectory_ep_to_yaml_2(testing_run_name, training_dict):
+    save_path = f'{testing_run_name}/{testing_run_name}_first_1_min.yaml'
+    with open(save_path, 'w') as file:
+        yaml.dump(training_dict, file)
+    return
+
+def save_trajectory_ep_to_yaml_3(testing_runname, training_dict):
+    save_path = f'{testing_runname}/{testing_runname}_dynamic.yaml'
+    with open(save_path, 'w') as file:
+        yaml.dump(training_dict, file)
+    return
+
 def load_training_state(training_run_name):
     with open(f'{training_run_name}/{training_run_name}_training_state.yaml', 'r') as file:
         training_state = yaml.load(file, Loader=yaml.FullLoader)

@@ -188,7 +188,7 @@ class Pepper:
         elif volume == 9:
             messages_9= [
                 "Attention, humannn!!",
-                "Earthling! I demand your attention!",
+                "Earthling! I want your attention!",
                 "Acknowledge my existence, human!",
                 "I’m just dying to hear about your video!",
                 " I require your focus!"                

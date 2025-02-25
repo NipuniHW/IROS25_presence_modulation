@@ -1,0 +1,360 @@
+action_subject_1_timestep_0: Keep L, Keep M, Keep V
+action_subject_1_timestep_1: Keep L, Keep M, Keep V
+action_subject_1_timestep_10: Keep L, Keep M, Keep V
+action_subject_1_timestep_11: Keep L, Keep M, Keep V
+action_subject_1_timestep_12: Keep L, Keep M, Keep V
+action_subject_1_timestep_13: Keep L, Keep M, Keep V
+action_subject_1_timestep_14: Keep L, Keep M, Keep V
+action_subject_1_timestep_15: Keep L, Keep M, Keep V
+action_subject_1_timestep_16: Keep L, Keep M, Keep V
+action_subject_1_timestep_17: Keep L, Keep M, Keep V
+action_subject_1_timestep_18: Keep L, Keep M, Keep V
+action_subject_1_timestep_19: Keep L, Keep M, Keep V
+action_subject_1_timestep_2: Keep L, Keep M, Keep V
+action_subject_1_timestep_20: Keep L, Keep M, Decrease V
+action_subject_1_timestep_21: Keep L, Keep M, Decrease V
+action_subject_1_timestep_22: Keep L, Keep M, Keep V
+action_subject_1_timestep_23: Keep L, Keep M, Keep V
+action_subject_1_timestep_24: Keep L, Keep M, Keep V
+action_subject_1_timestep_25: Keep L, Keep M, Keep V
+action_subject_1_timestep_26: Keep L, Keep M, Keep V
+action_subject_1_timestep_27: Keep L, Keep M, Decrease V
+action_subject_1_timestep_28: Keep L, Keep M, Keep V
+action_subject_1_timestep_29: Increase L, Increase M, Increase V
+action_subject_1_timestep_3: Keep L, Keep M, Keep V
+action_subject_1_timestep_30: Increase L, Increase M, Increase V
+action_subject_1_timestep_31: Increase L, Increase M, Increase V
+action_subject_1_timestep_32: Increase L, Increase M, Increase V
+action_subject_1_timestep_33: Increase L, Increase M, Increase V
+action_subject_1_timestep_34: Increase L, Increase M, Increase V
+action_subject_1_timestep_35: Increase L, Increase M, Increase V
+action_subject_1_timestep_36: Increase L, Increase M, Increase V
+action_subject_1_timestep_37: Increase L, Increase M, Increase V
+action_subject_1_timestep_38: Increase L, Increase M, Increase V
+action_subject_1_timestep_39: Increase L, Increase M, Increase V
+action_subject_1_timestep_4: Keep L, Keep M, Keep V
+action_subject_1_timestep_40: Increase L, Increase M, Increase V
+action_subject_1_timestep_41: Increase L, Increase M, Increase V
+action_subject_1_timestep_42: Increase L, Increase M, Increase V
+action_subject_1_timestep_43: Increase L, Increase M, Increase V
+action_subject_1_timestep_44: Increase L, Increase M, Increase V
+action_subject_1_timestep_45: Increase L, Increase M, Increase V
+action_subject_1_timestep_46: Increase L, Increase M, Increase V
+action_subject_1_timestep_47: Increase L, Increase M, Increase V
+action_subject_1_timestep_48: Increase L, Increase M, Increase V
+action_subject_1_timestep_49: Decrease L, Increase M, Increase V
+action_subject_1_timestep_5: Keep L, Keep M, Keep V
+action_subject_1_timestep_50: Increase L, Increase M, Increase V
+action_subject_1_timestep_51: Increase L, Increase M, Increase V
+action_subject_1_timestep_52: Increase L, Increase M, Increase V
+action_subject_1_timestep_53: Increase L, Increase M, Increase V
+action_subject_1_timestep_54: Increase L, Increase M, Increase V
+action_subject_1_timestep_55: Increase L, Increase M, Increase V
+action_subject_1_timestep_56: Increase L, Increase M, Increase V
+action_subject_1_timestep_57: Increase L, Increase M, Increase V
+action_subject_1_timestep_58: Increase L, Increase M, Increase V
+action_subject_1_timestep_59: Keep L, Keep M, Keep V
+action_subject_1_timestep_6: Keep L, Keep M, Keep V
+action_subject_1_timestep_60: Keep L, Keep M, Keep V
+action_subject_1_timestep_61: Keep L, Keep M, Keep V
+action_subject_1_timestep_62: Keep L, Keep M, Keep V
+action_subject_1_timestep_63: Keep L, Keep M, Keep V
+action_subject_1_timestep_64: Keep L, Keep M, Keep V
+action_subject_1_timestep_65: Keep L, Keep M, Decrease V
+action_subject_1_timestep_66: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_67: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_68: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_69: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_7: Keep L, Keep M, Keep V
+action_subject_1_timestep_70: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_71: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_72: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_73: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_74: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_75: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_76: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_77: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_78: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_79: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_8: Keep L, Keep M, Keep V
+action_subject_1_timestep_80: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_81: Keep L, Keep M, Decrease V
+action_subject_1_timestep_82: Keep L, Keep M, Decrease V
+action_subject_1_timestep_83: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_84: Keep L, Decrease M, Decrease V
+action_subject_1_timestep_85: Keep L, Keep M, Decrease V
+action_subject_1_timestep_86: Keep L, Keep M, Keep V
+action_subject_1_timestep_87: Keep L, Keep M, Keep V
+action_subject_1_timestep_88: Keep L, Keep M, Keep V
+action_subject_1_timestep_89: Increase L, Increase M, Increase V
+action_subject_1_timestep_9: Keep L, Keep M, Keep V
+gaze_score_subject_1_timestep_0: 0
+gaze_score_subject_1_timestep_1: 0
+gaze_score_subject_1_timestep_10: 0
+gaze_score_subject_1_timestep_11: 0
+gaze_score_subject_1_timestep_12: 0
+gaze_score_subject_1_timestep_13: 0
+gaze_score_subject_1_timestep_14: 0
+gaze_score_subject_1_timestep_15: 0
+gaze_score_subject_1_timestep_16: 0
+gaze_score_subject_1_timestep_17: 0
+gaze_score_subject_1_timestep_18: 0
+gaze_score_subject_1_timestep_19: 0
+gaze_score_subject_1_timestep_2: 0
+gaze_score_subject_1_timestep_20: 15.5678
+gaze_score_subject_1_timestep_21: 15.5678
+gaze_score_subject_1_timestep_22: 0
+gaze_score_subject_1_timestep_23: 0
+gaze_score_subject_1_timestep_24: 0
+gaze_score_subject_1_timestep_25: 0
+gaze_score_subject_1_timestep_26: 0
+gaze_score_subject_1_timestep_27: 15.5678
+gaze_score_subject_1_timestep_28: 0
+gaze_score_subject_1_timestep_29: 0
+gaze_score_subject_1_timestep_3: 0
+gaze_score_subject_1_timestep_30: 0
+gaze_score_subject_1_timestep_31: 0
+gaze_score_subject_1_timestep_32: 0
+gaze_score_subject_1_timestep_33: 15.5678
+gaze_score_subject_1_timestep_34: 54.24902330089461
+gaze_score_subject_1_timestep_35: 0
+gaze_score_subject_1_timestep_36: 0
+gaze_score_subject_1_timestep_37: 0
+gaze_score_subject_1_timestep_38: 0
+gaze_score_subject_1_timestep_39: 0
+gaze_score_subject_1_timestep_4: 0
+gaze_score_subject_1_timestep_40: 0
+gaze_score_subject_1_timestep_41: 0
+gaze_score_subject_1_timestep_42: 0
+gaze_score_subject_1_timestep_43: 0
+gaze_score_subject_1_timestep_44: 0
+gaze_score_subject_1_timestep_45: 15.5678
+gaze_score_subject_1_timestep_46: 0
+gaze_score_subject_1_timestep_47: 53.333333333333336
+gaze_score_subject_1_timestep_48: 15.5678
+gaze_score_subject_1_timestep_49: 38.17938039578648
+gaze_score_subject_1_timestep_5: 0
+gaze_score_subject_1_timestep_50: 0
+gaze_score_subject_1_timestep_51: 0
+gaze_score_subject_1_timestep_52: 15.5678
+gaze_score_subject_1_timestep_53: 0
+gaze_score_subject_1_timestep_54: 0
+gaze_score_subject_1_timestep_55: 0
+gaze_score_subject_1_timestep_56: 0
+gaze_score_subject_1_timestep_57: 0
+gaze_score_subject_1_timestep_58: 0
+gaze_score_subject_1_timestep_59: 0
+gaze_score_subject_1_timestep_6: 0
+gaze_score_subject_1_timestep_60: 0
+gaze_score_subject_1_timestep_61: 0
+gaze_score_subject_1_timestep_62: 0
+gaze_score_subject_1_timestep_63: 0
+gaze_score_subject_1_timestep_64: 0
+gaze_score_subject_1_timestep_65: 15.5678
+gaze_score_subject_1_timestep_66: 100
+gaze_score_subject_1_timestep_67: 100
+gaze_score_subject_1_timestep_68: 100
+gaze_score_subject_1_timestep_69: 100
+gaze_score_subject_1_timestep_7: 0
+gaze_score_subject_1_timestep_70: 100
+gaze_score_subject_1_timestep_71: 100
+gaze_score_subject_1_timestep_72: 100
+gaze_score_subject_1_timestep_73: 100
+gaze_score_subject_1_timestep_74: 100
+gaze_score_subject_1_timestep_75: 100
+gaze_score_subject_1_timestep_76: 100
+gaze_score_subject_1_timestep_77: 100
+gaze_score_subject_1_timestep_78: 100
+gaze_score_subject_1_timestep_79: 100
+gaze_score_subject_1_timestep_8: 0
+gaze_score_subject_1_timestep_80: 100
+gaze_score_subject_1_timestep_81: 29.164798195970494
+gaze_score_subject_1_timestep_82: 15.5678
+gaze_score_subject_1_timestep_83: 68.18282296256764
+gaze_score_subject_1_timestep_84: 100
+gaze_score_subject_1_timestep_85: 15.5678
+gaze_score_subject_1_timestep_86: 0
+gaze_score_subject_1_timestep_87: 0
+gaze_score_subject_1_timestep_88: 0
+gaze_score_subject_1_timestep_89: 15.5678
+gaze_score_subject_1_timestep_9: 0
+q_table_0: Low
+q_table_1: Low
+q_table_10: Low
+q_table_11: Low
+q_table_12: Low
+q_table_13: Low
+q_table_14: Low
+q_table_15: Low
+q_table_16: Low
+q_table_17: Low
+q_table_18: Low
+q_table_19: Low
+q_table_2: Low
+q_table_20: Low
+q_table_21: Low
+q_table_22: Low
+q_table_23: Low
+q_table_24: Low
+q_table_25: Low
+q_table_26: Low
+q_table_27: Low
+q_table_28: Low
+q_table_29: High
+q_table_3: Low
+q_table_30: High
+q_table_31: High
+q_table_32: High
+q_table_33: High
+q_table_34: High
+q_table_35: High
+q_table_36: High
+q_table_37: High
+q_table_38: High
+q_table_39: High
+q_table_4: Low
+q_table_40: High
+q_table_41: High
+q_table_42: High
+q_table_43: High
+q_table_44: High
+q_table_45: High
+q_table_46: High
+q_table_47: High
+q_table_48: High
+q_table_49: High
+q_table_5: Low
+q_table_50: High
+q_table_51: High
+q_table_52: High
+q_table_53: High
+q_table_54: High
+q_table_55: High
+q_table_56: High
+q_table_57: High
+q_table_58: High
+q_table_59: Low
+q_table_6: Low
+q_table_60: Low
+q_table_61: Low
+q_table_62: Low
+q_table_63: Low
+q_table_64: Low
+q_table_65: Low
+q_table_66: Low
+q_table_67: Low
+q_table_68: Low
+q_table_69: Low
+q_table_7: Low
+q_table_70: Low
+q_table_71: Low
+q_table_72: Low
+q_table_73: Low
+q_table_74: Low
+q_table_75: Low
+q_table_76: Low
+q_table_77: Low
+q_table_78: Low
+q_table_79: Low
+q_table_8: Low
+q_table_80: Low
+q_table_81: Low
+q_table_82: Low
+q_table_83: Low
+q_table_84: Low
+q_table_85: Low
+q_table_86: Low
+q_table_87: Low
+q_table_88: Low
+q_table_89: High
+q_table_9: Low
+state_subject_1_timestep_0: 0
+state_subject_1_timestep_1: 0
+state_subject_1_timestep_10: 0
+state_subject_1_timestep_11: 0
+state_subject_1_timestep_12: 0
+state_subject_1_timestep_13: 0
+state_subject_1_timestep_14: 0
+state_subject_1_timestep_15: 0
+state_subject_1_timestep_16: 0
+state_subject_1_timestep_17: 0
+state_subject_1_timestep_18: 0
+state_subject_1_timestep_19: 0
+state_subject_1_timestep_2: 0
+state_subject_1_timestep_20: 1
+state_subject_1_timestep_21: 1
+state_subject_1_timestep_22: 0
+state_subject_1_timestep_23: 0
+state_subject_1_timestep_24: 0
+state_subject_1_timestep_25: 0
+state_subject_1_timestep_26: 0
+state_subject_1_timestep_27: 1
+state_subject_1_timestep_28: 0
+state_subject_1_timestep_29: 0
+state_subject_1_timestep_3: 0
+state_subject_1_timestep_30: 0
+state_subject_1_timestep_31: 0
+state_subject_1_timestep_32: 0
+state_subject_1_timestep_33: 1
+state_subject_1_timestep_34: 3
+state_subject_1_timestep_35: 0
+state_subject_1_timestep_36: 0
+state_subject_1_timestep_37: 0
+state_subject_1_timestep_38: 0
+state_subject_1_timestep_39: 0
+state_subject_1_timestep_4: 0
+state_subject_1_timestep_40: 0
+state_subject_1_timestep_41: 0
+state_subject_1_timestep_42: 0
+state_subject_1_timestep_43: 0
+state_subject_1_timestep_44: 0
+state_subject_1_timestep_45: 1
+state_subject_1_timestep_46: 0
+state_subject_1_timestep_47: 3
+state_subject_1_timestep_48: 1
+state_subject_1_timestep_49: 2
+state_subject_1_timestep_5: 0
+state_subject_1_timestep_50: 0
+state_subject_1_timestep_51: 0
+state_subject_1_timestep_52: 1
+state_subject_1_timestep_53: 0
+state_subject_1_timestep_54: 0
+state_subject_1_timestep_55: 0
+state_subject_1_timestep_56: 0
+state_subject_1_timestep_57: 0
+state_subject_1_timestep_58: 0
+state_subject_1_timestep_59: 0
+state_subject_1_timestep_6: 0
+state_subject_1_timestep_60: 0
+state_subject_1_timestep_61: 0
+state_subject_1_timestep_62: 0
+state_subject_1_timestep_63: 0
+state_subject_1_timestep_64: 0
+state_subject_1_timestep_65: 1
+state_subject_1_timestep_66: 5
+state_subject_1_timestep_67: 5
+state_subject_1_timestep_68: 5
+state_subject_1_timestep_69: 5
+state_subject_1_timestep_7: 0
+state_subject_1_timestep_70: 0
+state_subject_1_timestep_71: 0
+state_subject_1_timestep_72: 0
+state_subject_1_timestep_73: 0
+state_subject_1_timestep_74: 0
+state_subject_1_timestep_75: 0
+state_subject_1_timestep_76: 0
+state_subject_1_timestep_77: 0
+state_subject_1_timestep_78: 0
+state_subject_1_timestep_79: 0
+state_subject_1_timestep_8: 0
+state_subject_1_timestep_80: 0
+state_subject_1_timestep_81: 0
+state_subject_1_timestep_82: 0
+state_subject_1_timestep_83: 0
+state_subject_1_timestep_84: 0
+state_subject_1_timestep_85: 0
+state_subject_1_timestep_86: 0
+state_subject_1_timestep_87: 0
+state_subject_1_timestep_88: 0
+state_subject_1_timestep_89: 0
+state_subject_1_timestep_9: 0

@@ -8,7 +8,7 @@ from gaze_controller import *
 from experiment_functions import *
 from mdp_formulation import high_gaze_config_6, low_gaze_config_6
 
-def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname, subject_count):
+def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname, subject_count, testing_runname_2):
     pepper = Pepper()
     pepper.connect('pepper.local', '9559')
     # pepper.connect("localhost", 38975)
@@ -35,6 +35,9 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
             input()
             
             curr_time = time()
+            save_dictionary_2 = {}
+            time_step_count_1 = 0
+            start_time_inner_loop_2 = time()
             
             while time() - curr_time < 10:
                 frame = controller.get_visualisation_frame()
@@ -44,8 +47,31 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
                         cv2.imshow('Testing Calibrating', f)
                         if cv2.waitKey(5) & 0xFF == 27:
                             cv2.destroyAllWindows()
-            cv2.destroyAllWindows()                
+            cv2.destroyAllWindows()     
             
+            print('Keeping still for 1 min')
+            c_time = time()
+            while time() -  c_time < 60:       
+                frame = controller.get_visualisation_frame()
+                if frame is not None:
+                    f = deepcopy(frame)
+                    # print("the type of frame is ", type(f))
+                    cv2.imshow('Initial 1 min', f)
+                    if cv2.waitKey(5) & 0xFF == 27:
+                            break
+                    if time() - start_time_inner_loop_2 >= 3:
+                        start_time_inner_loop_2 = time()   
+                        initial_gaze_score = controller.get_gaze_score()
+                        initial_state = int(round(initial_gaze_score/20))
+                        save_dictionary_2['nextstate_subject_1_timestep_'+str(time_step_count_1)] = initial_state
+                        save_dictionary_2['gaze_score_timestep_'+str(time_step_count_1)] = initial_gaze_score   
+                        time_step_count_1 += 1
+                                         
+            save_trajectory_ep_to_yaml_2(testing_runname_2, save_dictionary_2)
+                
+                
+            cv2.destroyAllWindows()    
+                    
             # Ask the user to press enter to start the experiment
             sleep(1)
             print('Press Enter to start the experiment')
@@ -61,6 +87,7 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
             time_step_count = 0
             save_dictionary = {}
             
+            
             while time() - current_time < testing_duration_minutes:
                 frame = controller.get_visualisation_frame()
                 if frame is not None:
@@ -70,7 +97,7 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
                     if cv2.waitKey(5) & 0xFF == 27:
                         break
                     
-                if time() - start_time_inner_loop >= 5:
+                if time() - start_time_inner_loop >= 3:
                     start_time_inner_loop = time()
                     # Get the current gaze score
                     gaze_score = controller.get_gaze_score()
@@ -86,7 +113,7 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
                     # print("Updated the behavior")
                 
                     #Wait for 3s
-                    sleep(3)
+                    sleep(1)
                     # Get the current gaze score
                     gaze_score_ = controller.get_gaze_score()
                     ## CHANGED
@@ -95,6 +122,7 @@ def test_q_learning(q_table_path, duration_minutes, L1, M1, V1, testing_runname,
                     if gaze_score_ > 0 and next_state == 0:
                         next_state = 1
                         gaze_score_ = 15.5678
+                        
                     # Get the reward
                     reward = config.reward_function(state, action, next_state, config.gaze_threshold)
                     
@@ -133,6 +161,7 @@ if __name__ == "__main__":
     parser.add_argument('--M', type=int, required=True, help='Initial M')
     parser.add_argument('--V', type=int, required=True, help='Initial V')
     parser.add_argument('--testing_runname', type=str, required=True, help='CSV file name to save the testing data')
+    parser.add_argument('--testing_runname_2', type=str, required=True, help='CSV file name to save the testing data')
     args = parser.parse_args()
     
     if args.config == 'low_gaze_config_6':
@@ -147,11 +176,16 @@ if __name__ == "__main__":
         os.makedirs(args.testing_runname)
         print('made directory:' + args.testing_runname + ' for testing data')
         
+    if not os.path.exists(args.testing_runname_2):
+        print('we are executing a new initial testing session')
+        os.makedirs(args.testing_runname_2)
+        print('made directory:' + args.testing_runname_2 + ' for testing initial data')
+        
     while True:
         subject_count += 1
         user_input = input('\nWould you like to start/ continue testing for another subject? (Y/N): ')
         if user_input.lower() == 'y' or user_input.lower() == 'Y':
-            test_q_learning(args.q_table, args.duration, args.L, args.M, args.V,args.testing_runname, subject_count)
+            test_q_learning(args.q_table, args.duration, args.L, args.M, args.V,args.testing_runname, subject_count, args.testing_runname_2)
         else:
             print('Your input was not Y/y. Exiting testing')
             break

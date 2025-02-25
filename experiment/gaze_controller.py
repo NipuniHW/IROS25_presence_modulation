@@ -11,6 +11,8 @@ from time import time, sleep
 from collections import deque
 from threading import Thread, Lock
 
+from experiment_functions import save_trajectory_ep_to_yaml_3
+
 CALIBRATION_FILE = "/home/nipuni/Documents/IROS25_presence_modulation/experiment/calibration_data.pkl"
 
 class AttentionDetector:
@@ -253,7 +255,7 @@ class CalibratedAttentionDetector(AttentionDetector):
         
         return pitch_diff < self.calibrator.pitch_threshold and yaw_diff < self.calibrator.yaw_threshold
 
-def calculate_attention_metrics(attention_window, interval_duration=5.0):
+def calculate_attention_metrics(attention_window, interval_duration=3.0):
     """
     Calculate attention metrics for a given time window of attention data.
     
@@ -575,19 +577,35 @@ if __name__=="__main__":
     controller.start_detecting_attention()
     
     start_time = time()
-    duration = 5 * 60  # 3 minutes in seconds
-    interval = 5  # Interval in seconds
+    duration = 270  # 3 minutes in seconds
+    interval = 3  # Interval in seconds
     next_print_time = start_time + interval
+    testing_runname = 'random_mode_data'
+    time_step_count = 0
+    save_dictionary = {}
+            
+    if not os.path.exists(testing_runname):
+        print('we are executing a new initial testing session')
+        os.makedirs(testing_runname)
+        print('made directory:' + testing_runname + ' for testing initial data')
+        
     try:
         
         while time() - start_time < duration:            
-            # Print the gaze score every 5 seconds
+            # Print the gaze score every 3 seconds
             current_time = time()
             if current_time >= next_print_time:
-                print(f"####### Gaze Score: {controller.get_gaze_score()}")
+                gaze_score = controller.get_gaze_score()
+                print(f"####### Gaze Score: {gaze_score}")
                 print(f"Robot looks: {controller.get_robot_looks()}")
                 print(f"Gaze entropy: {controller.get_gaze_entropy()}")
+                state = int(round(gaze_score/20))
                 next_print_time = current_time + interval
+                save_dictionary['gaze score_timestamp' +str(time_step_count)] = gaze_score
+                save_dictionary['nextstate_subject_timestamp'+str(time_step_count)] = state
+                save_dictionary['timestamp'+str(time_step_count)] = time_step_count
+                # save_trajectory_ep_to_yaml_3(testing_runname, save_dictionary)
+                time_step_count+=1       
             
             frame = controller.get_visualisation_frame()
             if frame is not None:
@@ -596,17 +614,19 @@ if __name__=="__main__":
                 cv2.imshow('Calibrated HRI Attention Detection', f)
                 if cv2.waitKey(5) & 0xFF == 27:
                     break
-            else:
-                print("Frame is None")
+            # else:
+                # print("Frame is None")
             sleep(0.05)
-        
+            
+        save_trajectory_ep_to_yaml_3(testing_runname, save_dictionary)     
+        print('Data saved')
         cv2.destroyAllWindows()
         controller.kill_attention_thread()
         exit(0)
     except KeyboardInterrupt:
         controller.kill_attention_thread()
         exit(0)
-    
+
     print("Attention detection completed.")
     
     
